@@ -24,7 +24,7 @@ const PRODUCTS = [
     name: "ZenFuel – Ashwagandha",
     description: "Relax. Recover. Stay Balanced.",
     price: "34.99",
-    image: "Ashwagandha.jpeg",
+    image: "/Ashwagandha.jpeg",
     colorBg: "bg-[#e2eadc]",
     buttonBg: "bg-[#4ca735]",
     buttonHover: "hover:bg-[#3d862a]",
@@ -35,7 +35,7 @@ const PRODUCTS = [
     name: "NeuroFuel – Lion's Mane",
     description: "Focus. Clarity. Mental Performance.",
     price: "39.99",
-    image: "Lion.jpeg",
+    image: "/Lion.jpeg",
     colorBg: "bg-[#f5ebd7]",
     buttonBg: "bg-amber-400",
     buttonHover: "hover:bg-amber-500",
@@ -46,7 +46,7 @@ const PRODUCTS = [
     name: "GutFuel",
     description: "Support Your Gut. Feel Better Daily.",
     price: "29.99",
-    image: "Gut Health.jpeg",
+    image: "/Gut Health.jpeg",
     colorBg: "bg-[#fff7ed]",
     buttonBg: "bg-[#f97316]",
     buttonHover: "hover:bg-[#ea580c]",
@@ -57,7 +57,7 @@ const PRODUCTS = [
     name: "FURY Isolate – Vanilla",
     description: "Premium fast-absorbing recovery",
     price: "79.99",
-    image: "FURY Isolate.jpeg",
+    image: "/FURY Isolate.jpeg",
     colorBg: "bg-[#e2d5d5]",
     buttonBg: "bg-red-700",
     buttonHover: "hover:bg-red-800",
@@ -68,7 +68,7 @@ const PRODUCTS = [
     name: "FURY Hydrate",
     description: "Power. Hydration. Performance.",
     price: "44.99",
-    image: "Creatine Formula.jpeg",
+    image: "/Creatine Formula.jpeg",
     colorBg: "bg-[#d5dfe2]",
     buttonBg: "bg-slate-700",
     buttonHover: "hover:bg-slate-800",
@@ -87,7 +87,7 @@ const HERO_SLIDES = [
     buttonHover: "hover:bg-[#3d862a]",
     buttonText: "text-white",
     badge: { title: "Stress Support", icon: "Leaf", desc: "100% Vegan Friendly" },
-    bg: "Ashwagandha.jpeg",
+    bg: "/Ashwagandha.jpeg",
     productImg: null,
     review: {
       en: "My sleep quality has skyrocketed. I wake up feeling deeply recovered and ready to tackle whatever comes.",
@@ -105,7 +105,7 @@ const HERO_SLIDES = [
     buttonHover: "hover:bg-amber-500",
     buttonText: "text-black",
     badge: { title: "Cognitive Focus", icon: "Brain", desc: "Clinically Researched" },
-    bg: "Lion.jpeg",
+    bg: "/Lion.jpeg",
     productImg: null,
     review: {
       en: "The mental clarity is unmatched. No jitters, just clean, sharp focus that lasts throughout the entire day.",
@@ -123,7 +123,7 @@ const HERO_SLIDES = [
     buttonHover: "hover:bg-[#ea580c]",
     buttonText: "text-white",
     badge: { title: "Digestive Balance", icon: "ShieldCheck", desc: "Potent Prebiotics" },
-    bg: "Gut Health.jpeg",
+    bg: "/Gut Health.jpeg",
     productImg: null,
     review: {
       en: "I noticed a visible difference in my digestion within just a week. I feel lighter, energized, and balanced.",
@@ -245,7 +245,7 @@ const HeroSection = memo(function HeroSection() {
             {/* Brand - Desktop: Logo + Text, Mobile: Text only on Left */}
             <div className="flex items-center gap-2 md:gap-3 shrink-0">
               <img 
-                src="logo.png" 
+                src="/logo.png" 
                 alt="Iron Fuel Lab" 
                 className="hidden md:block w-8 h-8 lg:w-10 lg:h-10 object-contain" 
               />
@@ -471,7 +471,7 @@ const HeroSection = memo(function HeroSection() {
               {/* Menu header */}
               <div className="flex items-center justify-between mb-10">
                 <div className="flex flex-col items-center gap-4 w-full">
-                  <img src="logo.png" alt="Iron Fuel Lab" className="w-24 h-24 object-contain" />
+                  <img src="/logo.png" alt="Iron Fuel Lab" className="w-24 h-24 object-contain" />
                   <span className="text-white text-2xl font-black tracking-tighter font-display">
                     IRON FUEL LAB
                   </span>
@@ -978,16 +978,16 @@ const AboutSection = memo(function AboutSection() {
   const [itemOrder, setItemOrder] = useState<string[]>(elements.map(e => e.name));
 
   const IMAGE_MAP: Record<string, string> = {
-    "Organic Ashwagandha": "ashwagandha.png",
-    "Ashwagandha Bio": "ashwagandha.png",
-    "Lion's Mane Mushroom": "NeuroFuel.png",
-    "Mushroom Lion's Mane": "NeuroFuel.png",
-    "Creatine Hydration": "FURY Hydrate.png",
-    "Hydratation Créatine": "FURY Hydrate.png",
-    "Digestive Equilibrium": "GutFuel.png",
-    "Équilibre Digestif": "GutFuel.png",
-    "Pure Isolate Protein": "FURY Isolate.png",
-    "Protéine Isolate Pure": "FURY Isolate.png",
+    "Organic Ashwagandha": "/ashwagandha.png",
+    "Ashwagandha Bio": "/ashwagandha.png",
+    "Lion's Mane Mushroom": "/NeuroFuel.png",
+    "Mushroom Lion's Mane": "/NeuroFuel.png",
+    "Creatine Hydration": "/FURY Hydrate.png",
+    "Hydratation Créatine": "/FURY Hydrate.png",
+    "Digestive Equilibrium": "/GutFuel.png",
+    "Équilibre Digestif": "/GutFuel.png",
+    "Pure Isolate Protein": "/FURY Isolate.png",
+    "Protéine Isolate Pure": "/FURY Isolate.png",
   };
 
   const ELEMENT_NAMES = elements.map(e => e.name);

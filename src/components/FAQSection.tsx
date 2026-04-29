@@ -73,7 +73,7 @@ export default function FAQSection() {
           >
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100">
                <img 
-                 src="guy.jpg" 
+                 src="/guy.jpg" 
                  alt="Athlete performing" 
                  className="w-full h-full object-cover object-center"
                />
