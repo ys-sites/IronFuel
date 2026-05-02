@@ -71,7 +71,7 @@ export default function FAQSection() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="w-full lg:w-1/2 relative shrink-0"
           >
-            <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100">
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] md:aspect-square lg:aspect-video border border-gray-100">
                <img 
                  src="/guy.jpg" 
                  alt="Athlete performing" 

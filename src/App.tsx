@@ -24,7 +24,7 @@ const PRODUCTS = [
     name: "ZenFuel – Ashwagandha",
     description: "Relax. Recover. Stay Balanced.",
     price: "34.99",
-    image: "/Ashwagandha.jpeg",
+    image: "/Ashwagandha1.jpeg",
     colorBg: "bg-[#e2eadc]",
     buttonBg: "bg-[#4ca735]",
     buttonHover: "hover:bg-[#3d862a]",
@@ -87,7 +87,7 @@ const HERO_SLIDES = [
     buttonHover: "hover:bg-[#3d862a]",
     buttonText: "text-white",
     badge: { title: "Stress Support", icon: "Leaf", desc: "100% Vegan Friendly" },
-    bg: "/Ashwagandha.jpeg",
+    bg: "/Ashwagandha1.jpeg",
     productImg: null,
     review: {
       en: "My sleep quality has skyrocketed. I wake up feeling deeply recovered and ready to tackle whatever comes.",
@@ -247,7 +247,7 @@ const HeroSection = memo(function HeroSection() {
               <img 
                 src="/logo.png" 
                 alt="Iron Fuel Lab" 
-                className="hidden md:block w-8 h-8 lg:w-10 lg:h-10 object-contain" 
+                className="hidden md:block h-8 lg:h-10 w-auto object-contain shrink-0" 
               />
               <span className="text-[11px] md:text-[15px] lg:text-lg font-black tracking-tighter font-display text-white whitespace-nowrap">
                 IRON FUEL LAB
@@ -471,7 +471,7 @@ const HeroSection = memo(function HeroSection() {
               {/* Menu header */}
               <div className="flex items-center justify-between mb-10">
                 <div className="flex flex-col items-center gap-4 w-full">
-                  <img src="/logo.png" alt="Iron Fuel Lab" className="w-24 h-24 object-contain" />
+                  <img src="/logo.png" alt="Iron Fuel Lab" className="h-24 w-auto object-contain shrink-0" />
                   <span className="text-white text-2xl font-black tracking-tighter font-display">
                     IRON FUEL LAB
                   </span>
@@ -647,7 +647,7 @@ const ProductsSection = memo(function ProductsSection() {
                           alt={product.name}
                           loading="lazy"
                           decoding="async"
-                          className="w-full h-full object-cover mix-blend-multiply md:group-hover:scale-105 transition-transform duration-700"
+                          className="w-full h-full object-contain p-4 mix-blend-multiply md:group-hover:scale-105 transition-transform duration-700"
                         />
                       </div>
                       <div className="flex justify-between items-end px-1 md:group-hover:px-2 transition-all duration-500">
@@ -978,8 +978,8 @@ const AboutSection = memo(function AboutSection() {
   const [itemOrder, setItemOrder] = useState<string[]>(elements.map(e => e.name));
 
   const IMAGE_MAP: Record<string, string> = {
-    "Organic Ashwagandha": "/ashwagandha.png",
-    "Ashwagandha Bio": "/ashwagandha.png",
+    "Organic Ashwagandha": "/Ashwagandha1.jpeg",
+    "Ashwagandha Bio": "/Ashwagandha1.jpeg",
     "Lion's Mane Mushroom": "/NeuroFuel.png",
     "Mushroom Lion's Mane": "/NeuroFuel.png",
     "Creatine Hydration": "/FURY Hydrate.png",
