@@ -978,8 +978,8 @@ const AboutSection = memo(function AboutSection() {
   const [itemOrder, setItemOrder] = useState<string[]>(elements.map(e => e.name));
 
   const IMAGE_MAP: Record<string, string> = {
-    "Organic Ashwagandha": "/Ashwagandha1.jpeg",
-    "Ashwagandha Bio": "/Ashwagandha1.jpeg",
+    "Organic Ashwagandha": "/ashwagandha.png",
+    "Ashwagandha Bio": "/ashwagandha.png",
     "Lion's Mane Mushroom": "/NeuroFuel.png",
     "Mushroom Lion's Mane": "/NeuroFuel.png",
     "Creatine Hydration": "/FURY Hydrate.png",
