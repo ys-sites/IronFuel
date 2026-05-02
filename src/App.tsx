@@ -1049,7 +1049,7 @@ const AboutSection = memo(function AboutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="w-full max-w-[420px] md:max-w-[550px] lg:max-w-[750px] mx-auto relative z-10 flex flex-col items-center justify-end -mt-8 md:-mt-24 lg:-mt-36 -mb-24 md:-mb-48 lg:-mb-64 min-h-[380px] md:min-h-[550px] lg:min-h-[750px]"
+            className="w-full max-w-[420px] md:max-w-[550px] lg:max-w-[600px] mx-auto relative z-10 flex flex-col items-center justify-center mt-4 mb-2 md:mb-4"
           >
             <AnimatePresence mode="popLayout">
               <motion.img
@@ -1065,11 +1065,10 @@ const AboutSection = memo(function AboutSection() {
                 className="w-full h-auto relative z-10"
               />
             </AnimatePresence>
-            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#eff3f0] to-transparent z-20 pointer-events-none" />
           </motion.div>
 
           {/* Accordion items */}
-          <div className="relative z-30 w-full max-w-[80rem] flex flex-col gap-5 px-4 md:px-12 pb-24 mt-12 md:mt-24">
+          <div className="relative z-30 w-full max-w-[80rem] flex flex-col gap-5 px-4 md:px-12 pb-24 mt-6 md:mt-10">
 
             {/* Up / Down nav — fixed to right side */}
             <div className={`fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2 transition-all duration-500 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12 pointer-events-none"}`}>
