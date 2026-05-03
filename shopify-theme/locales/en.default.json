@@ -1,0 +1,8 @@
+{
+  "general": {
+    "meta": {
+      "tags": "Tags: {{ tags }}",
+      "page": "Page {{ page }}"
+    }
+  }
+}

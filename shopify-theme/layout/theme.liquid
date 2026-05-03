@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags -%}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{%- endif -%}
+      {%- if current_page != 1 -%} &ndash; {{ 'general.meta.page' | t: page: current_page }}{%- endif -%}
+      {%- assign escaped_page_title = page_title | escape -%}
+      {%- unless escaped_page_title contains shop.name -%} &ndash; {{ shop.name }}{%- endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {{ content_for_header }}
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Outfit', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                green: '#4ca735',
+                gold: '#dca853',
+                dark: '#1a2318',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- React and Libraries from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        background-color: black;
+        color: white;
+      }
+      #ironfuel-root {
+        min-height: 100vh;
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #444;
+      }
+    </style>
+  </head>
+
+  <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
+    <main role="main" id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    <script>
+      // Global asset helper for React code
+      window.ShopifyAssets = {
+        ashwagandha: "{{ 'ashwagandha.png' | asset_url }}",
+        ashwagandha1: "{{ 'Ashwagandha1.jpeg' | asset_url }}",
+        creatine: "{{ 'Creatine_Formula.jpeg' | asset_url }}",
+        hydrate: "{{ 'FURY_Hydrate.png' | asset_url }}",
+        isolate_jpeg: "{{ 'FURY_Isolate.jpeg' | asset_url }}",
+        isolate_png: "{{ 'FURY_Isolate.png' | asset_url }}",
+        gut_health: "{{ 'Gut_Health.jpeg' | asset_url }}",
+        gutfuel: "{{ 'GutFuel.png' | asset_url }}",
+        lion: "{{ 'Lion.jpeg' | asset_url }}",
+        neurofuel: "{{ 'NeuroFuel.png' | asset_url }}",
+        guy: "{{ 'guy.jpg' | asset_url }}",
+        logo: "{{ 'logo.png' | asset_url }}"
+      };
+    </script>
+
+    <!-- Babel for on-the-fly TSX compilation (for demo/initial setup) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="{{ 'data.js' | asset_url }}"></script>
+    <script src="{{ 'theme.js' | asset_url }}" type="text/babel" defer="defer"></script>
+  </body>
+</html>
