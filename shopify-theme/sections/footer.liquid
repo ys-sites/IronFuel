@@ -1,0 +1,63 @@
+<footer class="footer">
+  <div class="container-max">
+    <div class="footer-content">
+      <div>
+        <h2 class="footer-logo">{{ section.settings.logo_text }}</h2>
+        <p class="footer-copyright">© {{ 'now' | date: "%Y" }} {{ section.settings.copyright_text }}</p>
+      </div>
+      <div class="footer-links">
+        {% for block in section.blocks %}
+          <a href="{{ block.settings.url }}" class="footer-link">{{ block.settings.text }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "IRON FUEL LAB."
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "Iron Fuel Lab. All rights reserved."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Link Text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        { "type": "link", "settings": { "text": "Instagram", "url": "#" } },
+        { "type": "link", "settings": { "text": "Twitter", "url": "#" } },
+        { "type": "link", "settings": { "text": "Support", "url": "#" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

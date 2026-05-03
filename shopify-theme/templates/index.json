@@ -1,9 +1,123 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "title": "RELAX RECOVER SLEEP BALANCE",
+            "highlight_word": "RECOVER",
+            "highlight_color": "#4ca735",
+            "description": "Iron Fuel Lab Is A US-Made Dietary Supplement Brand Focused On Advanced Formula Vitamins & Minerals",
+            "button_bg": "#4ca735"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "title": "DRIVE CLARITY FOCUS",
+            "highlight_word": "DRIVE",
+            "highlight_color": "#fbbf24",
+            "description": "The mental clarity is unmatched. No jitters, just clean, sharp focus that lasts throughout the entire day.",
+            "button_bg": "#fbbf24"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "title": "CORE RESTORE BALANCE",
+            "highlight_word": "RESTORE",
+            "highlight_color": "#f97316",
+            "description": "I noticed a visible difference in my digestion within just a week. I feel lighter, energized, and balanced.",
+            "button_bg": "#f97316"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "settings": {}
+    },
+    "products": {
+      "type": "products",
+      "blocks": {
+        "prod_1": {
+          "type": "product",
+          "settings": {
+            "product_id": "zenfuel-ashwagandha",
+            "name": "ZenFuel – Ashwagandha",
+            "description": "Relax. Recover. Stay Balanced.",
+            "price": "34.99",
+            "bg_color": "#e2eadc",
+            "button_bg": "#4ca735"
+          }
+        },
+        "prod_2": {
+          "type": "product",
+          "settings": {
+            "product_id": "neurofuel-lions-mane",
+            "name": "NeuroFuel – Lion's Mane",
+            "description": "Focus. Clarity. Mental Performance.",
+            "price": "39.99",
+            "bg_color": "#f5ebd7",
+            "button_bg": "#fbbf24",
+            "button_text_color": "#000000"
+          }
+        },
+        "prod_3": {
+          "type": "product",
+          "settings": {
+            "product_id": "gutfuel",
+            "name": "GutFuel",
+            "description": "Support Your Gut. Feel Better Daily.",
+            "price": "29.99",
+            "bg_color": "#fff7ed",
+            "button_bg": "#f97316"
+          }
+        },
+        "prod_4": {
+          "type": "product",
+          "settings": {
+            "product_id": "fury-isolate",
+            "name": "FURY Isolate – Vanilla",
+            "description": "Premium fast-absorbing recovery",
+            "price": "79.99",
+            "bg_color": "#e2d5d5",
+            "button_bg": "#b91c1c"
+          }
+        },
+        "prod_5": {
+          "type": "product",
+          "settings": {
+            "product_id": "fury-hydrate",
+            "name": "FURY Hydrate",
+            "description": "Power. Hydration. Performance.",
+            "price": "44.99",
+            "bg_color": "#d5dfe2",
+            "button_bg": "#334155"
+          }
+        }
+      },
+      "block_order": [
+        "prod_1",
+        "prod_2",
+        "prod_3",
+        "prod_4",
+        "prod_5"
+      ],
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
       "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "hero",
+    "products",
+    "footer"
+  ]
 }

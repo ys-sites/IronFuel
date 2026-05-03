@@ -21,65 +21,12 @@
 
     {{ content_for_header }}
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Outfit', 'sans-serif'],
-            },
-            colors: {
-              brand: {
-                green: '#4ca735',
-                gold: '#dca853',
-                dark: '#1a2318',
-              }
-            }
-          }
-        }
-      }
-    </script>
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- React and Libraries from CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
-
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        background-color: black;
-        color: white;
-      }
-      #ironfuel-root {
-        min-height: 100vh;
-      }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #000;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #333;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #444;
-      }
-    </style>
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
   </head>
 
   <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
@@ -87,28 +34,8 @@
       {{ content_for_layout }}
     </main>
 
-    <script>
-      // Global asset helper for React code
-      window.ShopifyAssets = {
-        ashwagandha: "{{ 'ashwagandha.png' | asset_url }}",
-        ashwagandha1: "{{ 'Ashwagandha1.jpeg' | asset_url }}",
-        creatine: "{{ 'Creatine_Formula.jpeg' | asset_url }}",
-        hydrate: "{{ 'FURY_Hydrate.png' | asset_url }}",
-        isolate_jpeg: "{{ 'FURY_Isolate.jpeg' | asset_url }}",
-        isolate_png: "{{ 'FURY_Isolate.png' | asset_url }}",
-        gut_health: "{{ 'Gut_Health.jpeg' | asset_url }}",
-        gutfuel: "{{ 'GutFuel.png' | asset_url }}",
-        lion: "{{ 'Lion.jpeg' | asset_url }}",
-        neurofuel: "{{ 'NeuroFuel.png' | asset_url }}",
-        guy: "{{ 'guy.jpg' | asset_url }}",
-        logo: "{{ 'logo.png' | asset_url }}"
-      };
-    </script>
+    {% section 'cart-drawer' %}
 
-    <!-- Babel for on-the-fly TSX compilation (for demo/initial setup) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script src="{{ 'data.js' | asset_url }}"></script>
-    <script src="{{ 'theme.js' | asset_url }}" type="text/babel" defer="defer"></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

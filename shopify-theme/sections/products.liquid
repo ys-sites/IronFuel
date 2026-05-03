@@ -1,0 +1,126 @@
+<section class="products-section">
+  <div class="container-max">
+    <div class="section-header">
+      <span class="section-tag">{{ section.settings.tag_text }}</span>
+      <h2 class="section-title italic">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="products-grid">
+      {% for block in section.blocks %}
+        <div class="product-card">
+          <div class="product-image-container" style="background-color: {{ block.settings.bg_color }};">
+            {%- assign product_image = block.settings.image -%}
+            {%- if product_image == blank -%}
+              {%- if block.settings.product_id == 'zenfuel-ashwagandha' -%}{%- assign product_image = 'Ashwagandha1.jpeg' | asset_url -%}
+              {%- elsif block.settings.product_id == 'neurofuel-lions-mane' -%}{%- assign product_image = 'Lion.jpeg' | asset_url -%}
+              {%- elsif block.settings.product_id == 'gutfuel' -%}{%- assign product_image = 'Gut_Health.jpeg' | asset_url -%}
+              {%- elsif block.settings.product_id == 'fury-isolate' -%}{%- assign product_image = 'FURY_Isolate.jpeg' | asset_url -%}
+              {%- elsif block.settings.product_id == 'fury-hydrate' -%}{%- assign product_image = 'Creatine_Formula.jpeg' | asset_url -%}
+              {%- endif -%}
+            {%- else -%}
+              {%- assign product_image = product_image | image_url: width: 600 -%}
+            {%- endif -%}
+            <img src="{{ product_image }}" class="product-img" alt="{{ block.settings.name }}">
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ block.settings.name }}</h3>
+            <p class="product-desc">{{ block.settings.description }}</p>
+            <div class="product-footer">
+              <span class="product-price">${{ block.settings.price }}</span>
+              <button class="add-btn" 
+                      style="background-color: {{ block.settings.button_bg }}; color: {{ block.settings.button_text_color }};"
+                      data-product-id="{{ block.settings.product_id }}"
+                      data-product-name="{{ block.settings.name }}"
+                      data-product-price="{{ block.settings.price }}"
+                      data-product-image="{{ product_image }}">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "Tag Text",
+      "default": "OUR PRODUCTS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore Our Natural Herbal Extracts"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_id",
+          "label": "Product ID (Unique)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Product Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "34.99"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Card Image Background",
+          "default": "#e2eadc"
+        },
+        {
+          "type": "color",
+          "id": "button_bg",
+          "label": "Button Background",
+          "default": "#4ca735"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button Text Color",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Grid",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,32 @@
+<div class="cart-drawer" id="CartDrawer">
+  <div class="cart-overlay" id="CartOverlay"></div>
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h2 class="cart-title italic">YOUR PROTOCOL</h2>
+      <button class="close-cart" id="CloseCart">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    
+    <div id="CartContent">
+      <!-- Cart items will be injected here via JS -->
+      <div class="cart-empty">
+        <div class="cart-empty-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <p class="cart-empty-text">Your protocol is empty.</p>
+      </div>
+    </div>
+
+    <div class="cart-footer" id="CartFooter" style="display: none;">
+      <button class="checkout-btn">CHECKOUT</button>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": []
+}
+{% endschema %}
