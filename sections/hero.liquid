@@ -18,9 +18,8 @@
         <button class="lang-toggle" id="LangToggle">
           EN
         </button>
-        <button class="cart-toggle" id="CartToggle">
+        <button class="cart-toggle" id="CartToggle" onclick="document.getElementById('MainCart').showModal();">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span class="cart-count" id="CartCount">0</span>
         </button>
       </div>
     </header>
@@ -58,7 +57,9 @@
             {% endfor %}
           </h1>
           <p class="hero-description">{{ block.settings.description }}</p>
-          <button class="hero-btn" style="background-color: {{ block.settings.button_bg }};">
+          <button class="hero-btn" 
+                  style="background-color: {{ block.settings.button_bg }};"
+                  onclick="document.getElementById('Products-products').scrollIntoView({ behavior: 'smooth' });">
             ORDER NOW
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
           </button>

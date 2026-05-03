@@ -1,41 +1,39 @@
-<!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
-    <link rel="canonical" href="{{ canonical_url }}">
-
-    <title>
-      {{ page_title }}
-      {%- if current_tags -%}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{%- endif -%}
-      {%- if current_page != 1 -%} &ndash; {{ 'general.meta.page' | t: page: current_page }}{%- endif -%}
-      {%- assign escaped_page_title = page_title | escape -%}
-      {%- unless escaped_page_title contains shop.name -%} &ndash; {{ shop.name }}{%- endunless -%}
-    </title>
-
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
-
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page_title }} | Iron Fuel Lab</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  
+  {%- if content_for_header -%}
     {{ content_for_header }}
+  {%- endif -%}
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Shopify Storefront Web Components -->
+  <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
+</head>
+<body>
+  <!-- Shopify Store Configuration -->
+  <shopify-store 
+    store-domain="76s90y-fe.myshopify.com" 
+    public-access-token="665ed20ae0135838f2e0134f20e8811a"
+    country="US" 
+    language="en">
+  </shopify-store>
 
-    {{ 'theme.css' | asset_url | stylesheet_tag }}
-  </head>
+  <!-- Global Cart Component -->
+  <shopify-cart id="MainCart"></shopify-cart>
 
-  <body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}">
-    <main role="main" id="MainContent">
-      {{ content_for_layout }}
-    </main>
+  <main role="main" id="MainContent">
+    {{ content_for_layout }}
+  </main>
 
-    {% section 'cart-drawer' %}
-
-    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
-  </body>
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
 </html>
