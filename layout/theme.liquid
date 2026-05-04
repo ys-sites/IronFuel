@@ -3,26 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page_title }}{% if page_title != shop.name %} | {{ shop.name }}{% endif %}</title>
-  <meta name="description" content="{{ page_description | escape }}">
-
+  <title>{{ page_title }} | Iron Fuel Lab</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  
   {{ 'theme.css' | asset_url | stylesheet_tag }}
-  {{ content_for_header }}
+  
+  {%- if content_for_header -%}
+    {{ content_for_header }}
+  {%- endif -%}
+
+  <!-- Shopify Storefront Web Components -->
+  <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
 </head>
 <body>
-  {% unless template == 'index' or template == 'password' %}
-    {% section 'header' %}
-  {% endunless %}
+  <!-- Shopify Store Configuration -->
+  <shopify-store 
+    store-domain="76s90y-fe.myshopify.com" 
+    public-access-token="665ed20ae0135838f2e0134f20e8811a"
+    country="US" 
+    language="en">
+  </shopify-store>
+
+  <!-- Global Cart Component -->
+  <shopify-cart id="MainCart"></shopify-cart>
 
   <main role="main" id="MainContent">
     {{ content_for_layout }}
   </main>
-
-  <div class="toast" id="CartToast"></div>
 
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 </body>
