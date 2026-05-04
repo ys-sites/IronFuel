@@ -1,0 +1,103 @@
+<div class="product-page">
+  <div class="product-page-grid">
+
+    <!-- Media -->
+    <div class="product-page-media">
+      {% if product.selected_or_first_available_variant.featured_image %}
+        <img
+          id="ProductImage"
+          src="{{ product.selected_or_first_available_variant.featured_image | image_url: width: 800 }}"
+          alt="{{ product.selected_or_first_available_variant.featured_image.alt | escape }}"
+          class="product-page-img"
+          width="800"
+          height="800">
+      {% elsif product.featured_image %}
+        <img
+          id="ProductImage"
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          class="product-page-img"
+          width="800"
+          height="800">
+      {% else %}
+        <div class="product-page-img product-img-placeholder"></div>
+      {% endif %}
+    </div>
+
+    <!-- Details -->
+    <div class="product-page-details">
+      <p class="product-page-vendor">{{ product.vendor }}</p>
+      <h1 class="product-page-title">{{ product.title }}</h1>
+
+      <div class="product-page-price" id="ProductPrice">
+        {% if product.compare_at_price > product.price %}
+          {{ product.price | money }}
+          <span class="compare-price">{{ product.compare_at_price | money }}</span>
+        {% else %}
+          {{ product.price | money }}
+        {% endif %}
+      </div>
+
+      {%- form 'product', product, id: 'ProductForm' -%}
+
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <div class="variant-group">
+              <span class="variant-label">{{ option.name }}</span>
+              <div class="variant-options">
+                {% for value in option.values %}
+                  <button
+                    type="button"
+                    class="variant-btn{% if option.selected_value == value %} selected{% endif %}"
+                    data-option-position="{{ option.position }}"
+                    data-value="{{ value | escape }}">
+                    {{ value }}
+                  </button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endunless %}
+
+        <input type="hidden" name="id" id="SelectedVariantId" value="{{ product.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+
+        <div class="product-form-actions">
+          <button
+            type="submit"
+            name="add"
+            class="btn-primary"
+            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+            {% if product.selected_or_first_available_variant.available %}
+              ADD TO PROTOCOL
+            {% else %}
+              SOLD OUT
+            {% endif %}
+          </button>
+        </div>
+
+      {%- endform -%}
+
+      <script id="ProductVariantsJSON" type="application/json">
+        {{ product.variants | json }}
+      </script>
+
+      <div class="product-page-description">
+        {{ product.description }}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Page",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Page"
+    }
+  ]
+}
+{% endschema %}

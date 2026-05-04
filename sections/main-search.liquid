@@ -1,0 +1,69 @@
+<div class="search-page">
+  <h1 class="search-page-title">SEARCH</h1>
+
+  {%- form 'get', routes.search_url -%}
+    <div class="search-page-form">
+      <input
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="Search products..."
+        class="search-input"
+        aria-label="Search">
+      <input type="hidden" name="type" value="product">
+      <button type="submit" class="search-submit">SEARCH</button>
+    </div>
+  {%- endform -%}
+
+  {% if search.performed %}
+    {% if search.results_count == 0 %}
+      <div class="search-no-results">
+        <p>No results for <strong>"{{ search.terms | escape }}"</strong>.</p>
+        <br>
+        <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="display:inline-flex;text-decoration:none;margin-top:1rem;">VIEW ALL PRODUCTS</a>
+      </div>
+    {% else %}
+      <p class="search-results-count">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for "{{ search.terms | escape }}"</p>
+      <div class="products-grid">
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+            {% assign product = item %}
+            <div class="product-card reveal-element">
+              <a href="{{ product.url }}" class="product-image-container dark-card">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="product-img"
+                    loading="lazy">
+                {% else %}
+                  <div class="product-img-placeholder"></div>
+                {% endif %}
+              </a>
+              <div class="product-info dark-card-info">
+                <h3 class="product-name">{{ product.title }}</h3>
+                <p class="product-desc">{{ product.description | strip_html | truncate: 90 }}</p>
+                <div class="product-footer">
+                  <div class="product-price">{{ product.price | money }}</div>
+                  <a href="{{ product.url }}" class="view-details-btn dark-details-btn">VIEW</a>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Search Results"
+    }
+  ]
+}
+{% endschema %}

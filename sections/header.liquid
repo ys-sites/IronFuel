@@ -1,0 +1,61 @@
+<header class="site-header" id="SiteHeader">
+  <div class="site-header-inner">
+    <div class="logo-container">
+      <a href="{{ routes.root_url }}" class="logo-link">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | image_url: width: 100 }}" class="logo-img" alt="{{ shop.name }}">
+        {% else %}
+          <img src="{{ 'logo.png' | asset_url }}" class="logo-img" alt="{{ shop.name }}">
+        {% endif %}
+        <span class="logo-text">{{ shop.name | upcase }}</span>
+      </a>
+    </div>
+
+    <nav class="site-nav">
+      {% for link in linklists.main-menu.links %}
+        <a href="{{ link.url }}" class="nav-link{% if link.active %} active{% endif %}">{{ link.title }}</a>
+      {% else %}
+        <a href="{{ routes.root_url }}" class="nav-link">Home</a>
+        <a href="{{ routes.all_products_collection_url }}" class="nav-link">Products</a>
+      {% endfor %}
+    </nav>
+
+    <div class="nav-actions">
+      <a href="{{ routes.search_url }}" class="icon-btn" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </a>
+      <a href="{{ routes.cart_url }}" class="icon-btn cart-icon-btn" aria-label="Cart ({{ cart.item_count }})">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        {% if cart.item_count > 0 %}
+          <span class="cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+      <button class="mobile-menu-btn" id="MobileMenuToggle" aria-label="Menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="MobileMenu" aria-hidden="true">
+    {% for link in linklists.main-menu.links %}
+      <a href="{{ link.url }}" class="mobile-nav-link">{{ link.title }}</a>
+    {% else %}
+      <a href="{{ routes.root_url }}" class="mobile-nav-link">Home</a>
+      <a href="{{ routes.all_products_collection_url }}" class="mobile-nav-link">Products</a>
+      <a href="{{ routes.cart_url }}" class="mobile-nav-link">Cart ({{ cart.item_count }})</a>
+    {% endfor %}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    }
+  ]
+}
+{% endschema %}

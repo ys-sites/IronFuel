@@ -1,0 +1,90 @@
+<div class="collection-page">
+  <div class="collection-header reveal-element">
+    {% if section.settings.show_image and collection.image %}
+      <img
+        src="{{ collection.image | image_url: width: 1400 }}"
+        alt="{{ collection.image.alt | escape }}"
+        class="collection-hero-img"
+        loading="lazy">
+    {% endif %}
+    <h1 class="collection-title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection-desc">{{ collection.description }}</div>
+    {% endif %}
+  </div>
+
+  <div class="products-grid">
+    {% paginate collection.products by section.settings.products_per_page %}
+      {% for product in collection.products %}
+        <div class="product-card reveal-element">
+          <a href="{{ product.url }}" class="product-image-container dark-card">
+            {% if product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                class="product-img"
+                loading="lazy"
+                width="600"
+                height="600">
+            {% else %}
+              <div class="product-img-placeholder"></div>
+            {% endif %}
+          </a>
+          <div class="product-info dark-card-info">
+            <h3 class="product-name">{{ product.title }}</h3>
+            <p class="product-desc">{{ product.description | strip_html | truncate: 90 }}</p>
+            <div class="product-footer">
+              <div class="product-price">{{ product.price | money }}</div>
+              <div class="product-actions">
+                <button
+                  class="add-btn"
+                  style="background-color: #4ca735; color: white;"
+                  onclick="addToCart({{ product.selected_or_first_available_variant.id }}, this)"
+                  {% unless product.available %}disabled{% endunless %}>
+                  {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+                </button>
+                <a href="{{ product.url }}" class="view-details-btn dark-details-btn">DETAILS</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <p class="products-empty">No products found.</p>
+      {% endfor %}
+
+      {% if paginate.pages > 1 %}
+        <div class="pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Products",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show collection image",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Products"
+    }
+  ]
+}
+{% endschema %}
