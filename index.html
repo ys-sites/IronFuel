@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iron Fuel Lab | Engineered Protocols (Vercel Preview)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/assets/theme.css">
+  
+  <!-- Shopify Storefront Web Components (Used only for Vercel Preview) -->
+  <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
+</head>
+<body>
+  <!-- Note: This index.html is for Vercel Preview only. The actual Shopify theme uses Liquid templates. -->
+  <shopify-store 
+    store-domain="76s90y-fe.myshopify.com" 
+    public-access-token="665ed20ae0135838f2e0134f20e8811a"
+    country="US" 
+    language="en">
+  </shopify-store>
+
+  <shopify-cart id="MainCart"></shopify-cart>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-blur-bg-container">
+      <div class="hero-blur-bg active" style="background-image: url(/assets/guy.jpg);"></div>
+    </div>
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-slide active">
+          <h1 class="hero-title">RELAX <span style="color: #4ca735">RECOVER</span> SLEEP BALANCE</h1>
+          <p class="hero-description">Iron Fuel Lab Is A US-Made Dietary Supplement Brand Focused On Advanced Formula Vitamins & Minerals</p>
+          <button class="hero-btn" style="background-color: #4ca735;" onclick="window.scrollTo({top: 800, behavior: 'smooth'})">ORDER NOW</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products-section">
+    <div class="products-container">
+      <div class="section-header">
+        <h2 class="section-title">ENGINEERED PROTOCOLS</h2>
+      </div>
+      <shopify-list-context type="product" query="products" first="12">
+        <template>
+          <div class="product-card">
+            <div class="product-image-container">
+              <shopify-media width="600" height="600" query="product.selectedOrFirstAvailableVariant.image" class="product-img"></shopify-media>
+            </div>
+            <div class="product-info">
+              <h3 class="product-name"><shopify-data query="product.title"></shopify-data></h3>
+              <div class="product-footer">
+                <div class="product-price"><shopify-money query="product.selectedOrFirstAvailableVariant.price"></shopify-money></div>
+                <button class="add-btn" style="background-color: #4ca735; color: white;" onclick="document.getElementById('MainCart').addLine(event).showModal();">ADD TO CART</button>
+              </div>
+            </div>
+          </div>
+        </template>
+      </shopify-list-context>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p class="footer-logo">IRON FUEL LAB</p>
+      <p class="footer-copyright">&copy; 2026 IRON FUEL LAB. ALL RIGHTS RESERVED.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/theme.js"></script>
+</body>
+</html>
