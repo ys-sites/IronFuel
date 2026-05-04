@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git -C /c/Users/Sharafath/Desktop/Website/Ironfuel/IronFuel add layout/theme.liquid sections/header.liquid sections/hero.liquid sections/products.liquid sections/main-page.liquid sections/main-product.liquid sections/main-collection.liquid sections/main-cart.liquid sections/main-search.liquid sections/main-blog.liquid sections/main-article.liquid templates/product.json templates/collection.json templates/cart.json templates/page.json templates/404.liquid templates/search.json templates/blog.json templates/article.json templates/gift_card.liquid templates/password.liquid config/settings_schema.json assets/theme.css assets/theme.js snippets/icon-chevron.liquid)",
-      "Bash(git -C /c/Users/Sharafath/Desktop/Website/Ironfuel/IronFuel status --short)",
-      "Bash(git *)"
-    ]
-  }
-}

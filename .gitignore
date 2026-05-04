@@ -38,9 +38,3 @@ pnpm-debug.log*
 .idea/
 *.swp
 *.swo
-
-# Shopify CLI Portable Environment
-.shopify-cli-env/
-
-# Build artifacts
-*.zip

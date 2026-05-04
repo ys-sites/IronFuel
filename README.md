@@ -1,39 +1,20 @@
-# Iron Fuel Lab - Shopify Native Theme
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-This repository contains the official, build-free Shopify theme for Iron Fuel Lab. It has been converted from a React prototype into a native Liquid/CSS/JS stack for maximum performance and maintainability.
+# Run and deploy your AI Studio app
 
-## Project Structure
+This contains everything you need to run your app locally.
 
-- `assets/`: Contains `theme.css`, `theme.js`, and all brand images.
-- `layout/`: Contains `theme.liquid` (the primary wrapper).
-- `sections/`: Modular Liquid sections (Hero, Products, Cart Drawer, etc.).
-- `templates/`: JSON templates defining page layouts.
-- `.shopify-cli-env/`: A portable Node.js environment for running Shopify CLI tools.
+View your app in AI Studio: https://ai.studio/apps/255a8225-c03f-4391-b701-f647e5c68371
 
-## Development
+## Run Locally
 
-You can run Shopify CLI commands using the helper scripts provided in the root directory. No system-wide Node.js installation is required.
+**Prerequisites:**  Node.js
 
-### Previewing the Theme
 
-To start a local development server:
-```cmd
-shopify theme dev
-```
-
-### Pushing Changes
-
-To push your changes to your Shopify store:
-```cmd
-shopify theme push
-```
-
-### Logging In
-
-To log in to your Shopify partner account:
-```cmd
-shopify login
-```
-
----
-*Note: In PowerShell, use `.\shopify.cmd <command>` to run these tools.*
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
