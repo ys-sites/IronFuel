@@ -1,5 +1,5 @@
 {
-  "name": "ironfuel-preview",
+  "name": "ironfuel-headless",
   "version": "1.0.0",
   "private": true,
   "scripts": {

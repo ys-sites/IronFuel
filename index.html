@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iron Fuel Lab | Engineered Protocols (Vercel Preview)</title>
+  <title>Iron Fuel Lab | Engineered Protocols</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,11 +11,11 @@
   
   <link rel="stylesheet" href="/assets/theme.css">
   
-  <!-- Shopify Storefront Web Components (Used only for Vercel Preview) -->
+  <!-- Shopify Storefront Web Components -->
   <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
 </head>
 <body>
-  <!-- Note: This index.html is for Vercel Preview only. The actual Shopify theme uses Liquid templates. -->
+  <!-- Shopify Store Configuration -->
   <shopify-store 
     store-domain="76s90y-fe.myshopify.com" 
     public-access-token="665ed20ae0135838f2e0134f20e8811a"
@@ -23,55 +23,159 @@
     language="en">
   </shopify-store>
 
+  <!-- Global Cart Component -->
   <shopify-cart id="MainCart"></shopify-cart>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-blur-bg-container">
       <div class="hero-blur-bg active" style="background-image: url(/assets/guy.jpg);"></div>
+      <div class="hero-blur-bg" style="background-image: url(/assets/Ashwagandha1.jpeg);"></div>
     </div>
+
     <div class="hero-container">
+      <header class="header">
+        <div class="logo-container">
+          <img src="/assets/logo.png" class="logo-img" alt="Iron Fuel Lab">
+          <span class="logo-text">IRON FUEL LAB</span>
+        </div>
+        
+        <div class="nav-actions">
+          <button class="lang-toggle" id="LangToggle">EN</button>
+          <button class="cart-toggle" id="CartToggle" onclick="document.getElementById('MainCart').showModal();">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </button>
+        </div>
+      </header>
+
       <div class="hero-content">
-        <div class="hero-slide active">
+        <!-- Slide 1 -->
+        <div class="hero-slide active" data-index="0">
+          <div class="hero-badge">
+            <span class="badge-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C10.9 14.36 12 15 12 15"/></svg>
+            </span>
+            <div class="badge-text">
+              <span class="badge-title">Stress Support</span>
+              <span class="badge-desc">100% Vegan Friendly</span>
+            </div>
+          </div>
           <h1 class="hero-title">RELAX <span style="color: #4ca735">RECOVER</span> SLEEP BALANCE</h1>
           <p class="hero-description">Iron Fuel Lab Is A US-Made Dietary Supplement Brand Focused On Advanced Formula Vitamins & Minerals</p>
-          <button class="hero-btn" style="background-color: #4ca735;" onclick="window.scrollTo({top: 800, behavior: 'smooth'})">ORDER NOW</button>
+          <button class="hero-btn" style="background-color: #4ca735;" onclick="document.getElementById('ProductsSection').scrollIntoView({ behavior: 'smooth' });">
+            ORDER NOW
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-indicators">
+        <button class="indicator active" data-index="0"></button>
+        <button class="indicator" data-index="1"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section" id="ProductsSection">
+    <div class="products-container">
+      <div class="section-header">
+        <h2 class="section-title">ENGINEERED PROTOCOLS</h2>
+        <p class="section-subtitle">Scientifically backed formulas for peak human performance.</p>
+      </div>
+
+      <shopify-list-context type="product" query="products" first="12">
+        <template>
+          <div class="product-card">
+            <div class="product-image-container">
+              <shopify-media width="600" height="600" query="product.selectedOrFirstAvailableVariant.image" layout="constrained" class="product-img"></shopify-media>
+            </div>
+            <div class="product-info">
+              <h3 class="product-name"><shopify-data query="product.title"></shopify-data></h3>
+              <p class="product-desc"><shopify-data query="product.description"></shopify-data></p>
+              <div class="product-footer">
+                <div class="product-price"><shopify-money query="product.selectedOrFirstAvailableVariant.price"></shopify-money></div>
+                <button class="add-btn" onclick="document.getElementById('MainCart').addLine(event).showModal();">ADD TO CART</button>
+                <button class="view-details-btn" onclick="document.getElementById('ProductModal').showModal(); document.getElementById('ProductModalContext').update(event);">DETAILS</button>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div shopify-loading-placeholder class="products-loading">
+          <div class="loader"></div>
+          <p>Initializing Protocols...</p>
+        </div>
+      </shopify-list-context>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="about-container">
+      <div class="about-grid">
+        <div class="about-image-wrapper">
+          <img src="/assets/Ashwagandha1.jpeg" alt="Science Behind Fuel">
+        </div>
+        <div class="about-content">
+          <div class="section-header align-left">
+            <h2 class="section-title">SCIENCE BEHIND THE FUEL</h2>
+            <p class="section-subtitle">Every Iron Fuel Lab product is formulated based on peer-reviewed research.</p>
+          </div>
+          <div class="about-accordion">
+            <div class="accordion-item active">
+              <button class="accordion-header" onclick="this.parentElement.classList.toggle('active')">
+                <span class="accordion-icon">🔬</span>
+                <span class="accordion-title">Pharmaceutical Grade</span>
+                <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="accordion-content"><p>Our supplements are produced in FDA-registered facilities following strict cGMP protocols.</p></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Products -->
-  <section class="products-section">
-    <div class="products-container">
-      <div class="section-header">
-        <h2 class="section-title">ENGINEERED PROTOCOLS</h2>
-      </div>
-      <shopify-list-context type="product" query="products" first="12">
-        <template>
-          <div class="product-card">
-            <div class="product-image-container">
-              <shopify-media width="600" height="600" query="product.selectedOrFirstAvailableVariant.image" class="product-img"></shopify-media>
-            </div>
-            <div class="product-info">
-              <h3 class="product-name"><shopify-data query="product.title"></shopify-data></h3>
-              <div class="product-footer">
-                <div class="product-price"><shopify-money query="product.selectedOrFirstAvailableVariant.price"></shopify-money></div>
-                <button class="add-btn" style="background-color: #4ca735; color: white;" onclick="document.getElementById('MainCart').addLine(event).showModal();">ADD TO CART</button>
-              </div>
-            </div>
-          </div>
-        </template>
-      </shopify-list-context>
-    </div>
-  </section>
-
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-container">
-      <p class="footer-logo">IRON FUEL LAB</p>
+      <div class="footer-brand">
+        <img src="/assets/logo.png" class="footer-logo" alt="Iron Fuel Lab">
+        <p class="footer-tagline">Advanced Formula Vitamins & Minerals.</p>
+      </div>
       <p class="footer-copyright">&copy; 2026 IRON FUEL LAB. ALL RIGHTS RESERVED.</p>
     </div>
   </footer>
+
+  <!-- Product Modal -->
+  <dialog id="ProductModal" class="product-modal">
+    <shopify-context id="ProductModalContext" type="product" wait-for-update>
+      <template>
+        <div class="modal-content">
+          <button class="modal-close" onclick="document.getElementById('ProductModal').close();">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+          <div class="modal-grid">
+            <div class="modal-media">
+              <shopify-media width="500" height="500" query="product.selectedOrFirstAvailableVariant.image"></shopify-media>
+            </div>
+            <div class="modal-details">
+              <div class="modal-header">
+                <h2 class="modal-title"><shopify-data query="product.title"></shopify-data></h2>
+                <div class="modal-price"><shopify-money query="product.selectedOrFirstAvailableVariant.price"></shopify-money></div>
+              </div>
+              <shopify-variant-selector></shopify-variant-selector>
+              <div class="modal-actions">
+                <button class="modal-add-btn" onclick="document.getElementById('MainCart').addLine(event).showModal();">ADD TO PROTOCOL</button>
+                <button class="modal-buy-btn" onclick="document.querySelector('shopify-store').buyNow(event)">BUY NOW</button>
+              </div>
+              <div class="modal-description"><shopify-data query="product.descriptionHtml"></shopify-data></div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </shopify-context>
+  </dialog>
 
   <script src="/assets/theme.js"></script>
 </body>
