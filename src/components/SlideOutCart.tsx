@@ -46,6 +46,11 @@ export default function SlideOutCart() {
   } = useCart();
   const [isCheckingOut, setIsCheckingOut] = React.useState(false);
 
+  // Reset checkout state whenever cart is opened/closed to prevent stuck "Processing" state
+  React.useEffect(() => {
+    setIsCheckingOut(false);
+  }, [isOpen]);
+
   const availableUpsells = UPSELL_OPTIONS.filter(
     (opt) => !items.find((i) => i.id === opt.id)
   ).slice(0, 2);
