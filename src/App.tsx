@@ -335,7 +335,7 @@ const HeroSection = memo(function HeroSection() {
           {HERO_SLIDES.map((slide, index) => (
             <div
               key={`title-${slide.id}`}
-              className={`absolute top-[22%] sm:top-[32%] md:top-[38%] left-4 sm:left-4 md:left-8 w-full md:w-auto flex flex-col z-0 transition-opacity duration-700 items-start ${
+              className={`hidden sm:flex absolute top-[22%] sm:top-[32%] md:top-[38%] left-4 sm:left-4 md:left-8 w-full md:w-auto flex-col z-0 transition-opacity duration-700 items-start ${
                 currentSlide === index ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -641,10 +641,10 @@ const ProductsSection = memo(function ProductsSection() {
                             <span className="text-xl md:text-2xl font-bold text-[#111811]">{product.price}</span>
                           </div>
                         </div>
-                        <shopify-context type="product" handle={product.id}>
+                        <shopify-context type="product" id={`ctx-${product.id}`} handle={product.id}>
                           <template dangerouslySetInnerHTML={{ __html: `
                             <button
-                              onclick="event.stopPropagation(); const cart = document.getElementById('main-cart'); if(cart) { cart.addLine(event); cart.showModal(); }"
+                              onclick="event.stopPropagation(); const cart = document.getElementById('main-cart'); const ctx = document.getElementById('ctx-${product.id}'); if(cart && ctx) { cart.addLine({target: ctx, preventDefault: ()=>{}, stopPropagation: ()=>{}}); cart.showModal(); }"
                               class="${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95"
                             >
                               ${t.products.addtoCart}
@@ -1315,8 +1315,8 @@ function AppInner() {
       <Footer />
 
       <div style={{ display: 'none' }}>
-        <shopify-context type="product" handle="zenfuel-ashwagandha">
-          <template dangerouslySetInnerHTML={{ __html: `<button id="hidden-add-zenfuel" onclick="document.getElementById('main-cart').addLine(event)"></button>` }} />
+        <shopify-context type="product" id="ctx-hidden-zenfuel" handle="zenfuel-ashwagandha">
+          <template dangerouslySetInnerHTML={{ __html: `<button id="hidden-add-zenfuel" onclick="const ctx = document.getElementById('ctx-hidden-zenfuel'); document.getElementById('main-cart').addLine({target: ctx, preventDefault: ()=>{}, stopPropagation: ()=>{}})"></button>` }} />
         </shopify-context>
       </div>
 
