@@ -198,7 +198,7 @@ export default function SlideOutCart() {
                       <ShieldCheck className="w-4 h-4 text-[#4ca735]" /> {language === 'en' ? 'Subscribe & Save 15%' : 'S\'abonner et Économiser 15%'}
                     </h5>
                     <p className="text-xs text-[#59685e] mb-3 leading-relaxed">
-                      {language === 'en' ? 'Lock in a permanent 15% discount with free shipping. Cancel anytime.' : 'Bénéficiez d\'une remise permanente de 15% avec livraison gratuite. Annulez à tout moment.'}
+                      {language === 'en' ? 'Lock in a permanent 15% discount. Cancel anytime.' : 'Bénéficiez d\'une remise permanente de 15%. Annulez à tout moment.'}
                     </p>
                     <label className="flex items-center gap-2 cursor-pointer select-none">
                       <div
