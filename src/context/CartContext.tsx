@@ -108,8 +108,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
     
     try {
-      const handleQuery = items.map(i => \`handle:\${i.id}\`).join(" OR ");
-      const productQuery = \`
+      const handleQuery = items.map(i => `handle:${i.id}`).join(" OR ");
+      const productQuery = `
         query getVariants($query: String!) {
           products(first: 50, query: $query) {
             edges {
@@ -126,7 +126,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
           }
         }
-      \`;
+      `;
 
       const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
         method: "POST",
@@ -152,14 +152,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         throw new Error("No valid items");
       }
 
-      const cartMutation = \`
+      const cartMutation = `
         mutation cartCreate($input: CartInput!) {
           cartCreate(input: $input) {
             cart { checkoutUrl }
             userErrors { message }
           }
         }
-      \`;
+      `;
 
       const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
         method: "POST",
