@@ -5,15 +5,35 @@ import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
-const UPSELL = {
-  id: 'neurofuel-lions-mane',
-  name: "NeuroFuel – Lion's Mane",
-  description: 'Cognitive Focus',
-  price: 39.99,
-  salePrice: 14.99,
-  image: '/NeuroFuel.png',
-  colorBg: 'bg-[#f5ebd7]',
-};
+const UPSELL_OPTIONS = [
+  {
+    id: 'neurofuel-lion-s-mane-mushroom',
+    name: "NeuroFuel – Lion's Mane",
+    description: 'Cognitive Focus',
+    price: 39.99,
+    image: '/Lion.jpeg',
+    colorBg: 'bg-[#f5ebd7]',
+    accent: '#eab300'
+  },
+  {
+    id: 'gutfuel-gut-health',
+    name: "GutFuel",
+    description: 'Digestive Balance',
+    price: 29.99,
+    image: '/Gut Health.jpeg',
+    colorBg: 'bg-[#fff7ed]',
+    accent: '#f97316'
+  },
+  {
+    id: 'fury-hydrate-creatine-formula',
+    name: "FURY Hydrate",
+    description: 'Power & Performance',
+    price: 44.99,
+    image: '/Creatine Formula.jpeg',
+    colorBg: 'bg-[#d5dfe2]',
+    accent: '#334155'
+  }
+];
 
 export default function SlideOutCart() {
   const { language } = useLanguage();
@@ -26,7 +46,9 @@ export default function SlideOutCart() {
   } = useCart();
   const [isCheckingOut, setIsCheckingOut] = React.useState(false);
 
-  const hasUpsell = !items.find((i) => i.id === UPSELL.id);
+  const availableUpsells = UPSELL_OPTIONS.filter(
+    (opt) => !items.find((i) => i.id === opt.id)
+  ).slice(0, 2);
 
   return (
     <AnimatePresence>
@@ -199,49 +221,57 @@ export default function SlideOutCart() {
                     </label>
                   </div>
 
-                  {/* ── Upsell ── */}
-                  {hasUpsell && (
-                    <div className="border-t border-gray-100 pt-4">
-                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
+                  {/* ── Upsells ── */}
+                  {availableUpsells.length > 0 && (
+                    <div className="border-t border-gray-100 pt-5 space-y-4">
+                      <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
                         {language === 'en' ? 'Complete Your Stack' : 'Complétez votre protocole'}
                       </h4>
-                      <div className="flex items-center justify-between bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:border-[#eab300]/50 transition-colors cursor-pointer group">
-                        <div className="flex items-center gap-3 relative">
-                          <div className="absolute -top-0.5 -left-0.5 w-2 h-2 rounded-full bg-[#eab300] shadow-[0_0_6px_#eab300]" />
-                          <div className="w-12 h-12 bg-[#f5ebd7] rounded-lg overflow-hidden shrink-0">
-                            <img
-                              src={UPSELL.image}
-                              alt={UPSELL.name}
-                              loading="lazy"
-                              decoding="async"
-                              className="w-full h-full object-cover mix-blend-multiply scale-110"
-                            />
+                      
+                      <div className="space-y-3">
+                        {availableUpsells.map((upsell) => (
+                          <div 
+                            key={upsell.id}
+                            className="flex items-center justify-between bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:border-gray-200 transition-all group"
+                          >
+                            <div className="flex items-center gap-3 relative">
+                              <div 
+                                className="absolute -top-0.5 -left-0.5 w-2 h-2 rounded-full shadow-[0_0_6px_rgba(0,0,0,0.2)]" 
+                                style={{ backgroundColor: upsell.accent }}
+                              />
+                              <div className={`w-12 h-12 ${upsell.colorBg} rounded-lg overflow-hidden shrink-0`}>
+                                <img
+                                  src={upsell.image}
+                                  alt={upsell.name}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-cover mix-blend-multiply scale-110"
+                                />
+                              </div>
+                              <div>
+                                <h5 className="font-bold text-[#1a2f1c] text-sm leading-tight">{upsell.name}</h5>
+                                <span className="text-gray-500 font-bold text-xs">
+                                  ${upsell.price.toFixed(2)}
+                                </span>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() =>
+                                addItem({
+                                  id: upsell.id,
+                                  name: upsell.name,
+                                  description: upsell.description,
+                                  price: upsell.price,
+                                  image: upsell.image,
+                                  colorBg: upsell.colorBg,
+                                })
+                              }
+                              className="bg-[#f4f7f4] hover:bg-[#1a2f1c] text-[#1a2f1c] hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95"
+                            >
+                              {language === 'en' ? 'Add' : 'Ajouter'}
+                            </button>
                           </div>
-                          <div>
-                            <h5 className="font-bold text-[#1a2f1c] text-sm leading-tight">{UPSELL.name}</h5>
-                            <span className="text-[#eab300] font-bold text-xs">
-                              + ${UPSELL.salePrice.toFixed(2)}{' '}
-                              <span className="line-through text-gray-300 font-normal ml-0.5">
-                                ${UPSELL.price.toFixed(2)}
-                              </span>
-                            </span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() =>
-                            addItem({
-                              id: UPSELL.id,
-                              name: UPSELL.name,
-                              description: UPSELL.description,
-                              price: UPSELL.salePrice,
-                              image: UPSELL.image,
-                              colorBg: UPSELL.colorBg,
-                            })
-                          }
-                          className="bg-gray-100 group-hover:bg-[#eab300] text-gray-600 group-hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shrink-0"
-                        >
-                          {language === 'en' ? 'Add' : 'Ajouter'}
-                        </button>
+                        ))}
                       </div>
                     </div>
                   )}
