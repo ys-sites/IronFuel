@@ -282,25 +282,11 @@ const HeroSection = memo(function HeroSection() {
                 {t.nav.signin}
               </button>
               <button
-                onClick={openCart}
+                onClick={() => { const cart = document.getElementById('main-cart'); if (cart) cart.showModal(); }}
                 className="relative p-2 hover:bg-white/10 text-white rounded-full transition-colors duration-200 cursor-pointer border border-white/10"
                 aria-label="Open cart"
               >
                 <ShoppingBag className="w-5 h-5" />
-                <AnimatePresence>
-                  {count > 0 && (
-                    <motion.span
-                      key="badge"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                      className="absolute -top-1 -right-1 min-w-[17px] h-[17px] bg-[#4ca735] rounded-full text-[9px] font-black flex items-center justify-center text-white px-1 pointer-events-none"
-                    >
-                      {count > 9 ? "9+" : count}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
               </button>
               {/* Hamburger — mobile only */}
               <button
@@ -436,7 +422,7 @@ const HeroSection = memo(function HeroSection() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 22 }}
-                onClick={openCart}
+                onClick={() => { const cart = document.getElementById('main-cart'); if (cart) cart.showModal(); }}
                 className="flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/30 text-white rounded-full pl-4 pr-1.5 py-1.5 transition-colors duration-200 cursor-pointer shadow-lg"
               >
                 <span className="font-bold text-xs sm:text-sm tracking-wide">{t.nav.cart}</span>
@@ -660,23 +646,16 @@ const ProductsSection = memo(function ProductsSection() {
                             <span className="text-xl md:text-2xl font-bold text-[#111811]">{product.price}</span>
                           </div>
                         </div>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            addItem({
-                              id: product.id,
-                              name: product.name,
-                              description: product.description,
-                              price: parseFloat(product.price),
-                              image: product.image,
-                              colorBg: product.colorBg,
-                            });
-                            openCart();
-                          }}
-                          className={`${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95`}
-                        >
-                          {t.products.addtoCart}
-                        </button>
+                        <shopify-context type="product" handle={product.id}>
+                          <template dangerouslySetInnerHTML={{ __html: `
+                            <button
+                              onclick="event.stopPropagation(); const cart = document.getElementById('main-cart'); if(cart) { cart.addLine(event); cart.showModal(); }"
+                              class="${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95"
+                            >
+                              ${t.products.addtoCart}
+                            </button>
+                          `}} />
+                        </shopify-context>
                       </div>
                     </div>
                   </motion.div>
@@ -1340,8 +1319,13 @@ function AppInner() {
       <FAQSection />
       <Footer />
 
-      <SlideOutCart />
-      <StickyActionBar isVisible={showStickyBar && !isCartOpen} />
+      <div style={{ display: 'none' }}>
+        <shopify-context type="product" handle="zenfuel-ashwagandha">
+          <template dangerouslySetInnerHTML={{ __html: `<button id="hidden-add-zenfuel" onclick="document.getElementById('main-cart').addLine(event)"></button>` }} />
+        </shopify-context>
+      </div>
+
+      <StickyActionBar isVisible={showStickyBar} />
     </main>
   );
 }
@@ -1350,7 +1334,10 @@ export default function App() {
   return (
     <LanguageProvider>
       <CartProvider>
-        <AppInner />
+        <shopify-store store-domain="76s90y-fe.myshopify.com" public-access-token="665ed20ae0135838f2e0134f20e8811a">
+          <AppInner />
+          <shopify-cart id="main-cart"></shopify-cart>
+        </shopify-store>
       </CartProvider>
     </LanguageProvider>
   );

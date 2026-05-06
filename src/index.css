@@ -56,3 +56,22 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+shopify-cart::part(dialog) {
+  border-radius: 0.5rem;
+}
+shopify-cart::part(primary-button) {
+  background-color: #4ca735;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+shopify-cart::part(secondary-button) {
+  background-color: #ffffff;
+  color: #000;
+  fill: #000;
+  border: 2px solid #000;
+  border-radius: 0.5rem;
+}

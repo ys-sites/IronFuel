@@ -44,17 +44,19 @@ export default function StickyActionBar({ isVisible }: StickyActionBarProps) {
             </div>
 
             <button
-              onClick={openCart}
+              onClick={() => { 
+                const btn = document.getElementById('hidden-add-zenfuel'); 
+                if (btn) btn.click(); 
+                setTimeout(() => {
+                  const cart = document.getElementById('main-cart'); 
+                  if (cart) cart.showModal(); 
+                }, 50);
+              }}
               className="relative bg-[#1a2f1c] hover:bg-black text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 flex items-center gap-2 whitespace-nowrap"
             >
               <ShoppingBag className="w-4 h-4 sm:hidden" />
               <span className="hidden sm:block">{t.products.addtoCart}</span>
               <span className="sm:hidden">{language === 'en' ? 'Add' : 'Ajout'}</span>
-              {count > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] bg-[#4ca735] rounded-full text-[10px] font-black flex items-center justify-center text-white px-1">
-                  {count > 9 ? '9+' : count}
-                </span>
-              )}
             </button>
           </div>
         </motion.div>
