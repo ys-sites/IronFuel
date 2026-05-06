@@ -969,7 +969,7 @@ const AboutSection = memo(function AboutSection() {
   }, []);
 
   const elements = language === 'en' ? PRODUCT_SPECS_EN : PRODUCT_SPECS_FR;
-  const [expandedId, setExpandedId] = useState<string | null>(elements[0].name);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [itemOrder, setItemOrder] = useState<string[]>(elements.map(e => e.name));
 
   const IMAGE_MAP: Record<string, string> = {
