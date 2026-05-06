@@ -10,7 +10,7 @@ export const translations = {
       cart: "Cart"
     },
     hero: {
-      reviews: "18,921 reviews",
+      reviews: "100+ reviews",
       description: "Iron Fuel Lab Is A US-Made Dietary Supplement Brand Focused On Advanced Formula Vitamins & Minerals",
       stressSupport: "Stress Support",
       vegan: "100% Vegan Friendly",
@@ -101,7 +101,7 @@ export const translations = {
       cart: "Panier"
     },
     hero: {
-      reviews: "18 921 avis",
+      reviews: "100+ avis",
       description: "Iron Fuel Lab est une marque de compléments alimentaires fabriquée aux États-Unis, axée sur des formules avancées de vitamines et minéraux",
       stressSupport: "Soutien au Stress",
       vegan: "100% Végane",
