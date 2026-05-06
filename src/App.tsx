@@ -241,9 +241,9 @@ const HeroSection = memo(function HeroSection() {
 
         {/* ── Top Nav ────────────────────────────────────────── */}
         <header className="absolute top-0 w-full px-4 md:px-8 pt-4 md:pt-6 z-20">
-          <div className="bg-white/5 backdrop-blur-xl border-b border-white/10 px-5 md:px-6 py-4 rounded-b-[2rem] flex items-center justify-between shadow-2xl">
+          <div className="bg-black/40 backdrop-blur-2xl border-b border-white/10 px-5 md:px-6 py-4 rounded-b-[2rem] flex items-center justify-between shadow-2xl">
             {/* Desktop nav links (Left) */}
-            <nav className="hidden lg:flex flex-1 gap-8 lg:gap-10 text-[11px] lg:text-[13px] text-white/70 font-bold uppercase tracking-[0.2em]">
+            <nav className="hidden lg:flex flex-1 gap-8 lg:gap-10 text-[11px] lg:text-[13px] text-white font-bold uppercase tracking-[0.2em]">
               {NAV_ITEMS.map((item) => (
                 <button
                   key={item.label}
@@ -255,14 +255,9 @@ const HeroSection = memo(function HeroSection() {
               ))}
             </nav>
 
-            {/* Brand - Desktop: Logo + Text (Middle), Mobile: Left */}
-            <div className="flex items-center gap-2 md:gap-3 shrink-0 flex-1 lg:justify-center">
-              <img 
-                src="/logo.png" 
-                alt="Iron Fuel Lab" 
-                className="hidden md:block w-8 h-8 lg:w-10 lg:h-10 object-contain" 
-              />
-              <span className="text-[11px] md:text-[15px] lg:text-lg font-black tracking-tighter font-display text-white whitespace-nowrap">
+            {/* Brand - Centered */}
+            <div className="flex items-center justify-center shrink-0 flex-1">
+              <span className="text-[13px] md:text-[16px] lg:text-xl font-black tracking-[0.35em] font-display text-white whitespace-nowrap uppercase leading-none">
                 IRON FUEL LAB
               </span>
             </div>
