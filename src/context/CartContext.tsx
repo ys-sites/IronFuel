@@ -49,6 +49,52 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(loadFromStorage);
   const [isSubscribed, setIsSubscribed] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [variantCache, setVariantCache] = useState<Record<string, string>>({});
+
+  // Pre-fetch all variants to speed up checkout
+  useEffect(() => {
+    const fetchAllVariants = async () => {
+      try {
+        const query = `
+          query {
+            products(first: 50) {
+              edges {
+                node {
+                  handle
+                  variants(first: 1) {
+                    edges {
+                      node {
+                        id
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `;
+        const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
+          },
+          body: JSON.stringify({ query })
+        });
+        const data = await res.json();
+        const map: Record<string, string> = {};
+        data.data.products.edges.forEach((edge: any) => {
+          if (edge.node.variants.edges.length > 0) {
+            map[edge.node.handle] = edge.node.variants.edges[0].node.id;
+          }
+        });
+        setVariantCache(map);
+      } catch (e) {
+        console.error("Failed to pre-fetch variants", e);
+      }
+    };
+    fetchAllVariants();
+  }, []);
 
   // Persist cart to localStorage whenever items change
   useEffect(() => {
@@ -108,40 +154,49 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
     
     try {
-      const handleQuery = items.map(i => `handle:${i.id}`).join(" OR ");
-      const productQuery = `
-        query getVariants($query: String!) {
-          products(first: 50, query: $query) {
-            edges {
-              node {
-                handle
-                variants(first: 1) {
-                  edges {
-                    node {
-                      id
+      let handleToVariant = { ...variantCache };
+      
+      // If any items are missing from cache, fetch them now
+      const missingItems = items.filter(i => !handleToVariant[i.id]);
+      
+      if (missingItems.length > 0) {
+        const handleQuery = missingItems.map(i => `handle:${i.id}`).join(" OR ");
+        const productQuery = `
+          query getVariants($query: String!) {
+            products(first: 50, query: $query) {
+              edges {
+                node {
+                  handle
+                  variants(first: 1) {
+                    edges {
+                      node {
+                        id
+                      }
                     }
                   }
                 }
               }
             }
           }
-        }
-      `;
+        `;
 
-      const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
-        },
-        body: JSON.stringify({ query: productQuery, variables: { query: handleQuery } })
-      });
-      const data = await res.json();
-      
-      const handleToVariant: Record<string, string> = {};
-      data.data.products.edges.forEach((edge: any) => {
-        handleToVariant[edge.node.handle] = edge.node.variants.edges[0].node.id;
-      });
+        const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
+          },
+          body: JSON.stringify({ query: productQuery, variables: { query: handleQuery } })
+        });
+        const data = await res.json();
+        
+        data.data.products.edges.forEach((edge: any) => {
+          handleToVariant[edge.node.handle] = edge.node.variants.edges[0].node.id;
+        });
+        
+        // Update cache for next time
+        setVariantCache(prev => ({ ...prev, ...handleToVariant }));
+      }
 
       const lineItems = items.map(item => ({
         merchandiseId: handleToVariant[item.id],
@@ -181,7 +236,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       alert("Checkout failed. Please try again.");
       onComplete();
     }
-  }, [items]);
+  }, [items, variantCache]);
 
   const value = useMemo<CartContextType>(
     () => ({
