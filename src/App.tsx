@@ -31,7 +31,7 @@ const PRODUCTS = [
     buttonText: "text-white"
   },
   {
-    id: "neurofuel-lions-mane",
+    id: "neurofuel-lion-s-mane-mushroom",
     name: "NeuroFuel – Lion's Mane",
     description: "Focus. Clarity. Mental Performance.",
     price: "39.99",
@@ -42,7 +42,7 @@ const PRODUCTS = [
     buttonText: "text-black"
   },
   {
-    id: "gutfuel",
+    id: "gutfuel-gut-health",
     name: "GutFuel",
     description: "Support Your Gut. Feel Better Daily.",
     price: "29.99",
@@ -53,7 +53,7 @@ const PRODUCTS = [
     buttonText: "text-white"
   },
   {
-    id: "fury-isolate",
+    id: "fury-isolate-vanilla",
     name: "FURY Isolate – Vanilla",
     description: "Premium fast-absorbing recovery",
     price: "79.99",
@@ -64,7 +64,7 @@ const PRODUCTS = [
     buttonText: "text-white"
   },
   {
-    id: "fury-hydrate",
+    id: "fury-hydrate-creatine-formula",
     name: "FURY Hydrate",
     description: "Power. Hydration. Performance.",
     price: "44.99",
@@ -242,20 +242,8 @@ const HeroSection = memo(function HeroSection() {
         {/* ── Top Nav ────────────────────────────────────────── */}
         <header className="absolute top-0 w-full px-4 md:px-8 pt-4 md:pt-6 z-20">
           <div className="bg-white/5 backdrop-blur-xl border-b border-white/10 px-5 md:px-6 py-4 rounded-b-[2rem] flex items-center justify-between shadow-2xl">
-            {/* Brand - Desktop: Logo + Text, Mobile: Text only on Left */}
-            <div className="flex items-center gap-2 md:gap-3 shrink-0">
-              <img 
-                src="/logo.png" 
-                alt="Iron Fuel Lab" 
-                className="hidden md:block w-8 h-8 lg:w-10 lg:h-10 object-contain" 
-              />
-              <span className="text-[11px] md:text-[15px] lg:text-lg font-black tracking-tighter font-display text-white whitespace-nowrap">
-                IRON FUEL LAB
-              </span>
-            </div>
-
-            {/* Desktop nav links */}
-            <nav className="hidden lg:flex gap-8 lg:gap-10 text-[11px] lg:text-[13px] text-white/70 font-bold uppercase tracking-[0.2em] ml-10">
+            {/* Desktop nav links (Left) */}
+            <nav className="hidden lg:flex flex-1 gap-8 lg:gap-10 text-[11px] lg:text-[13px] text-white/70 font-bold uppercase tracking-[0.2em]">
               {NAV_ITEMS.map((item) => (
                 <button
                   key={item.label}
@@ -267,19 +255,26 @@ const HeroSection = memo(function HeroSection() {
               ))}
             </nav>
 
-
+            {/* Brand - Desktop: Logo + Text (Middle), Mobile: Left */}
+            <div className="flex items-center gap-2 md:gap-3 shrink-0 flex-1 lg:justify-center">
+              <img 
+                src="/logo.png" 
+                alt="Iron Fuel Lab" 
+                className="hidden md:block w-8 h-8 lg:w-10 lg:h-10 object-contain" 
+              />
+              <span className="text-[11px] md:text-[15px] lg:text-lg font-black tracking-tighter font-display text-white whitespace-nowrap">
+                IRON FUEL LAB
+              </span>
+            </div>
 
             {/* Right actions */}
-            <div className="flex gap-2 md:gap-3 items-center ml-auto md:ml-0">
+            <div className="flex gap-2 md:gap-3 items-center flex-1 justify-end ml-auto md:ml-0">
               {/* Language Switcher */}
               <button
                 onClick={() => setLanguage(language === "en" ? "fr" : "en")}
                 className="flex px-3 py-1.5 rounded-full border border-white/20 bg-white/5 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer font-display"
               >
                 {language === "en" ? "FR" : "EN"}
-              </button>
-              <button className="hidden sm:flex px-5 py-1.5 rounded-full border border-white/20 bg-white/5 text-[11px] font-bold uppercase tracking-widest text-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer font-display">
-                {t.nav.signin}
               </button>
               <button
                 onClick={() => { const cart = document.getElementById('main-cart'); if (cart) cart.showModal(); }}
