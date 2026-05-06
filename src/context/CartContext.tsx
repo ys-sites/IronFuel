@@ -28,6 +28,7 @@ interface CartContextType {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
+  checkout: (onComplete: () => void) => void;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -100,6 +101,88 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
   const total = useMemo(() => subtotal - savings, [subtotal, savings]);
 
+  const checkout = useCallback(async (onComplete: () => void) => {
+    if (items.length === 0) {
+      onComplete();
+      return;
+    }
+    
+    try {
+      const handleQuery = items.map(i => \`handle:\${i.id}\`).join(" OR ");
+      const productQuery = \`
+        query getVariants($query: String!) {
+          products(first: 50, query: $query) {
+            edges {
+              node {
+                handle
+                variants(first: 1) {
+                  edges {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      \`;
+
+      const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
+        },
+        body: JSON.stringify({ query: productQuery, variables: { query: handleQuery } })
+      });
+      const data = await res.json();
+      
+      const handleToVariant: Record<string, string> = {};
+      data.data.products.edges.forEach((edge: any) => {
+        handleToVariant[edge.node.handle] = edge.node.variants.edges[0].node.id;
+      });
+
+      const lineItems = items.map(item => ({
+        merchandiseId: handleToVariant[item.id],
+        quantity: item.quantity
+      })).filter(i => i.merchandiseId);
+
+      if (lineItems.length === 0) {
+        throw new Error("No valid items");
+      }
+
+      const cartMutation = \`
+        mutation cartCreate($input: CartInput!) {
+          cartCreate(input: $input) {
+            cart { checkoutUrl }
+            userErrors { message }
+          }
+        }
+      \`;
+
+      const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
+        },
+        body: JSON.stringify({ query: cartMutation, variables: { input: { lines: lineItems } } })
+      });
+      
+      const cartData = await cartRes.json();
+      if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
+        window.location.href = cartData.data.cartCreate.cart.checkoutUrl;
+      } else {
+        throw new Error("Failed to create cart");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Checkout failed. Please try again.");
+      onComplete();
+    }
+  }, [items]);
+
   const value = useMemo<CartContextType>(
     () => ({
       items,
@@ -114,14 +197,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       isSubscribed,
       toggleSubscribe,
       isOpen,
+      isOpen,
       openCart,
       closeCart,
+      checkout,
     }),
     [
       items, addItem, removeItem, updateQuantity, clearCart,
       count, subtotal, savings, total,
       isSubscribed, toggleSubscribe,
-      isOpen, openCart, closeCart,
+      isOpen, openCart, closeCart, checkout
     ]
   );
 

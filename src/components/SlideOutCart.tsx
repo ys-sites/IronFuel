@@ -22,8 +22,9 @@ export default function SlideOutCart() {
     items, removeItem, updateQuantity,
     subtotal, savings, total,
     isSubscribed, toggleSubscribe,
-    isOpen, closeCart, addItem, count,
+    isOpen, closeCart, addItem, count, checkout
   } = useCart();
+  const [isCheckingOut, setIsCheckingOut] = React.useState(false);
 
   const hasUpsell = !items.find((i) => i.id === UPSELL.id);
 
@@ -275,8 +276,15 @@ export default function SlideOutCart() {
                   </p>
                 )}
 
-                <button className="w-full bg-[#1a2f1c] hover:bg-black text-white py-4 rounded-2xl font-bold tracking-wide flex justify-center items-center gap-2 transition-all duration-200 shadow-xl active:scale-[0.98] cursor-pointer">
-                  {t.cart.checkout} <ArrowRight className="w-5 h-5" />
+                <button 
+                  onClick={() => {
+                    setIsCheckingOut(true);
+                    checkout(() => setIsCheckingOut(false));
+                  }}
+                  disabled={isCheckingOut}
+                  className="w-full bg-[#1a2f1c] hover:bg-black text-white py-4 rounded-2xl font-bold tracking-wide flex justify-center items-center gap-2 transition-all duration-200 shadow-xl active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isCheckingOut ? (language === 'en' ? 'Processing...' : 'Traitement...') : t.cart.checkout} {!isCheckingOut && <ArrowRight className="w-5 h-5" />}
                 </button>
 
                 <div className="flex justify-center items-center gap-5 pt-1 text-[10px] font-bold text-gray-300 select-none">
