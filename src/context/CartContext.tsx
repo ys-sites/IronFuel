@@ -197,7 +197,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       isSubscribed,
       toggleSubscribe,
       isOpen,
-      isOpen,
       openCart,
       closeCart,
       checkout,

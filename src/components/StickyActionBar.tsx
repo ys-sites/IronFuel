@@ -12,7 +12,7 @@ interface StickyActionBarProps {
 export default function StickyActionBar({ isVisible }: StickyActionBarProps) {
   const { language } = useLanguage();
   const t = translations[language];
-  const { openCart, count } = useCart();
+  const { addItem, openCart, count } = useCart();
 
   return (
     <AnimatePresence>
@@ -44,7 +44,17 @@ export default function StickyActionBar({ isVisible }: StickyActionBarProps) {
             </div>
 
             <button
-              onClick={openCart}
+              onClick={() => {
+                addItem({
+                  id: "zenfuel-ashwagandha",
+                  name: "ZenFuel – Ashwagandha",
+                  description: "Relax. Recover. Stay Balanced.",
+                  price: 34.99,
+                  image: "/Ashwagandha.jpeg",
+                  colorBg: "bg-[#e2eadc]"
+                });
+                openCart();
+              }}
               className="relative bg-[#1a2f1c] hover:bg-black text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 flex items-center gap-2 whitespace-nowrap"
             >
               <ShoppingBag className="w-4 h-4 sm:hidden" />
