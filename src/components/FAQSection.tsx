@@ -6,9 +6,9 @@ import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
 const FAQS_EN = [
-  {
-    question: "Do you use independent 3rd-party testing?",
-    answer: "Yes. Every single batch is independently tested by independent third-party laboratories for heavy metals, microbial contaminants, and active compound verification. You can scan the QR code on any product to view its specific Certificate of Analysis (CoA)."
+    {
+    question: "Are your ingredients 100% natural?",
+    answer: "Yes. We prioritize natural-source ingredients that are unprocessed and bioavailable. Our commitment is to provide a cleaner, healthier option for your body without synthetic fillers or artificial additives."
   },
   {
     question: "When will I start feeling the effects?",
@@ -30,8 +30,8 @@ const FAQS_EN = [
 
 const FAQS_FR = [
   {
-    question: "Utilisez-vous des tests tiers indépendants ?",
-    answer: "Oui. Chaque lot est testé indépendamment par des laboratoires tiers pour les métaux lourds, les contaminants microbiens et la vérification des composés actifs. Vous pouvez scanner le code QR sur n'importe quel produit pour consulter son certificat d'analyse (CoA) spécifique."
+    question: "Vos ingrédients sont-ils 100% naturels ?",
+    answer: "Oui. Nous privilégions des ingrédients de source naturelle, non transformés et hautement biodisponibles. Notre engagement est de fournir une option plus saine et plus pure pour votre corps, sans agents de remplissage synthétiques ni additifs artificiels."
   },
   {
     question: "Quand commencerai-je à ressentir les effets ?",

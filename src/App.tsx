@@ -788,7 +788,7 @@ const PRODUCT_SPECS_EN = [
       rightInfo: {
 
         use: "Mix 1 scoop with 8–10 oz of water or almond milk post-workout.",
-        disclaimer: "*These statements have not been evaluated by the FDA.",
+        disclaimer: "Natural health supplement for wellness and performance.",
       },
     },
   ];
@@ -811,7 +811,7 @@ const PRODUCT_SPECS_FR = [
       rightInfo: {
 
         use: "Prendre 1 capsule deux fois par jour, de préférence 20 à 30 minutes avant un repas, avec un verre d'eau.",
-        disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
+        disclaimer: "Supplément naturel pour le bien-être et la performance.",
       },
     },
     {
@@ -831,7 +831,7 @@ const PRODUCT_SPECS_FR = [
       rightInfo: {
 
         use: "Prendre 2 capsules par jour, avec ou sans nourriture, ou selon les directives.",
-        disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
+        disclaimer: "Supplément naturel pour le bien-être et la performance.",
       },
     },
     {
@@ -852,7 +852,7 @@ const PRODUCT_SPECS_FR = [
       rightInfo: {
 
         use: "Mélanger 1 cuillère (10g) avec 180 à 240 ml d'eau ou votre boisson préférée quotidiennement.",
-        disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
+        disclaimer: "Supplément naturel pour le bien-être et la performance.",
       },
     },
     {
@@ -870,7 +870,7 @@ const PRODUCT_SPECS_FR = [
       },
       rightInfo: {
         use: "Prendre 2 capsules par jour avec 180 à 240 ml d'eau.",
-        disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
+        disclaimer: "Supplément naturel pour le bien-être et la performance.",
       },
     },
     {
@@ -888,7 +888,7 @@ const PRODUCT_SPECS_FR = [
       },
       rightInfo: {
         use: "Mélanger 1 cuillère avec 240 à 300 ml d'eau ou de lait d'amande après l'entraînement.",
-        disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
+        disclaimer: "Supplément naturel pour le bien-être et la performance.",
       },
     },
   ];

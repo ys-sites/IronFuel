@@ -12,8 +12,8 @@ export default function TrustScienceSection() {
   const BADGES = [
     {
       icon: TestTube,
-      title: language === 'en' ? "Triple Evaluated" : "Triple Évaluation",
-      desc: language === 'en' ? "Rigorous 3rd-party batch tested" : "Tests rigoureux par des tiers"
+      title: language === 'en' ? "Pure Extraction" : "Extraction Pure",
+      desc: language === 'en' ? "Concentrated natural source purity" : "Pureté de source naturelle concentrée"
     },
     {
       icon: ShieldCheck,
