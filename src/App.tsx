@@ -867,10 +867,8 @@ const PRODUCT_SPECS_FR = [
       },
       leftInfo: {
         ingredients: ["Poudre de Vinaigre de Cidre de Pomme Bio", "Inuline (Racine de Topinambour)", "Lactobacillus Acidophilus (Probiotique)", "DigeZyme® (Complexe Multi-Enzymatique)"],
-
       },
       rightInfo: {
-
         use: "Prendre 2 capsules par jour avec 180 à 240 ml d'eau.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -887,11 +885,8 @@ const PRODUCT_SPECS_FR = [
       },
       leftInfo: {
         ingredients: ["Isolat de Protéine de Lactosérum Nourri à l'Herbe", "Mélange d'Enzymes Digestives (Protéase)", "Poudre de Cacao Bio", "Lécithine de Tournesol (<1%)"],
-        flavor: "Chocolat Riche",
-        details: ["Portions : 30 par contenant", "Poids Net : 900 g (2 lbs)", "Fabriqué aux : USA"],
       },
       rightInfo: {
-
         use: "Mélanger 1 cuillère avec 240 à 300 ml d'eau ou de lait d'amande après l'entraînement.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -1059,43 +1054,6 @@ const AboutSection = memo(function AboutSection() {
                     key={item.name}
                     className="relative w-full mx-auto max-w-[42rem] z-20"
                   >
-                    {/* Desktop floating left panel — only on 2xl to avoid viewport overflow */}
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -10 }}
-                          transition={{ duration: 0.3 }}
-                          className="hidden 2xl:block absolute right-[calc(100%+2.5rem)] top-0 w-[300px] pointer-events-auto text-left z-30 h-full"
-                        >
-
-                            <div className="space-y-5">
-                              <div>
-                                <h6 className="font-bold text-[#2b4224] mb-3 text-sm">{t.specs.ingredients}</h6>
-                                <ul className="list-disc pl-5 space-y-2 text-sm text-[#59685e] font-medium leading-relaxed">
-                                  {item.leftInfo.ingredients.map((ing, iidx) => <li key={iidx}>{ing}</li>)}
-                                </ul>
-                              </div>
-                              <div className="pt-1">
-                                <h6 className="font-bold text-[#2b4224] mb-3 text-sm">{t.specs.productDetails}</h6>
-                                <ul className="list-disc pl-5 space-y-2 text-sm text-[#59685e] font-medium leading-relaxed">
-                                  {item.leftInfo.details.map((d, didx) => <li key={didx}>{d}</li>)}
-                                </ul>
-                              </div>
-                              {"flavor" in item.leftInfo && item.leftInfo.flavor && (
-                                <div className="pt-1">
-                                  <h6 className="font-bold text-[#2b4224] mb-2 text-sm">{t.specs.flavor}</h6>
-                                  <p className="text-sm text-[#59685e] font-medium">{item.leftInfo.flavor}</p>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-
 
                     {/* Accordion card */}
                     <motion.div
