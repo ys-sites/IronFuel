@@ -17,8 +17,8 @@ export default function TrustScienceSection() {
     },
     {
       icon: ShieldCheck,
-      title: language === 'en' ? "GMP Certified" : "Certifié BPF",
-      desc: language === 'en' ? "Milled in FDA registered facilities" : "Fabriqué dans des installations FDA"
+      title: language === 'en' ? "Natural Source Ingredients" : "Ingrédients de Source Naturelle",
+      desc: language === 'en' ? "A natural and healthier option for your body" : "Une option plus saine et naturelle pour votre corps"
     },
     {
       icon: Leaf,

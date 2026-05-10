@@ -44,7 +44,7 @@ export const translations = {
     },
     specs: {
       title: "Derived From the Earth.",
-      description: "Discover the natural elements we combine to create our medical-grade cellular recovery formulas.",
+      description: "Discover the natural elements we combine to create our natural-source cellular recovery formulas.",
       specifications: "Specifications",
       extendedProfile: "Extended Profile",
       ingredients: "Ingredients",
@@ -54,14 +54,14 @@ export const translations = {
       disclaimer: "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
     },
     footer: {
-      brandDesc: "Advanced, medical-grade formulas engineered for high-performers seeking absolute peak results. Backed by science. Built in the USA.",
+      brandDesc: "Advanced, natural-source formulas engineered for high-performers seeking absolute peak results. Backed by science. Built in the USA.",
       navigate: "Navigate",
       support: "Support",
       rights: "All rights reserved.",
       privacy: "Privacy Policy",
       terms: "Terms of Service",
       refund: "Refund Policy",
-      tested: "Third-Party Tested",
+      tested: "Purity Verified",
       vegan: "100% Vegan",
       usa: "Made in USA"
     },
@@ -87,7 +87,7 @@ export const translations = {
     trust: {
       title: "TRUSTED BY ELITE PERFORMERS",
       heading: "Clinically Proven. Chemically Precise.",
-      description: "We don't just sell supplements. We engineer medical-grade cellular tools designed to bridge the gap between human limitation and absolute peak potential."
+      description: "We don't just sell supplements. We engineer natural-source cellular tools designed to bridge the gap between human limitation and absolute peak potential."
     }
   },
   fr: {
@@ -135,7 +135,7 @@ export const translations = {
     },
     specs: {
       title: "Dérivé de la Terre.",
-      description: "Découvrez les éléments naturels que nous combinons pour créer nos formules de récupération cellulaire de qualité médicale.",
+      description: "Découvrez les éléments naturels que nous combinons pour créer nos formules de récupération cellulaire de source naturelle.",
       specifications: "Spécifications",
       extendedProfile: "Profil Étendu",
       ingredients: "Ingrédients",
@@ -145,14 +145,14 @@ export const translations = {
       disclaimer: "Ces déclarations n'ont pas été évaluées par la FDA. Ce produit n'est pas destiné à diagnostiquer, traiter, guérir ou prévenir une maladie."
     },
     footer: {
-      brandDesc: "Des formules avancées de qualité médicale conçues pour les performeurs de haut niveau recherchant des résultats optimaux. Soutenu par la science. Fabriqué aux États-Unis.",
+      brandDesc: "Des formules avancées de source naturelle conçues pour les performeurs de haut niveau recherchant des résultats optimaux. Soutenu par la science. Fabriqué aux États-Unis.",
       navigate: "Naviguer",
       support: "Support",
       rights: "Tous droits réservés.",
       privacy: "Politique de Confidentialité",
       terms: "Conditions d'utilisation",
       refund: "Politique de Remboursement",
-      tested: "Testé par des Tiers",
+      tested: "Pureté Vérifiée",
       vegan: "100% Végane",
       usa: "Fabriqué aux USA"
     },
@@ -178,7 +178,7 @@ export const translations = {
     trust: {
       title: "APPROUVÉ PAR LES ÉLITES",
       heading: "Prouvé Cliniquement. Précision Chimique.",
-      description: "Nous ne vendons pas seulement des compléments. Nous concevons des outils cellulaires de qualité médicale conçus pour combler l'écart entre la limitation humaine et le potentiel de pointe absolu."
+      description: "Nous ne vendons pas seulement des compléments. Nous concevons des outils cellulaires de source naturelle conçus pour combler l'écart entre la limitation humaine et le potentiel de pointe absolu."
     }
   }
 };

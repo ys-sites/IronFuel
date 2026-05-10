@@ -707,7 +707,7 @@ const PRODUCT_SPECS_EN = [
         specs: [
           { label: "Extraction", value: "Aqueous / Full Spectrum" },
           { label: "Active Compounds", value: "≥ 5% Withanolides" },
-          { label: "Third-Party Tested", value: "Yes (Heavy Metals, Microbes)" },
+          { label: "Purity Verification", value: "Verified Natural & Clean" },
           { label: "Bioavailability", value: "+2000% via Piperine" },
         ],
         use: "Take 1 capsule twice daily, preferably 20–30 minutes before a meal, with a glass of water.",
@@ -837,7 +837,7 @@ const PRODUCT_SPECS_FR = [
         specs: [
           { label: "Extraction", value: "Aqueuse / Spectre Complet" },
           { label: "Composés Actifs", value: "≥ 5% Withanolides" },
-          { label: "Testé par des Tiers", value: "Oui (Métaux Lourds, Microbes)" },
+          { label: "Vérification de Pureté", value: "Vérifié Naturel et Pur" },
           { label: "Biodisponibilité", value: "+2000% via la Pipérine" },
         ],
         use: "Prendre 1 capsule deux fois par jour, de préférence 20 à 30 minutes avant un repas, avec un verre d'eau.",

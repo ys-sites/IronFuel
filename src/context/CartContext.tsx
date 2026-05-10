@@ -34,7 +34,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 const STORAGE_KEY = 'ironfuellab_cart';
-const SUBSCRIBE_DISCOUNT = 0.15;
+const SUBSCRIBE_DISCOUNT = 0;
 
 function loadFromStorage(): CartItem[] {
   try {

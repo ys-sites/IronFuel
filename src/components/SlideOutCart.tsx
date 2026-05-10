@@ -200,10 +200,10 @@ export default function SlideOutCart() {
                       {language === 'en' ? 'Recommended' : 'Recommandé'}
                     </div>
                     <h5 className="font-bold text-[#2b4224] flex items-center gap-1.5 text-sm mb-1.5">
-                      <ShieldCheck className="w-4 h-4 text-[#4ca735]" /> {language === 'en' ? 'Subscribe & Save 15%' : 'S\'abonner et Économiser 15%'}
+                      <ShieldCheck className="w-4 h-4 text-[#4ca735]" /> {language === 'en' ? 'Subscribe Monthly' : 'S\'abonner mensuellement'}
                     </h5>
                     <p className="text-xs text-[#59685e] mb-3 leading-relaxed">
-                      {language === 'en' ? 'Lock in a permanent 15% discount. Cancel anytime.' : 'Bénéficiez d\'une remise permanente de 15%. Annulez à tout moment.'}
+                      {language === 'en' ? 'Get your protocol delivered automatically every month.' : 'Recevez votre protocole automatiquement chaque mois.'}
                     </p>
                     <label className="flex items-center gap-2 cursor-pointer select-none">
                       <div
@@ -220,7 +220,7 @@ export default function SlideOutCart() {
                       </div>
                       <span className="text-sm font-semibold text-[#1a2f1c]">
                         {isSubscribed
-                          ? `${language === 'en' ? 'Subscribe Monthly' : 'S\'abonner mensuellement'} ($${(subtotal * 0.85).toFixed(2)}/mo)`
+                          ? `${language === 'en' ? 'Subscribe Monthly' : 'S\'abonner mensuellement'}`
                           : (language === 'en' ? 'One-time purchase' : 'Achat unique')}
                       </span>
                     </label>
@@ -293,9 +293,9 @@ export default function SlideOutCart() {
                     <span>{language === 'en' ? 'Subtotal' : 'Sous-total'} ({count} {count === 1 ? (language === 'en' ? 'item' : 'article') : (language === 'en' ? 'items' : 'articles')})</span>
                     <span className="font-semibold text-[#1a2f1c]">${subtotal.toFixed(2)}</span>
                   </div>
-                  {isSubscribed && (
+                  {isSubscribed && savings > 0 && (
                     <div className="flex justify-between text-[#4ca735] font-semibold">
-                      <span>{language === 'en' ? 'Subscribe & Save (15%)' : 'S\'abonner et Économiser (15%)'}</span>
+                      <span>{language === 'en' ? 'Subscribe & Save' : 'S\'abonner et Économiser'}</span>
                       <span>−${savings.toFixed(2)}</span>
                     </div>
                   )}
@@ -305,7 +305,7 @@ export default function SlideOutCart() {
                   </div>
                 </div>
 
-                {isSubscribed && (
+                {isSubscribed && savings > 0 && (
                   <p className="text-xs text-[#4ca735] font-semibold text-center bg-[#4ca735]/8 py-1.5 rounded-full">
                     {language === 'en' ? `You're saving $${savings.toFixed(2)} with Subscribe & Save!` : `Vous économisez $${savings.toFixed(2)} avec l'abonnement !`}
                   </p>

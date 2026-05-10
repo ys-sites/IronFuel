@@ -8,7 +8,7 @@ import { translations } from '../translations';
 const FAQS_EN = [
   {
     question: "Do you use independent 3rd-party testing?",
-    answer: "Yes. Every single batch is independently tested by ISO-certified third-party laboratories for heavy metals, microbial contaminants, and active compound verification. You can scan the QR code on any product to view its specific Certificate of Analysis (CoA)."
+    answer: "Yes. Every single batch is independently tested by independent third-party laboratories for heavy metals, microbial contaminants, and active compound verification. You can scan the QR code on any product to view its specific Certificate of Analysis (CoA)."
   },
   {
     question: "When will I start feeling the effects?",
@@ -20,18 +20,18 @@ const FAQS_EN = [
   },
   {
     question: "What is your return policy and guarantee?",
-    answer: "We stand behind our medical-grade formulas with an ironclad 60-Day Output Guarantee. If you use our product consistently for 30 days and do not see a measurable increase in your performance or recovery, we will refund 100% of your purchase. No questions asked."
+    answer: "We stand behind our natural-source formulas with an ironclad 60-Day Output Guarantee. If you use our product consistently for 30 days and do not see a measurable increase in your performance or recovery, we will refund 100% of your purchase. No questions asked."
   },
   {
     question: "How does Subscribe & Save work?",
-    answer: "Subscribe & Save locks in a permanent 15% discount and grants you free expedited shipping. You control the frequency (every 30, 45, or 60 days) via our customer portal. You can pause, skip a delivery, or cancel instantly with two clicks. Zero hidden fees."
+    answer: "Subscribe Monthly ensures you never run out of your protocol and grants you free expedited shipping. You control the frequency (every 30, 45, or 60 days) via our customer portal. You can pause, skip a delivery, or cancel instantly with two clicks. Zero hidden fees."
   }
 ];
 
 const FAQS_FR = [
   {
     question: "Utilisez-vous des tests tiers indépendants ?",
-    answer: "Oui. Chaque lot est testé indépendamment par des laboratoires tiers certifiés ISO pour les métaux lourds, les contaminants microbiens et la vérification des composés actifs. Vous pouvez scanner le code QR sur n'importe quel produit pour consulter son certificat d'analyse (CoA) spécifique."
+    answer: "Oui. Chaque lot est testé indépendamment par des laboratoires tiers pour les métaux lourds, les contaminants microbiens et la vérification des composés actifs. Vous pouvez scanner le code QR sur n'importe quel produit pour consulter son certificat d'analyse (CoA) spécifique."
   },
   {
     question: "Quand commencerai-je à ressentir les effets ?",
@@ -43,11 +43,11 @@ const FAQS_FR = [
   },
   {
     question: "Quelle est votre politique de retour et votre garantie ?",
-    answer: "Nous soutenons nos formules de qualité médicale avec une garantie de performance de 60 jours. Si vous utilisez notre produit de manière constante pendant 30 jours et ne constatez pas d'augmentation mesurable de votre performance ou de votre récupération, nous vous rembourserons 100 % de votre achat. Sans poser de questions."
+    answer: "Nous soutenons nos formules de source naturelle avec une garantie de performance de 60 jours. Si vous utilisez notre produit de manière constante pendant 30 jours et ne constatez pas d'augmentation mesurable de votre performance ou de votre récupération, nous vous rembourserons 100 % de votre achat. Sans poser de questions."
   },
   {
     question: "Comment fonctionne l'abonnement ?",
-    answer: "L'abonnement verrouille une remise permanente de 15 % et vous offre la livraison express gratuite. Vous contrôlez la fréquence (tous les 30, 45 ou 60 jours) via notre portail client. Vous pouvez mettre en pause, sauter une livraison ou annuler instantanément en deux clics. Zéro frais cachés."
+    answer: "L'abonnement mensuel garantit que vous ne manquerez jamais de votre protocole et vous offre la livraison express gratuite. Vous contrôlez la fréquence (tous les 30, 45 ou 60 jours) via notre portail client. Vous pouvez mettre en pause, sauter une livraison ou annuler instantanément en deux clics. Zéro frais cachés."
   }
 ];
 
