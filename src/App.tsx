@@ -701,15 +701,10 @@ const PRODUCT_SPECS_EN = [
       },
       leftInfo: {
         ingredients: ["Organic Ashwagandha (Withania somnifera) (Root)", "Organic Black Pepper (Piper nigrum) (Fruit)", "Pullulan Capsules"],
-        details: ["Capsules: 60", "Gross Weight: 113 g (0.25 lb)", "Made in: USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "Extraction", value: "Aqueous / Full Spectrum" },
-          { label: "Active Compounds", value: "≥ 5% Withanolides" },
-          { label: "Purity Verification", value: "Verified Natural & Clean" },
-          { label: "Bioavailability", value: "+2000% via Piperine" },
-        ],
+
         use: "Take 1 capsule twice daily, preferably 20–30 minutes before a meal, with a glass of water.",
         disclaimer: "*These statements have not been evaluated by the FDA.",
       },
@@ -726,15 +721,10 @@ const PRODUCT_SPECS_EN = [
       },
       leftInfo: {
         ingredients: ["Organic Lion's Mane Mushroom (Hericium erinaceus)", "Fruiting Body & Mycelium Powder (400 mg)", "Pullulan (Capsule)", "Organic Pea Starch"],
-        details: ["Capsules: 60 (Vegan)", "Gross Weight: 90 g (0.2 lb)", "Made in: USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "Extraction", value: "Hot Water & Alcohol Dual Extract" },
-          { label: "Active Compounds", value: "≥ 40% Polysaccharides" },
-          { label: "Source", value: "Fruiting Body + Mycelium" },
-          { label: "Primary Action", value: "NGF (Nerve Growth Factor) synthesis" },
-        ],
+
         use: "Take 2 capsules daily, with or without food, or as directed.",
         disclaimer: "*These statements have not been evaluated by the FDA.",
       },
@@ -751,16 +741,11 @@ const PRODUCT_SPECS_EN = [
       },
       leftInfo: {
         ingredients: ["Creatine Monohydrate – 5,000 mg", "Magnesium (as Magnesium Malate) – 60 mg", "Sodium (as Sea Salt) – 1,000 mg", "Potassium (as Potassium Chloride) – 200 mg"],
-        flavor: "Lemon",
-        details: ["Net Weight: 300 g (10.6 oz)", "Gross Weight: 350 g (12.4 oz)", "Made in: USA"],
+
+
       },
       rightInfo: {
-        specs: [
-          { label: "Purity", value: "99.9% Pure Micronized Creatine" },
-          { label: "Electrolyte Balance", value: "Optimized 5:1 Na to K ratio" },
-          { label: "Mesh Size", value: "Ultra-fine (200 mesh) for mixing" },
-          { label: "Sweetener", value: "Natural Stevia Leaf Extract" },
-        ],
+
         use: "Mix 1 scoop (10g) with 6–8 oz of water or your favorite beverage daily.",
         disclaimer: "*These statements have not been evaluated by the FDA.",
       },
@@ -777,15 +762,10 @@ const PRODUCT_SPECS_EN = [
       },
       leftInfo: {
         ingredients: ["Organic Apple Cider Vinegar Powder", "Inulin (Jerusalem Artichoke Root)", "Lactobacillus Acidophilus (Probiotic)", "DigeZyme® (Multi-Enzyme Complex)"],
-        details: ["Capsules: 60", "Net Weight: 76 g (2.7 oz)", "Made in: USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "Probiotic CFU", value: "10 Billion CFU at manufacture" },
-          { label: "Enzymes", value: "Amylase, Protease, Lipase, Cellulase" },
-          { label: "Prebiotic Type", value: "Fructo-oligosaccharides (FOS)" },
-          { label: "Co-factors", value: "Acetic Acid (from ACV)" },
-        ],
+
         use: "Take 2 capsules daily with 6–8 oz of water.",
         disclaimer: "*These statements have not been evaluated by the FDA.",
       },
@@ -802,16 +782,11 @@ const PRODUCT_SPECS_EN = [
       },
       leftInfo: {
         ingredients: ["Grass-Fed Whey Protein Isolate", "Digestive Enzyme Blend (Protease)", "Organic Cocoa Powder", "Sunflower Lecithin (<1%)"],
-        flavor: "Rich Chocolate",
-        details: ["Servings: 30 per container", "Net Weight: 900 g (2 lbs)", "Made in: USA"],
+
+
       },
       rightInfo: {
-        specs: [
-          { label: "Protein Yield", value: "90% by weight" },
-          { label: "BCAA Content", value: "5.5g per serving" },
-          { label: "Lactose Content", value: "< 1% (Ultra-filtered)" },
-          { label: "Sourcing", value: "New Zealand Pasture-Raised" },
-        ],
+
         use: "Mix 1 scoop with 8–10 oz of water or almond milk post-workout.",
         disclaimer: "*These statements have not been evaluated by the FDA.",
       },
@@ -831,15 +806,10 @@ const PRODUCT_SPECS_FR = [
       },
       leftInfo: {
         ingredients: ["Ashwagandha Bio (Withania somnifera) (Racine)", "Poivre Noir Bio (Piper nigrum) (Fruit)", "Capsules de Pullulane"],
-        details: ["Capsules : 60", "Poids Brut : 113 g (0,25 lb)", "Fabriqué aux : USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "Extraction", value: "Aqueuse / Spectre Complet" },
-          { label: "Composés Actifs", value: "≥ 5% Withanolides" },
-          { label: "Vérification de Pureté", value: "Vérifié Naturel et Pur" },
-          { label: "Biodisponibilité", value: "+2000% via la Pipérine" },
-        ],
+
         use: "Prendre 1 capsule deux fois par jour, de préférence 20 à 30 minutes avant un repas, avec un verre d'eau.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -856,15 +826,10 @@ const PRODUCT_SPECS_FR = [
       },
       leftInfo: {
         ingredients: ["Lion's Mane Bio (Hericium erinaceus)", "Poudre de Corps Fructifère et de Mycélium (400 mg)", "Pullulane (Capsule)", "Amidon de Pois Bio"],
-        details: ["Capsules : 60 (Végane)", "Poids Brut : 90 g (0,2 lb)", "Fabriqué aux : USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "Extraction", value: "Double Extrait Eau Chaude et Alcool" },
-          { label: "Composés Actifs", value: "≥ 40% Polysaccharides" },
-          { label: "Source", value: "Corps Fructifère + Mycélium" },
-          { label: "Action Primaire", value: "Synthèse du NGF (Nerve Growth Factor)" },
-        ],
+
         use: "Prendre 2 capsules par jour, avec ou sans nourriture, ou selon les directives.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -882,15 +847,10 @@ const PRODUCT_SPECS_FR = [
       leftInfo: {
         ingredients: ["Monohydrate de Créatine – 5 000 mg", "Magnésium (sous forme de Malate de Magnésium) – 60 mg", "Sodium (sous forme de Sel de Mer) – 1 000 mg", "Potassium (sous forme de Chlorure de Potassium) – 200 mg"],
         flavor: "Citron",
-        details: ["Poids Net : 300 g (10,6 oz)", "Poids Brut : 350 g (12,4 oz)", "Fabriqué aux : USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "Pureté", value: "99,9% Créatine Micronisée Pure" },
-          { label: "Équilibre Électrolytique", value: "Ratio Na/K optimisé de 5:1" },
-          { label: "Taille de Maille", value: "Ultra-fine (200 mesh) pour le mélange" },
-          { label: "Édulcorant", value: "Extrait Naturel de Feuille de Stévia" },
-        ],
+
         use: "Mélanger 1 cuillère (10g) avec 180 à 240 ml d'eau ou votre boisson préférée quotidiennement.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -907,15 +867,10 @@ const PRODUCT_SPECS_FR = [
       },
       leftInfo: {
         ingredients: ["Poudre de Vinaigre de Cidre de Pomme Bio", "Inuline (Racine de Topinambour)", "Lactobacillus Acidophilus (Probiotique)", "DigeZyme® (Complexe Multi-Enzymatique)"],
-        details: ["Capsules : 60", "Poids Net : 76 g (2,7 oz)", "Fabriqué aux : USA"],
+
       },
       rightInfo: {
-        specs: [
-          { label: "UFC Probiotiques", value: "10 Milliards d'UFC à la fabrication" },
-          { label: "Enzymes", value: "Amylase, Protéase, Lipase, Cellulase" },
-          { label: "Type de Prébiotique", value: "Fructo-oligosaccharides (FOS)" },
-          { label: "Co-facteurs", value: "Acide Acétique (provenant du VCP)" },
-        ],
+
         use: "Prendre 2 capsules par jour avec 180 à 240 ml d'eau.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -936,12 +891,7 @@ const PRODUCT_SPECS_FR = [
         details: ["Portions : 30 par contenant", "Poids Net : 900 g (2 lbs)", "Fabriqué aux : USA"],
       },
       rightInfo: {
-        specs: [
-          { label: "Rendement en Protéines", value: "90% en poids" },
-          { label: "Teneur en BCAA", value: "5,5g par portion" },
-          { label: "Teneur en Lactose", value: "< 1% (Ultra-filtré)" },
-          { label: "Sourcing", value: "Élevé au pâturage en Nouvelle-Zélande" },
-        ],
+
         use: "Mélanger 1 cuillère avec 240 à 300 ml d'eau ou de lait d'amande après l'entraînement.",
         disclaimer: "*Ces déclarations n'ont pas été évaluées par la FDA.",
       },
@@ -1119,10 +1069,7 @@ const AboutSection = memo(function AboutSection() {
                           transition={{ duration: 0.3 }}
                           className="hidden 2xl:block absolute right-[calc(100%+2.5rem)] top-0 w-[300px] pointer-events-auto text-left z-30 h-full"
                         >
-                          <div className="bg-white/90 backdrop-blur-md rounded-[1.5rem] p-7 shadow-xl border border-white/60 sticky top-[180px]">
-                            <h4 className="text-lg font-bold text-[#1a2f1c] mb-6 uppercase tracking-wider flex items-center gap-2">
-                              <Sparkles className="w-5 h-5" style={{ color: item.color }} /> {t.specs.specifications}
-                            </h4>
+
                             <div className="space-y-5">
                               <div>
                                 <h6 className="font-bold text-[#2b4224] mb-3 text-sm">{t.specs.ingredients}</h6>
@@ -1148,41 +1095,7 @@ const AboutSection = memo(function AboutSection() {
                       )}
                     </AnimatePresence>
 
-                    {/* Desktop floating right panel — only on 2xl */}
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 10 }}
-                          transition={{ duration: 0.3 }}
-                          className="hidden 2xl:block absolute left-[calc(100%+2.5rem)] top-0 w-[300px] pointer-events-auto text-left z-30 h-full"
-                        >
-                          <div className="bg-white/90 backdrop-blur-md rounded-[1.5rem] p-7 shadow-xl border border-white/60 sticky top-[180px]">
-                            <h4 className="text-lg font-bold text-[#1a2f1c] mb-6 uppercase tracking-wider flex items-center gap-2">
-                              <ShieldCheck className="w-5 h-5" style={{ color: item.color }} /> {t.specs.extendedProfile}
-                            </h4>
-                            <div className="space-y-5">
-                              <ul className="space-y-4">
-                                {item.rightInfo.specs.map((spec, sidx) => (
-                                  <li key={sidx} className="flex flex-col border-b border-[#eaf0ec] pb-3 last:border-0 last:pb-0">
-                                    <span className="text-xs uppercase font-bold tracking-wider mb-1" style={{ color: item.color }}>{spec.label}</span>
-                                    <span className="text-sm font-medium text-[#1a2f1c]">{spec.value}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                              <div className="bg-[#f4f7f4] border border-[#eaf0ec] p-4 rounded-xl">
-                                <h6 className="font-bold text-[#2b4224] mb-2 text-sm">{t.specs.suggestedUse}</h6>
-                                <p className="text-sm text-[#59685e] font-medium leading-relaxed">{item.rightInfo.use}</p>
-                              </div>
-                              <p className="text-xs text-[#9faaa2] italic leading-tight pt-4 border-t border-[#eaf0ec]/80">
-                                {t.specs.disclaimer}
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+
 
                     {/* Accordion card */}
                     <motion.div
@@ -1241,48 +1154,7 @@ const AboutSection = memo(function AboutSection() {
                                 )}
                               </div>
 
-                              {/* Mobile inline specs panels */}
-                              <div className="flex 2xl:hidden flex-col gap-6 mt-10 pt-8 border-t border-[#eaf0ec]">
-                                <div className="bg-[#f4f7f4] rounded-2xl p-6 border border-[#eaf0ec]">
-                                  <h4 className="text-sm font-bold text-[#1a2f1c] mb-4 uppercase tracking-wider flex items-center gap-1.5">
-                                    <Sparkles className="w-4 h-4 text-[#4ca735]" /> {t.specs.specifications}
-                                  </h4>
-                                  <div className="space-y-5">
-                                    <div>
-                                      <h6 className="font-bold text-[#2b4224] mb-2 text-sm">{t.specs.ingredients}</h6>
-                                      <ul className="list-disc pl-5 space-y-1.5 text-sm text-[#59685e] font-medium leading-relaxed">
-                                        {item.leftInfo.ingredients.map((ing, iidx) => <li key={iidx}>{ing}</li>)}
-                                      </ul>
-                                    </div>
-                                    <div>
-                                      <h6 className="font-bold text-[#2b4224] mb-2 text-sm">{t.specs.productDetails}</h6>
-                                      <ul className="list-disc pl-5 space-y-1.5 text-sm text-[#59685e] font-medium leading-relaxed">
-                                        {item.leftInfo.details.map((d, didx) => <li key={didx}>{d}</li>)}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="bg-[#f4f7f4] rounded-2xl p-6 border border-[#eaf0ec]">
-                                  <h4 className="text-sm font-bold text-[#1a2f1c] mb-4 uppercase tracking-wider flex items-center gap-1.5">
-                                    <ShieldCheck className="w-4 h-4 text-[#4ca735]" /> {t.specs.extendedProfile}
-                                  </h4>
-                                  <div className="space-y-4">
-                                    <ul className="space-y-3">
-                                      {item.rightInfo.specs.map((spec, sidx) => (
-                                        <li key={sidx} className="flex flex-col border-b border-[#eaf0ec] pb-2 last:border-0 last:pb-0">
-                                          <span className="text-[10px] uppercase font-bold tracking-wider mb-1" style={{ color: item.color }}>{spec.label}</span>
-                                          <span className="text-sm font-medium text-[#1a2f1c]">{spec.value}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                    <div className="bg-white border border-[#eaf0ec] p-4 rounded-xl">
-                                      <h6 className="font-bold text-[#2b4224] mb-2 text-xs">{t.specs.suggestedUse}</h6>
-                                      <p className="text-xs text-[#59685e] font-medium leading-relaxed">{item.rightInfo.use}</p>
-                                    </div>
-                                    <p className="text-[10px] text-[#9faaa2] italic leading-tight">{t.specs.disclaimer}</p>
-                                  </div>
-                                </div>
-                              </div>
+
                             </div>
                           </motion.div>
                         )}
