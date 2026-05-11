@@ -28,19 +28,15 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
 
   const handleAddToCart = () => {
     const bundle = bundles.find(b => b.qty === selectedBundle) || bundles[0];
-    const discountedPrice = basePrice * (1 - bundle.discount);
-    
-    // Add multiple items to match the bundle quantity
-    for (let i = 0; i < selectedBundle; i++) {
-      addItem({
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        price: discountedPrice,
-        image: product.image,
-        colorBg: product.colorBg,
-      });
-    }
+    addItem({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: parseFloat(product.price), // always use original price
+      image: product.image,
+      colorBg: product.colorBg,
+      quantity: selectedBundle, // pass bundle quantity
+    });
     onClose();
     openCart();
   };

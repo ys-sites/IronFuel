@@ -10,7 +10,7 @@ const UPSELL_OPTIONS = [
     id: 'neurofuel-lion-s-mane-mushroom',
     name: "NeuroFuel – Lion's Mane",
     description: 'Cognitive Focus',
-    price: 39.99,
+    price: 44.99,
     image: '/Lion.jpeg',
     colorBg: 'bg-[#f5ebd7]',
     accent: '#eab300'
@@ -19,7 +19,7 @@ const UPSELL_OPTIONS = [
     id: 'gutfuel-gut-health',
     name: "GutFuel",
     description: 'Digestive Balance',
-    price: 29.99,
+    price: 39.99,
     image: '/Gut Health.jpeg',
     colorBg: 'bg-[#fff7ed]',
     accent: '#f97316'

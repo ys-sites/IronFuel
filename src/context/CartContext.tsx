@@ -7,6 +7,7 @@ export interface CartProduct {
   price: number;
   image: string;
   colorBg: string;
+  quantity?: number;
 }
 
 export interface CartItem extends CartProduct {
@@ -108,12 +109,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = useCallback((product: CartProduct) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === product.id);
+      const quantityToAdd = product.quantity || 1;
+      
       if (existing) {
         return prev.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === product.id ? { ...i, quantity: i.quantity + quantityToAdd } : i
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: quantityToAdd }];
     });
   }, []);
 
@@ -250,11 +253,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const cartMutation = `
         mutation cartCreate($input: CartInput!) {
           cartCreate(input: $input) {
-            cart { checkoutUrl }
+            cart { 
+              checkoutUrl
+              discountCodes { code applicable }
+            }
             userErrors { message }
           }
         }
       `;
+
+      // Determine bundle discount code based on highest quantity
+      const maxQty = Math.max(...items.map(i => i.quantity), 0);
+      const discountCodes = maxQty >= 6 ? [{ code: "BUNDLE6" }] 
+                          : maxQty >= 3 ? [{ code: "BUNDLE3" }] 
+                          : [];
 
       const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
         method: "POST",
@@ -262,7 +274,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           "Content-Type": "application/json",
           "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
         },
-        body: JSON.stringify({ query: cartMutation, variables: { input: { lines: lineItems } } })
+        body: JSON.stringify({ 
+          query: cartMutation, 
+          variables: { 
+            input: { 
+              lines: lineItems,
+              discountCodes: discountCodes.length > 0 ? discountCodes : undefined
+            } 
+          } 
+        })
       });
       
       const cartData = await cartRes.json();
