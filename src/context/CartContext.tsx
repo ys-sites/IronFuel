@@ -230,8 +230,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         let checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
         // The Storefront API may return the checkoutUrl with the primary domain (e.g., www.ironfuellab.com).
         // Since the frontend is hosted there, navigating to it causes a "refresh". We need to use the myshopify domain for checkout.
-        checkoutUrl = checkoutUrl.replace("https://www.ironfuellab.com", "https://76s90y-fe.myshopify.com");
-        window.location.href = checkoutUrl;
+        const url = new URL(checkoutUrl);
+        url.hostname = "76s90y-fe.myshopify.com";
+        window.location.href = url.toString();
       } else {
         throw new Error("Failed to create cart");
       }

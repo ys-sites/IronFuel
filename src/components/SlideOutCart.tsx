@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, Plus, Minus, ArrowRight, ShieldCheck, ShoppingCart } from 'lucide-react';
+import { X, ShoppingBag, Plus, Minus, ArrowRight, ShieldCheck, ShoppingCart, Truck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
