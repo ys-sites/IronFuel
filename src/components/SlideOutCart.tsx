@@ -312,6 +312,7 @@ export default function SlideOutCart() {
                 )}
 
                 <button 
+                  type="button"
                   onClick={() => {
                     setIsCheckingOut(true);
                     checkout(() => setIsCheckingOut(false));
