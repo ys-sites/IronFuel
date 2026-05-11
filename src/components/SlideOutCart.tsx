@@ -40,7 +40,7 @@ export default function SlideOutCart() {
   const t = translations[language];
   const {
     items, removeItem, updateQuantity,
-    subtotal, savings, total,
+    subtotal, savings, bundleSavings, total,
     isSubscribed, toggleSubscribe,
     isOpen, closeCart, addItem, count, checkout
   } = useCart();
@@ -293,7 +293,7 @@ export default function SlideOutCart() {
                     <span>{language === 'en' ? 'Subtotal' : 'Sous-total'} ({count} {count === 1 ? (language === 'en' ? 'item' : 'article') : (language === 'en' ? 'items' : 'articles')})</span>
                     <span className="font-semibold text-[#1a2f1c]">${subtotal.toFixed(2)}</span>
                   </div>
-                  {isSubscribed && savings > 0 && (
+                  {isSubscribed && savings > bundleSavings && (
                     <div className="flex justify-between text-[#4ca735] font-semibold">
                       <span>{language === 'en' ? 'Subscribe & Save' : 'S\'abonner et Économiser'}</span>
                       <span>−${savings.toFixed(2)}</span>
@@ -305,7 +305,7 @@ export default function SlideOutCart() {
                   </div>
                 </div>
 
-                {isSubscribed && savings > 0 && (
+                {isSubscribed && savings > bundleSavings && (
                   <p className="text-xs text-[#4ca735] font-semibold text-center bg-[#4ca735]/8 py-1.5 rounded-full">
                     {language === 'en' ? `You're saving $${savings.toFixed(2)} with Subscribe & Save!` : `Vous économisez $${savings.toFixed(2)} avec l'abonnement !`}
                   </p>

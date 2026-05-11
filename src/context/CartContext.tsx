@@ -23,6 +23,7 @@ interface CartContextType {
   count: number;
   subtotal: number;
   savings: number;
+  bundleSavings: number;
   total: number;
   isSubscribed: boolean;
   toggleSubscribe: () => void;
@@ -268,20 +269,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const cartMutation = `
         mutation cartCreate($input: CartInput!) {
           cartCreate(input: $input) {
-            cart { 
+            cart {
               checkoutUrl
-              discountCodes { code applicable }
             }
             userErrors { message }
           }
         }
       `;
-
-      // Determine bundle discount code based on highest quantity
-      const maxQty = Math.max(...items.map(i => i.quantity), 0);
-      const discountCodes = maxQty >= 6 ? [{ code: "BUNDLE6" }] 
-                          : maxQty >= 3 ? [{ code: "BUNDLE3" }] 
-                          : [];
 
       const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
         method: "POST",
@@ -289,23 +283,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           "Content-Type": "application/json",
           "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
         },
-        body: JSON.stringify({ 
-          query: cartMutation, 
-          variables: { 
-            input: { 
-              lines: lineItems,
-              discountCodes: discountCodes.length > 0 ? discountCodes : undefined
-            } 
-          } 
+        body: JSON.stringify({
+          query: cartMutation,
+          variables: {
+            input: {
+              lines: lineItems
+            }
+          }
         })
       });
-      
+
       const cartData = await cartRes.json();
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
         const rawUrl = cartData.data.cartCreate.cart.checkoutUrl;
         const parsed = new URL(rawUrl);
-        const checkoutUrl = "https://76s90y-fe.myshopify.com" + parsed.pathname + parsed.search;
-        console.log("Redirecting to checkout:", checkoutUrl);
+        let checkoutUrl = "https://76s90y-fe.myshopify.com" + parsed.pathname + parsed.search;
+
+        const maxQty = Math.max(...items.map(i => i.quantity), 0);
+        const discountCode = maxQty >= 6 ? "BUNDLE6" : maxQty >= 3 ? "BUNDLE3" : null;
+        if (discountCode) {
+          checkoutUrl += (checkoutUrl.includes('?') ? '&' : '?') + `discount=${discountCode}`;
+        }
+
         window.location.assign(checkoutUrl);
       } else {
         throw new Error("Failed to create cart");
@@ -327,6 +326,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       count,
       subtotal,
       savings,
+      bundleSavings,
       total,
       isSubscribed,
       toggleSubscribe,
@@ -337,7 +337,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }),
     [
       items, addItem, removeItem, updateQuantity, clearCart,
-      count, subtotal, savings, total,
+      count, subtotal, savings, bundleSavings, total,
       isSubscribed, toggleSubscribe,
       isOpen, openCart, closeCart, checkout
     ]
