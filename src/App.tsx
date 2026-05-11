@@ -14,6 +14,8 @@ import StickyActionBar from "./components/StickyActionBar";
 import FAQSection from "./components/FAQSection";
 import TrustScienceSection from "./components/TrustScienceSection";
 import CTASection from "./components/CTASection";
+import BundleModal from "./components/BundleModal";
+import ComparisonTable from "./components/ComparisonTable";
 import { CartProvider, useCart } from "./context/CartContext";
 import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 import { translations } from "./translations";
@@ -22,8 +24,9 @@ const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
     name: "ZenFuel – Ashwagandha",
-    description: "Relax. Recover. Stay Balanced.",
+    description: "Destroy stress and sleep deeper.",
     price: "34.99",
+    compareAtPrice: "54.99",
     image: "/Ashwagandha.jpeg",
     colorBg: "bg-[#e2eadc]",
     buttonBg: "bg-[#4ca735]",
@@ -33,8 +36,9 @@ const PRODUCTS = [
   {
     id: "neurofuel-lion-s-mane-mushroom",
     name: "NeuroFuel – Lion's Mane",
-    description: "Focus. Clarity. Mental Performance.",
+    description: "Unlock laser focus & peak clarity.",
     price: "39.99",
+    compareAtPrice: "59.99",
     image: "/Lion.jpeg",
     colorBg: "bg-[#f5ebd7]",
     buttonBg: "bg-amber-400",
@@ -44,8 +48,9 @@ const PRODUCTS = [
   {
     id: "gutfuel-gut-health",
     name: "GutFuel",
-    description: "Support Your Gut. Feel Better Daily.",
+    description: "Eliminate bloat & restore digestion.",
     price: "29.99",
+    compareAtPrice: "49.99",
     image: "/Gut Health.jpeg",
     colorBg: "bg-[#fff7ed]",
     buttonBg: "bg-[#f97316]",
@@ -55,8 +60,9 @@ const PRODUCTS = [
   {
     id: "fury-isolate-vanilla",
     name: "FURY Isolate – Vanilla",
-    description: "Premium fast-absorbing recovery",
+    description: "Rapid recovery & lean muscle growth.",
     price: "79.99",
+    compareAtPrice: "109.99",
     image: "/FURY Isolate.jpeg",
     colorBg: "bg-[#e2d5d5]",
     buttonBg: "bg-red-700",
@@ -66,8 +72,9 @@ const PRODUCTS = [
   {
     id: "fury-hydrate-creatine-formula",
     name: "FURY Hydrate",
-    description: "Power. Hydration. Performance.",
+    description: "Explosive power & deep hydration.",
     price: "44.99",
+    compareAtPrice: "64.99",
     image: "/Creatine Formula.jpeg",
     colorBg: "bg-[#d5dfe2]",
     buttonBg: "bg-slate-700",
@@ -508,8 +515,7 @@ const HeroSection = memo(function HeroSection() {
   );
 });
 
-const ProductsSection = memo(function ProductsSection() {
-  const { addItem, openCart } = useCart();
+const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpenBundle: (product: any) => void }) {
   const { language } = useLanguage();
   const t = translations[language];
   const [[currentIndex, direction], setCurrentIndex] = useState([0, 1]);
@@ -645,23 +651,30 @@ const ProductsSection = memo(function ProductsSection() {
                           <h3 className="text-lg md:text-xl font-bold text-[#111811] leading-tight mb-2 min-h-[3rem]">
                             {product.name}
                           </h3>
-                          <div className="flex items-start">
-                            <span className="text-[#3a4d35] text-xs font-semibold mr-0.5 mt-1">$</span>
-                            <span className="text-xl md:text-2xl font-bold text-[#111811]">{product.price}</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-start">
+                              <span className="text-[#3a4d35] text-xs font-semibold mr-0.5 mt-1">$</span>
+                              <span className="text-xl md:text-2xl font-bold text-[#111811]">{product.price}</span>
+                            </div>
+                            {product.compareAtPrice && (
+                              <span className="text-sm font-bold text-gray-400 line-through mt-1">
+                                ${product.compareAtPrice}
+                              </span>
+                            )}
                           </div>
                         </div>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            addItem({
+                            onOpenBundle({
                               id: product.id,
                               name: product.name,
                               description: product.description,
-                              price: parseFloat(product.price),
+                              price: product.price,
+                              compareAtPrice: product.compareAtPrice,
                               image: product.image,
                               colorBg: product.colorBg,
                             });
-                            openCart();
                           }}
                           className={`${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95`}
                         >
@@ -893,7 +906,7 @@ const PRODUCT_SPECS_FR = [
     },
   ];
 
-const AboutSection = memo(function AboutSection() {
+const AboutSection = memo(function AboutSection({ onOpenBundle }: { onOpenBundle: (product: any) => void }) {
   const { language } = useLanguage();
   const t = translations[language];
   const sectionRef = useRef<HTMLElement>(null);
@@ -1110,6 +1123,29 @@ const AboutSection = memo(function AboutSection() {
                                     {item.middle.closing}
                                   </p>
                                 )}
+
+                                <div className="mt-8 pt-6 border-t border-[#eaf0ec] flex flex-col sm:flex-row items-center gap-4">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const baseProduct = PRODUCTS.find(p => p.name.includes(item.name) || item.name.includes(p.name.split(' – ')[0])) || PRODUCTS[0];
+                                      onOpenBundle({
+                                        ...baseProduct,
+                                        price: baseProduct.price,
+                                        compareAtPrice: baseProduct.compareAtPrice,
+                                      });
+                                    }}
+                                    className="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-white text-lg transition-transform active:scale-95 hover:shadow-lg flex items-center justify-center gap-2"
+                                    style={{ backgroundColor: item.color }}
+                                  >
+                                    {language === 'en' ? 'VIEW PACKAGES' : 'VOIR LES FORFAITS'}
+                                    <ArrowRight className="w-5 h-5" />
+                                  </button>
+                                  <div className="flex items-center gap-2 text-sm font-bold text-[#59685e]">
+                                    <ShieldCheck className="w-5 h-5 text-[#4ca735]" />
+                                    {language === 'en' ? '60-Day Guarantee' : 'Garantie 60 Jours'}
+                                  </div>
+                                </div>
                               </div>
 
 
@@ -1131,6 +1167,7 @@ const AboutSection = memo(function AboutSection() {
 
 function AppInner() {
   const [showStickyBar, setShowStickyBar] = useState(false);
+  const [selectedBundleProduct, setSelectedBundleProduct] = useState<any | null>(null);
   const { isOpen: isCartOpen } = useCart();
 
   useEffect(() => {
@@ -1152,14 +1189,16 @@ function AppInner() {
   return (
     <main className="bg-black min-h-screen relative">
       <HeroSection />
-      <ProductsSection />
-      <AboutSection />
+      <ProductsSection onOpenBundle={setSelectedBundleProduct} />
+      <AboutSection onOpenBundle={setSelectedBundleProduct} />
+      <ComparisonTable />
       <TrustScienceSection />
       <Testimonials />
       <CTASection />
       <FAQSection />
       <Footer />
       <SlideOutCart />
+      <BundleModal product={selectedBundleProduct} onClose={() => setSelectedBundleProduct(null)} />
       <StickyActionBar isVisible={showStickyBar && !isCartOpen} />
     </main>
   );

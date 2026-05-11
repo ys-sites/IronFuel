@@ -318,14 +318,28 @@ export default function SlideOutCart() {
                     checkout(() => setIsCheckingOut(false));
                   }}
                   disabled={isCheckingOut}
-                  className="w-full bg-[#1a2f1c] hover:bg-black text-white py-4 rounded-2xl font-bold tracking-wide flex justify-center items-center gap-2 transition-all duration-200 shadow-xl active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[#1a2f1c] hover:bg-black text-white py-4 rounded-2xl font-bold tracking-wide flex justify-center items-center gap-2 transition-all duration-200 shadow-xl active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-lg"
                 >
                   {isCheckingOut ? (language === 'en' ? 'Processing...' : 'Traitement...') : t.cart.checkout} {!isCheckingOut && <ArrowRight className="w-5 h-5" />}
                 </button>
 
-                <div className="flex justify-center items-center gap-5 pt-1 text-[10px] font-bold text-gray-300 select-none">
-                  <span className="flex items-center gap-1 uppercase"><ShieldCheck className="w-3 h-3" /> {language === 'en' ? 'SSL SECURE' : 'SÉCURISÉ SSL'}</span>
-                  <span className="flex items-center gap-1 uppercase"><ShieldCheck className="w-3 h-3" /> {language === 'en' ? '60-DAY GUARANTEE' : 'GARANTIE 60 JOURS'}</span>
+                {/* Stronger Guarantee Section */}
+                <div className="bg-[#f4f7f4] rounded-xl p-4 mt-4 border border-[#eaf0ec]">
+                  <div className="flex items-center gap-3 mb-2">
+                    <ShieldCheck className="w-6 h-6 text-[#4ca735] shrink-0" />
+                    <div>
+                      <h4 className="font-bold text-[#1a2f1c] text-sm leading-tight">
+                        {language === 'en' ? '60-Day Money Back Guarantee' : 'Garantie de remboursement de 60 jours'}
+                      </h4>
+                      <p className="text-[11px] text-[#59685e] font-medium leading-tight mt-0.5">
+                        {language === 'en' ? 'Not satisfied? Get a full refund, no questions asked.' : 'Pas satisfait? Obtenez un remboursement complet, sans poser de questions.'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#eaf0ec]/80">
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#59685e] uppercase tracking-wider"><ShieldCheck className="w-3.5 h-3.5" /> {language === 'en' ? 'SECURE CHECKOUT' : 'PAIEMENT SÉCURISÉ'}</span>
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#59685e] uppercase tracking-wider"><Truck className="w-3.5 h-3.5" /> {language === 'en' ? 'FAST SHIPPING' : 'EXPÉDITION RAPIDE'}</span>
+                  </div>
                 </div>
               </div>
             )}
