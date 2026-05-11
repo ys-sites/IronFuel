@@ -144,10 +144,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     () => items.reduce((s, i) => s + i.price * i.quantity, 0),
     [items]
   );
+
+  const bundleSavings = useMemo(() => {
+    return items.reduce((acc, item) => {
+      let discount = 0;
+      // Use the same 10%/15% logic as the modal
+      if (item.quantity >= 6) discount = 0.15;
+      else if (item.quantity >= 3) discount = 0.10;
+      return acc + (item.price * item.quantity * discount);
+    }, 0);
+  }, [items]);
+
   const savings = useMemo(
-    () => (isSubscribed ? subtotal * SUBSCRIBE_DISCOUNT : 0),
-    [subtotal, isSubscribed]
+    () => bundleSavings + (isSubscribed ? (subtotal - bundleSavings) * SUBSCRIBE_DISCOUNT : 0),
+    [subtotal, bundleSavings, isSubscribed]
   );
+  
   const total = useMemo(() => subtotal - savings, [subtotal, savings]);
 
   const checkout = useCallback(async (onComplete: () => void) => {
