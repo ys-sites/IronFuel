@@ -323,9 +323,35 @@ export default function SlideOutCart() {
                   {isCheckingOut ? (language === 'en' ? 'Processing...' : 'Traitement...') : t.cart.checkout} {!isCheckingOut && <ArrowRight className="w-5 h-5" />}
                 </button>
 
-                {/* Stronger Guarantee Section */}
-                <div className="bg-[#f4f7f4] rounded-xl p-4 mt-4 border border-[#eaf0ec]">
-                  <div className="flex items-center gap-3 mb-2">
+                {/* Guarantee & Shipping Section */}
+                <div className="bg-[#f4f7f4] rounded-xl p-4 border border-[#eaf0ec] space-y-3">
+                  {/* Free shipping progress bar */}
+                  {(() => {
+                    const freeShippingThreshold = 75;
+                    const remaining = Math.max(0, freeShippingThreshold - total);
+                    const progress = Math.min(100, (total / freeShippingThreshold) * 100);
+                    return remaining > 0 ? (
+                      <div>
+                        <p className="text-xs font-bold text-[#59685e] mb-1.5">
+                          {language === 'en'
+                            ? `Add $${remaining.toFixed(2)} more for FREE shipping`
+                            : `Ajoutez $${remaining.toFixed(2)} pour la livraison GRATUITE`}
+                        </p>
+                        <div className="w-full bg-gray-200 rounded-full h-1.5">
+                          <div
+                            className="bg-[#4ca735] h-1.5 rounded-full transition-all duration-500"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-xs font-bold text-[#4ca735] flex items-center gap-1">
+                        <Truck className="w-3.5 h-3.5" />
+                        {language === 'en' ? 'You qualify for FREE shipping!' : 'Vous avez droit à la livraison GRATUITE!'}
+                      </p>
+                    );
+                  })()}
+                  <div className="flex items-center gap-3 pt-1 border-t border-[#eaf0ec]">
                     <ShieldCheck className="w-6 h-6 text-[#4ca735] shrink-0" />
                     <div>
                       <h4 className="font-bold text-[#1a2f1c] text-sm leading-tight">
@@ -336,12 +362,11 @@ export default function SlideOutCart() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#eaf0ec]/80">
+                  <div className="flex items-center justify-between pt-2 border-t border-[#eaf0ec]/80">
                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#59685e] uppercase tracking-wider"><ShieldCheck className="w-3.5 h-3.5" /> {language === 'en' ? 'SECURE CHECKOUT' : 'PAIEMENT SÉCURISÉ'}</span>
-                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#59685e] uppercase tracking-wider"><Truck className="w-3.5 h-3.5" /> {language === 'en' ? 'FAST SHIPPING' : 'EXPÉDITION RAPIDE'}</span>
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#59685e] uppercase tracking-wider"><Truck className="w-3.5 h-3.5" /> {language === 'en' ? 'SHIPS IN 24H' : 'EXPÉDIÉ EN 24H'}</span>
                   </div>
                 </div>
-              </div>
             )}
           </motion.div>
         </>

@@ -36,7 +36,7 @@ export const translations = {
     },
     products: {
       title: "OUR PRODUCTS",
-      heading: "Explore Our Natural Herbal Extracts",
+      heading: "Feel the Difference in 30 Days or Your Money Back",
       description: "Every formula is engineered from pure adaptogens using an advanced extraction system, ensuring the natural ingredients maintain complete efficacy and maximum absorption.",
       viewMore: "View More",
       addtoCart: "Add to Cart",
@@ -127,7 +127,7 @@ export const translations = {
     },
     products: {
       title: "NOS PRODUITS",
-      heading: "Explorez nos extraits naturels de plantes",
+      heading: "Ressentez la Différence en 30 Jours ou Remboursé",
       description: "Chaque formule est conçue à partir d'adaptogènes purs utilisant un système d'extraction avancé, garantissant que les ingrédients naturels conservent une efficacité totale et une absorption maximale.",
       viewMore: "Voir Plus",
       addtoCart: "Ajouter au Panier",

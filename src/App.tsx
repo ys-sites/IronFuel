@@ -645,13 +645,22 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
                           decoding="async"
                           className="w-full h-full object-cover mix-blend-multiply md:group-hover:scale-105 transition-transform duration-700"
                         />
+                        {product.compareAtPrice && (
+                          <div className="absolute top-3 right-3 bg-[#1a2f1c] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg tracking-wide">
+                            {language === 'en'
+                              ? `SAVE $${(parseFloat(product.compareAtPrice) - parseFloat(product.price)).toFixed(0)}`
+                              : `SAVE $${(parseFloat(product.compareAtPrice) - parseFloat(product.price)).toFixed(0)}`}
+                          </div>
+                        )}
                       </div>
                       <div className="flex justify-between items-end px-1 md:group-hover:px-2 transition-all duration-500">
-                        <div className="flex flex-col pr-2">
+                        <div className="flex flex-col pr-2 flex-1">
                           <h3 className="text-lg md:text-xl font-bold text-[#111811] leading-tight mb-2 min-h-[3rem]">
                             {product.name}
                           </h3>
-                          <div className="flex items-center gap-2">
+                          {/* Benefit line */}
+                          <p className="text-xs font-medium text-[#59685e] mb-2 leading-tight">{product.description}</p>
+                          <div className="flex items-center gap-2 flex-wrap">
                             <div className="flex items-start">
                               <span className="text-[#3a4d35] text-xs font-semibold mr-0.5 mt-1">$</span>
                               <span className="text-xl md:text-2xl font-bold text-[#111811]">{product.price}</span>
@@ -661,7 +670,15 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
                                 ${product.compareAtPrice}
                               </span>
                             )}
+                            {product.compareAtPrice && (
+                              <span className="text-xs font-black text-[#4ca735] bg-[#4ca735]/10 px-2 py-0.5 rounded-full mt-1">
+                                {language === 'en'
+                                  ? `Save $${(parseFloat(product.compareAtPrice) - parseFloat(product.price)).toFixed(0)}`
+                                  : `Économisez $${(parseFloat(product.compareAtPrice) - parseFloat(product.price)).toFixed(0)}`}
+                              </span>
+                            )}
                           </div>
+                          <p className="text-[10px] font-bold text-gray-400 mt-1">⚡ {language === 'en' ? 'Ships within 24h' : 'Expédié en 24h'}</p>
                         </div>
                         <button
                           onClick={(e) => {
@@ -676,7 +693,7 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
                               colorBg: product.colorBg,
                             });
                           }}
-                          className={`${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95`}
+                          className={`${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95 shrink-0`}
                         >
                           {t.products.addtoCart}
                         </button>
