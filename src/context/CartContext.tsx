@@ -157,15 +157,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       let handleToVariant = { ...variantCache };
       
       // If any items are missing from cache, fetch them now
-      const missingItems = items.filter(i => !handleToVariant[i.id]);
+      let missingItems = items.filter(i => !handleToVariant[i.id]);
       
       if (missingItems.length > 0) {
+        console.log("🔍 Looking up missing variants for handles:", missingItems.map(i => i.id));
         const handleQuery = missingItems.map(i => `handle:${i.id}`).join(" OR ");
         const productQuery = `
           query getVariants($query: String!) {
             products(first: 50, query: $query) {
               edges {
                 node {
+                  title
                   handle
                   variants(first: 1) {
                     edges {
@@ -190,9 +192,46 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         });
         const data = await res.json();
         
-        data.data.products.edges.forEach((edge: any) => {
-          handleToVariant[edge.node.handle] = edge.node.variants.edges[0].node.id;
+        data.data?.products?.edges?.forEach((edge: any) => {
+          if (edge.node.variants.edges.length > 0) {
+            handleToVariant[edge.node.handle] = edge.node.variants.edges[0].node.id;
+          }
         });
+
+        // Debug logging for missing handles
+        const stillMissing = items.filter(i => !handleToVariant[i.id]);
+        if (stillMissing.length > 0) {
+          console.error("❌ CHECKOUT ERROR: HANDLE MISMATCH ❌");
+          console.error("The following items failed handle lookup in Shopify:");
+          for (const item of stillMissing) {
+            console.error(`- ID (Handle used): "${item.id}" | Name: "${item.name}"`);
+            
+            // Fallback: search by title (removing anything after dash if present)
+            const titleSearch = item.name.split('—')[0].trim();
+            console.log(`Trying fallback search by title: "${titleSearch}"`);
+            
+            const fallbackRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
+              },
+              body: JSON.stringify({ query: productQuery, variables: { query: `title:"${titleSearch}"` } })
+            });
+            const fallbackData = await fallbackRes.json();
+            
+            if (fallbackData.data?.products?.edges?.length > 0) {
+              const match = fallbackData.data.products.edges[0].node;
+              console.log(`✅ FALLBACK SUCCESS! Found Shopify product: "${match.title}"`);
+              console.warn(`👉 FIX REQUIRED: Change ID in App.tsx from "${item.id}" to "${match.handle}"`);
+              if (match.variants.edges.length > 0) {
+                handleToVariant[item.id] = match.variants.edges[0].node.id;
+              }
+            } else {
+              console.error(`❌ FALLBACK FAILED. Could not find any product matching title: "${titleSearch}"`);
+            }
+          }
+        }
         
         // Update cache for next time
         setVariantCache(prev => ({ ...prev, ...handleToVariant }));
@@ -204,6 +243,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       })).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) {
+        console.error("Checkout failed: No valid items found after lookup.", items);
         throw new Error("No valid items");
       }
 

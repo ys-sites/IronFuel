@@ -34,7 +34,7 @@ const PRODUCTS = [
     buttonText: "text-white"
   },
   {
-    id: "neurofuel-lion-s-mane-mushroom",
+    id: "neurofuel-lions-mane-mushroom",
     name: "Unlock Laser Focus — Your Cognitive Performance Stack",
     description: "NeuroFuel Lion's Mane for peak mental clarity.",
     price: "39.99",
