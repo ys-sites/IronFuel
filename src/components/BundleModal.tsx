@@ -78,7 +78,7 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
 
             {/* Right side: Bundles */}
             <div className="md:w-3/5 p-6 md:p-8 flex flex-col">
-              <h2 className="text-2xl font-black text-[#1a2f1c] leading-tight mb-1">{product.name}</h2>
+              <h2 className="text-2xl font-black text-[#1a2f1c] leading-tight mb-1">{product.marketingName || product.name}</h2>
               <p className="text-gray-500 font-medium text-sm mb-6">{product.description}</p>
 
               <div className="space-y-3 flex-1">

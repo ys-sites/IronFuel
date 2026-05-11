@@ -7,8 +7,8 @@ import { translations } from '../translations';
 
 const UPSELL_OPTIONS = [
   {
-    id: 'neurofuel-lion-s-mane-mushroom',
-    name: "NeuroFuel – Lion's Mane",
+    id: 'neurofuel-lions-mane-mushroom',
+    name: "NeuroFuel Lion's Mane",
     description: 'Cognitive Focus',
     price: 44.99,
     image: '/Lion.jpeg',
@@ -17,7 +17,7 @@ const UPSELL_OPTIONS = [
   },
   {
     id: 'gutfuel-gut-health',
-    name: "GutFuel",
+    name: "GutFuel Gut Health",
     description: 'Digestive Balance',
     price: 39.99,
     image: '/Gut Health.jpeg',
@@ -26,7 +26,7 @@ const UPSELL_OPTIONS = [
   },
   {
     id: 'fury-hydrate-creatine-formula',
-    name: "FURY Hydrate",
+    name: "FURY Hydrate Creatine",
     description: 'Power & Performance',
     price: 44.99,
     image: '/Creatine Formula.jpeg',

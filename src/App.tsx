@@ -23,7 +23,8 @@ import { translations } from "./translations";
 const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
-    name: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
+    name: "ZenFuel Ashwagandha",
+    marketingName: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
     description: "ZenFuel Ashwagandha for deep recovery and balance.",
     price: "34.99",
     compareAtPrice: "54.99",
@@ -35,7 +36,8 @@ const PRODUCTS = [
   },
   {
     id: "neurofuel-lions-mane-mushroom",
-    name: "Unlock Laser Focus — Your Cognitive Performance Stack",
+    name: "NeuroFuel Lion's Mane",
+    marketingName: "Unlock Laser Focus — Your Cognitive Performance Stack",
     description: "NeuroFuel Lion's Mane for peak mental clarity.",
     price: "44.99",
     compareAtPrice: "59.99",
@@ -47,7 +49,8 @@ const PRODUCTS = [
   },
   {
     id: "gutfuel-gut-health",
-    name: "Eliminate Bloat, Restore Digestion — Your Gut Protocol",
+    name: "GutFuel Gut Health",
+    marketingName: "Eliminate Bloat, Restore Digestion — Your Gut Protocol",
     description: "GutFuel for daily digestive balance and comfort.",
     price: "39.99",
     compareAtPrice: "49.99",
@@ -59,7 +62,8 @@ const PRODUCTS = [
   },
   {
     id: "fury-isolate-vanilla",
-    name: "Build Lean Muscle, Recover Faster — Premium Protein",
+    name: "FURY Isolate Vanilla",
+    marketingName: "Build Lean Muscle, Recover Faster — Premium Protein",
     description: "FURY Isolate Vanilla for rapid muscle growth.",
     price: "79.99",
     compareAtPrice: "109.99",
@@ -71,7 +75,8 @@ const PRODUCTS = [
   },
   {
     id: "fury-hydrate-creatine-formula",
-    name: "Explosive Power & Hydration — Your Peak Performance Stack",
+    name: "FURY Hydrate Creatine",
+    marketingName: "Explosive Power & Hydration — Your Peak Performance Stack",
     description: "FURY Hydrate Creatine for maximum power and endurance.",
     price: "44.99",
     compareAtPrice: "64.99",
@@ -656,7 +661,7 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
                       <div className="flex justify-between items-end px-1 md:group-hover:px-2 transition-all duration-500">
                         <div className="flex flex-col pr-2 flex-1">
                           <h3 className="text-lg md:text-xl font-bold text-[#111811] leading-tight mb-2 min-h-[3rem]">
-                            {product.name}
+                            {product.marketingName || product.name}
                           </h3>
                           {/* Benefit line */}
                           <p className="text-xs font-medium text-[#59685e] mb-2 leading-tight">{product.description}</p>
@@ -686,6 +691,7 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
                             onOpenBundle({
                               id: product.id,
                               name: product.name,
+                              marketingName: product.marketingName,
                               description: product.description,
                               price: product.price,
                               compareAtPrice: product.compareAtPrice,
