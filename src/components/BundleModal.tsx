@@ -22,8 +22,8 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   // Calculate bundle pricing
   const bundles = [
     { qty: 1, title: language === 'en' ? '1 Bottle' : '1 Bouteille', discount: 0, tag: null },
-    { qty: 3, title: language === 'en' ? '3 Bottles' : '3 Bouteilles', discount: 0.10, tag: language === 'en' ? 'MOST POPULAR' : 'LE PLUS POPULAIRE' },
-    { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.15, tag: language === 'en' ? 'BEST VALUE' : 'MEILLEUR PRIX' },
+    { qty: 3, title: language === 'en' ? '3 Bottles' : '3 Bouteilles', discount: 0.10, tag: language === 'en' ? 'SAVE 10%' : 'ÉCONOMISEZ 10%' },
+    { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.15, tag: language === 'en' ? 'SAVE 15%' : 'ÉCONOMISEZ 15%' },
   ];
 
   const handleAddToCart = () => {
@@ -115,7 +115,7 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                           <h4 className="font-bold text-[#1a2f1c] text-lg">{bundle.title}</h4>
                           {bundle.discount > 0 && (
                             <p className="text-sm font-black text-[#4ca735] mt-0.5">
-                              {language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} ${savings.toFixed(2)}
+                              {language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} {(bundle.discount * 100).toFixed(0)}% (${savings.toFixed(2)})
                             </p>
                           )}
                         </div>
