@@ -83,10 +83,10 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
 
               <div className="space-y-3 flex-1">
                 {bundles.map((bundle) => {
-                  const itemPrice = basePrice * (1 - bundle.discount);
-                  const totalPrice = itemPrice * bundle.qty;
                   const originalTotal = basePrice * bundle.qty;
-                  const savings = originalTotal - totalPrice;
+                  const totalPrice = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
+                  const savings = Math.round((originalTotal - totalPrice) * 100) / 100;
+                  const itemPrice = totalPrice / bundle.qty;
                   const isSelected = selectedBundle === bundle.qty;
 
                   return (

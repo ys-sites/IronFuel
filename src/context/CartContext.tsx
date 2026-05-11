@@ -151,7 +151,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // Use the same 10%/15% logic as the modal
       if (item.quantity >= 6) discount = 0.15;
       else if (item.quantity >= 3) discount = 0.10;
-      return acc + (item.price * item.quantity * discount);
+      
+      const originalTotal = item.price * item.quantity;
+      const discountedTotal = Math.round(originalTotal * (1 - discount) * 100) / 100;
+      return acc + (originalTotal - discountedTotal);
     }, 0);
   }, [items]);
 
