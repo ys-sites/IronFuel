@@ -227,13 +227,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       
       const cartData = await cartRes.json();
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
-        let checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
-        // Force the checkout to use the myshopify domain regardless of what Shopify returns
-        checkoutUrl = checkoutUrl.replace(
-          /https?:\/\/[^\/]+/,
-          "https://76s90y-fe.myshopify.com"
-        );
-        window.location.href = checkoutUrl;
+        const rawUrl = cartData.data.cartCreate.cart.checkoutUrl;
+        // Always force the myshopify domain for checkout.
+        // Shopify sometimes returns the custom domain which causes redirect loops.
+        const parsed = new URL(rawUrl);
+        const checkoutUrl = "https://76s90y-fe.myshopify.com" + parsed.pathname + parsed.search;
+        console.log("Redirecting to checkout:", checkoutUrl);
+        window.location.assign(checkoutUrl);
       } else {
         throw new Error("Failed to create cart");
       }
