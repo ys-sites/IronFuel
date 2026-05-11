@@ -358,6 +358,7 @@ export default function SlideOutCart() {
                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-[#59685e] uppercase tracking-wider"><Truck className="w-3.5 h-3.5" /> {language === 'en' ? 'SHIPS IN 24H' : 'EXPÉDIÉ EN 24H'}</span>
                   </div>
                 </div>
+              </div>
             )}
           </motion.div>
         </>
