@@ -23,8 +23,8 @@ import { translations } from "./translations";
 const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
-    name: "ZenFuel – Ashwagandha",
-    description: "Destroy stress and sleep deeper.",
+    name: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
+    description: "ZenFuel Ashwagandha for deep recovery and balance.",
     price: "34.99",
     compareAtPrice: "54.99",
     image: "/Ashwagandha.jpeg",
@@ -35,8 +35,8 @@ const PRODUCTS = [
   },
   {
     id: "neurofuel-lion-s-mane-mushroom",
-    name: "NeuroFuel – Lion's Mane",
-    description: "Unlock laser focus & peak clarity.",
+    name: "Unlock Laser Focus — Your Cognitive Performance Stack",
+    description: "NeuroFuel Lion's Mane for peak mental clarity.",
     price: "39.99",
     compareAtPrice: "59.99",
     image: "/Lion.jpeg",
@@ -47,8 +47,8 @@ const PRODUCTS = [
   },
   {
     id: "gutfuel-gut-health",
-    name: "GutFuel",
-    description: "Eliminate bloat & restore digestion.",
+    name: "Eliminate Bloat, Restore Digestion — Your Gut Protocol",
+    description: "GutFuel for daily digestive balance and comfort.",
     price: "29.99",
     compareAtPrice: "49.99",
     image: "/Gut Health.jpeg",
@@ -59,8 +59,8 @@ const PRODUCTS = [
   },
   {
     id: "fury-isolate-vanilla",
-    name: "FURY Isolate – Vanilla",
-    description: "Rapid recovery & lean muscle growth.",
+    name: "Build Lean Muscle, Recover Faster — Premium Protein",
+    description: "FURY Isolate Vanilla for rapid muscle growth.",
     price: "79.99",
     compareAtPrice: "109.99",
     image: "/FURY Isolate.jpeg",
@@ -71,8 +71,8 @@ const PRODUCTS = [
   },
   {
     id: "fury-hydrate-creatine-formula",
-    name: "FURY Hydrate",
-    description: "Explosive power & deep hydration.",
+    name: "Explosive Power & Hydration — Your Peak Performance Stack",
+    description: "FURY Hydrate Creatine for maximum power and endurance.",
     price: "44.99",
     compareAtPrice: "64.99",
     image: "/Creatine Formula.jpeg",
@@ -693,9 +693,10 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
                               colorBg: product.colorBg,
                             });
                           }}
-                          className={`${product.buttonBg} ${product.buttonHover} ${product.buttonText} px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95 shrink-0`}
+                          className={`${product.buttonBg} ${product.buttonHover} ${product.buttonText} flex items-center justify-center gap-1.5 px-4 md:px-5 py-2.5 rounded-[1.25rem] text-xs md:text-sm font-semibold transition-colors duration-200 shadow-sm whitespace-nowrap mb-1 cursor-pointer active:scale-95 shrink-0`}
                         >
                           {t.products.addtoCart}
+                          <CheckCircle2 className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -1145,7 +1146,15 @@ const AboutSection = memo(function AboutSection({ onOpenBundle }: { onOpenBundle
                                   <button
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      const baseProduct = PRODUCTS.find(p => p.name.includes(item.name) || item.name.includes(p.name.split(' – ')[0])) || PRODUCTS[0];
+                                      const baseProduct = PRODUCTS.find(p => {
+                                        const searchName = item.name.toLowerCase();
+                                        if (searchName.includes('ashwagandha') && p.id.includes('ashwagandha')) return true;
+                                        if (searchName.includes('lion') && p.id.includes('lion')) return true;
+                                        if (searchName.includes('creatine') && p.id.includes('creatine')) return true;
+                                        if (searchName.includes('digestive') && p.id.includes('gut')) return true;
+                                        if (searchName.includes('isolate') && p.id.includes('isolate')) return true;
+                                        return false;
+                                      }) || PRODUCTS[0];
                                       onOpenBundle({
                                         ...baseProduct,
                                         price: baseProduct.price,

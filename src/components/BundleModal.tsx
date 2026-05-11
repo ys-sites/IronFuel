@@ -102,32 +102,35 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                       }`}
                     >
                       {bundle.tag && (
-                        <div className={`absolute -top-3 left-4 px-2 py-0.5 rounded-full text-[10px] font-black tracking-widest text-white ${
-                          bundle.qty === 6 ? 'bg-amber-500' : 'bg-[#4ca735]'
+                        <div className={`absolute -top-3.5 left-4 px-3 py-1 rounded-full text-xs font-black tracking-widest text-white shadow-md ${
+                          bundle.qty === 6 ? 'bg-red-600' : 'bg-[#2b4224]'
                         }`}>
                           {bundle.tag}
                         </div>
                       )}
 
                       <div className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
                           isSelected ? 'border-[#4ca735]' : 'border-gray-300'
                         }`}>
                           {isSelected && <div className="w-2.5 h-2.5 bg-[#4ca735] rounded-full" />}
                         </div>
                         <div>
-                          <h4 className="font-bold text-[#1a2f1c]">{bundle.title}</h4>
+                          <h4 className="font-bold text-[#1a2f1c] text-lg">{bundle.title}</h4>
                           {bundle.discount > 0 && (
-                            <p className="text-xs font-bold text-red-500">
-                              {language === 'en' ? 'Save' : 'Économisez'} ${savings.toFixed(2)}
+                            <p className="text-sm font-black text-[#4ca735] mt-0.5">
+                              {language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} ${savings.toFixed(2)}
                             </p>
                           )}
                         </div>
                       </div>
 
-                      <div className="text-right">
-                        <div className="font-black text-lg text-[#1a2f1c]">${totalPrice.toFixed(2)}</div>
-                        <div className="text-xs text-gray-400 font-bold">
+                      <div className="text-right flex flex-col items-end">
+                        {bundle.discount > 0 && (
+                          <div className="text-sm font-bold text-gray-400 line-through mb-0.5">${originalTotal.toFixed(2)}</div>
+                        )}
+                        <div className="font-black text-2xl text-[#1a2f1c] leading-none">${totalPrice.toFixed(2)}</div>
+                        <div className="text-xs text-gray-500 font-bold mt-1">
                           ${itemPrice.toFixed(2)} {language === 'en' ? '/ea' : '/ch'}
                         </div>
                       </div>
