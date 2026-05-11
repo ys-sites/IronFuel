@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import BlurText from './BlurText';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
@@ -63,6 +63,7 @@ export default function CTASection() {
               }}
               className="px-10 py-4 md:py-5 bg-white hover:bg-gray-100 text-black rounded-2xl font-bold tracking-wide transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 text-lg"
             >
+              <CheckCircle2 className="w-5 h-5 text-[#4ca735]" />
               {t.cta.button}
               <ArrowRight className="w-6 h-6" />
             </button>
