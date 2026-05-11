@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm --version)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell($env:PATH)",
+      "Read(//c/Program Files/nodejs/**)",
+      "Read(//c/Users/Sharafath/**)",
+      "PowerShell($node = \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\\\\.shopify-cli-env\\\\node-v24.15.0-win-x64\\\\node.exe\"; $tsc = \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\\\\node_modules\\\\.bin\\\\tsc.cmd\"; & $tsc --noEmit 2>&1 | Select-Object -First 200)",
+      "PowerShell($nodeDir = \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\\\\.shopify-cli-env\\\\node-v24.15.0-win-x64\"; $env:PATH = \"$nodeDir;$env:PATH\"; Set-Location \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\"; node --version; npm --version)",
+      "PowerShell($nodeDir = \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\\\\.shopify-cli-env\\\\node-v24.15.0-win-x64\"; $env:PATH = \"$nodeDir;$env:PATH\"; Set-Location \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\"; & \"$nodeDir\\\\node.exe\" \"$nodeDir\\\\node_modules\\\\npm\\\\bin\\\\npm-cli.js\" install 2>&1 | Select-Object -First 30)",
+      "PowerShell($nodeDir = \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\\\\.shopify-cli-env\\\\node-v24.15.0-win-x64\"; Set-Location \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\"; & \"$nodeDir\\\\node.exe\" \".\\\\node_modules\\\\typescript\\\\bin\\\\tsc\" --noEmit 2>&1)",
+      "PowerShell($nodeDir = \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\\\\.shopify-cli-env\\\\node-v24.15.0-win-x64\"; Set-Location \"C:\\\\Users\\\\Sharafath\\\\Desktop\\\\Website\\\\Ironfuel\\\\IronFuel\"; & \"$nodeDir\\\\node.exe\" \".\\\\node_modules\\\\typescript\\\\bin\\\\tsc\" --noEmit 2>&1 | Out-String)"
+    ]
+  }
+}

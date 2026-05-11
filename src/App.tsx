@@ -560,7 +560,7 @@ const ProductsSection = memo(function ProductsSection({ onOpenBundle }: { onOpen
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.55, type: "spring", bounce: 0.15 },
+      transition: { duration: 0.55, type: "spring" as const, bounce: 0.15 },
     },
     exit: (dir: number) => ({
       x: dir > 0 ? -60 : 60,
