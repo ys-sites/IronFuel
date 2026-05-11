@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShieldCheck, Truck, Star, CheckCircle2, Zap, Clock } from 'lucide-react';
+import { X, ShieldCheck, Truck, Star, CheckCircle2 } from "lucide-react";
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 

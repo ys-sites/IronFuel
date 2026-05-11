@@ -325,32 +325,23 @@ export default function SlideOutCart() {
 
                 {/* Guarantee & Shipping Section */}
                 <div className="bg-[#f4f7f4] rounded-xl p-4 border border-[#eaf0ec] space-y-3">
-                  {/* Free shipping progress bar */}
-                  {(() => {
-                    const freeShippingThreshold = 75;
-                    const remaining = Math.max(0, freeShippingThreshold - total);
-                    const progress = Math.min(100, (total / freeShippingThreshold) * 100);
-                    return remaining > 0 ? (
-                      <div>
-                        <p className="text-xs font-bold text-[#59685e] mb-1.5">
-                          {language === 'en'
-                            ? `Add $${remaining.toFixed(2)} more for FREE shipping`
-                            : `Ajoutez $${remaining.toFixed(2)} pour la livraison GRATUITE`}
-                        </p>
-                        <div className="w-full bg-gray-200 rounded-full h-1.5">
-                          <div
-                            className="bg-[#4ca735] h-1.5 rounded-full transition-all duration-500"
-                            style={{ width: `${progress}%` }}
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-xs font-bold text-[#4ca735] flex items-center gap-1">
-                        <Truck className="w-3.5 h-3.5" />
-                        {language === 'en' ? 'You qualify for FREE shipping!' : 'Vous avez droit à la livraison GRATUITE!'}
+                  {total < 75 ? (
+                    <div>
+                      <p className="text-xs font-bold text-[#59685e] mb-1.5">
+                        {language === 'en'
+                          ? ("Add $" + (75 - total).toFixed(2) + " more for FREE shipping")
+                          : ("Ajoutez $" + (75 - total).toFixed(2) + " pour la livraison GRATUITE")}
                       </p>
-                    );
-                  })()}
+                      <div className="w-full bg-gray-200 rounded-full h-1.5">
+                        <div className="bg-[#4ca735] h-1.5 rounded-full transition-all duration-500" style={{ width: Math.min(100, (total / 75) * 100) + "%" }} />
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-xs font-bold text-[#4ca735] flex items-center gap-1">
+                      <Truck className="w-3.5 h-3.5" />
+                      {language === 'en' ? "You qualify for FREE shipping!" : "Vous avez droit a la livraison GRATUITE!"}
+                    </p>
+                  )}
                   <div className="flex items-center gap-3 pt-1 border-t border-[#eaf0ec]">
                     <ShieldCheck className="w-6 h-6 text-[#4ca735] shrink-0" />
                     <div>
