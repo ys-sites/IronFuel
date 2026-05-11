@@ -22,8 +22,8 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   // Calculate bundle pricing
   const bundles = [
     { qty: 1, title: language === 'en' ? '1 Bottle' : '1 Bouteille', discount: 0, tag: null },
-    { qty: 3, title: language === 'en' ? '3 Bottles' : '3 Bouteilles', discount: 0.15, tag: language === 'en' ? 'MOST POPULAR' : 'LE PLUS POPULAIRE' },
-    { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.25, tag: language === 'en' ? 'BEST VALUE' : 'MEILLEUR PRIX' },
+    { qty: 3, title: language === 'en' ? '3 Bottles' : '3 Bouteilles', discount: 0.10, tag: language === 'en' ? 'MOST POPULAR' : 'LE PLUS POPULAIRE' },
+    { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.15, tag: language === 'en' ? 'BEST VALUE' : 'MEILLEUR PRIX' },
   ];
 
   const handleAddToCart = () => {
