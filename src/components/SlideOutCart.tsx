@@ -28,7 +28,7 @@ const UPSELL_OPTIONS = [
     id: 'fury-hydrate-creatine-formula',
     name: "FURY Hydrate Creatine",
     description: 'Power & Performance',
-    price: 44.99,
+    price: 40.49,
     image: '/Creatine Formula.jpeg',
     colorBg: 'bg-[#d5dfe2]',
     accent: '#334155'
