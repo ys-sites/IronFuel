@@ -38,6 +38,43 @@ const CartContext = createContext<CartContextType | null>(null);
 const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
+// Maps each base product handle to its pre-priced Shopify bundle product handles
+const BUNDLE_HANDLES: Record<string, { bundle3: string; bundle6: string }> = {
+  'zenfuel-ashwagandha': {
+    bundle3: 'zenfuel-ashwagandha-bundel-3',
+    bundle6: 'zenfuel-ashwagandha-bundle-6',
+  },
+  'neurofuel-lions-mane-mushroom': {
+    bundle3: 'neurofuel-lion-s-mane-bundel-3',
+    bundle6: 'neurofuel-lion-s-mane-bundel-6',
+  },
+  'gutfuel-gut-health': {
+    bundle3: 'gutfuel-bundel-3',
+    bundle6: 'gutfuel-bundel-6',
+  },
+  'fury-isolate-vanilla': {
+    bundle3: 'fury-isolate-vanilla-bundel-3',
+    bundle6: 'fury-isolate-bundel-6',
+  },
+  'fury-hydrate-creatine-formula': {
+    bundle3: 'fury-hydrate-creatine-bundel-3',
+    bundle6: 'fury-hydrate-creatine-bundel-6',
+  },
+};
+
+function getCheckoutHandle(item: CartItem): string {
+  const b = BUNDLE_HANDLES[item.id];
+  if (b && item.quantity >= 6) return b.bundle6;
+  if (b && item.quantity >= 3) return b.bundle3;
+  return item.id;
+}
+
+function getCheckoutQty(item: CartItem): number {
+  const b = BUNDLE_HANDLES[item.id];
+  if (b && item.quantity >= 3) return 1;
+  return item.quantity;
+}
+
 function loadFromStorage(): CartItem[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -176,11 +213,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       let handleToVariant = { ...variantCache };
       
       // If any items are missing from cache, fetch them now
-      let missingItems = items.filter(i => !handleToVariant[i.id]);
-      
+      let missingItems = items.filter(i => !handleToVariant[getCheckoutHandle(i)]);
+
       if (missingItems.length > 0) {
-        console.log("🔍 Looking up missing variants for handles:", missingItems.map(i => i.id));
-        const handleQuery = missingItems.map(i => `handle:${i.id}`).join(" OR ");
+        console.log("🔍 Looking up missing variants for handles:", missingItems.map(i => getCheckoutHandle(i)));
+        const handleQuery = missingItems.map(i => `handle:${getCheckoutHandle(i)}`).join(" OR ");
         const productQuery = `
           query getVariants($query: String!) {
             products(first: 50, query: $query) {
@@ -217,38 +254,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           }
         });
 
-        // Debug logging for missing handles
-        const stillMissing = items.filter(i => !handleToVariant[i.id]);
+        const stillMissing = items.filter(i => !handleToVariant[getCheckoutHandle(i)]);
         if (stillMissing.length > 0) {
           console.error("❌ CHECKOUT ERROR: HANDLE MISMATCH ❌");
-          console.error("The following items failed handle lookup in Shopify:");
           for (const item of stillMissing) {
-            console.error(`- ID (Handle used): "${item.id}" | Name: "${item.name}"`);
-            
-            // Fallback: search by title (removing anything after dash if present)
-            const titleSearch = item.name.split('—')[0].trim();
-            console.log(`Trying fallback search by title: "${titleSearch}"`);
-            
-            const fallbackRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
-              },
-              body: JSON.stringify({ query: productQuery, variables: { query: `title:"${titleSearch}"` } })
-            });
-            const fallbackData = await fallbackRes.json();
-            
-            if (fallbackData.data?.products?.edges?.length > 0) {
-              const match = fallbackData.data.products.edges[0].node;
-              console.log(`✅ FALLBACK SUCCESS! Found Shopify product: "${match.title}"`);
-              console.warn(`👉 FIX REQUIRED: Change ID in App.tsx from "${item.id}" to "${match.handle}"`);
-              if (match.variants.edges.length > 0) {
-                handleToVariant[item.id] = match.variants.edges[0].node.id;
-              }
-            } else {
-              console.error(`❌ FALLBACK FAILED. Could not find any product matching title: "${titleSearch}"`);
-            }
+            console.error(`- Base ID: "${item.id}" | Checkout handle: "${getCheckoutHandle(item)}" | Name: "${item.name}"`);
           }
         }
         
@@ -257,8 +267,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
 
       const lineItems = items.map(item => ({
-        merchandiseId: handleToVariant[item.id],
-        quantity: item.quantity
+        merchandiseId: handleToVariant[getCheckoutHandle(item)],
+        quantity: getCheckoutQty(item)
       })).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) {
@@ -297,14 +307,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
         const rawUrl = cartData.data.cartCreate.cart.checkoutUrl;
         const parsed = new URL(rawUrl);
-        let checkoutUrl = "https://76s90y-fe.myshopify.com" + parsed.pathname + parsed.search;
-
-        const maxQty = Math.max(...items.map(i => i.quantity), 0);
-        const discountCode = maxQty >= 6 ? "BUNDLE6" : maxQty >= 3 ? "BUNDLE3" : null;
-        if (discountCode) {
-          checkoutUrl += (checkoutUrl.includes('?') ? '&' : '?') + `discount=${discountCode}`;
-        }
-
+        const checkoutUrl = "https://76s90y-fe.myshopify.com" + parsed.pathname + parsed.search;
         window.location.assign(checkoutUrl);
       } else {
         throw new Error("Failed to create cart");
