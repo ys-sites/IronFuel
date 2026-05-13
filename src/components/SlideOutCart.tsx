@@ -308,10 +308,16 @@ export default function SlideOutCart() {
                     <span>{language === 'en' ? 'Subtotal' : 'Sous-total'} ({count} {count === 1 ? (language === 'en' ? 'item' : 'article') : (language === 'en' ? 'items' : 'articles')})</span>
                     <span className="font-semibold text-[#1a2f1c]">${subtotal.toFixed(2)}</span>
                   </div>
+                  {bundleSavings > 0 && (
+                    <div className="flex justify-between text-[#4ca735] font-semibold">
+                      <span>{language === 'en' ? 'Bundle Savings' : 'Rabais lot'}</span>
+                      <span>−${bundleSavings.toFixed(2)}</span>
+                    </div>
+                  )}
                   {isSubscribed && savings > bundleSavings && (
                     <div className="flex justify-between text-[#4ca735] font-semibold">
                       <span>{language === 'en' ? 'Subscribe & Save' : 'S\'abonner et Économiser'}</span>
-                      <span>−${savings.toFixed(2)}</span>
+                      <span>−${(savings - bundleSavings).toFixed(2)}</span>
                     </div>
                   )}
                   <div className="flex justify-between font-bold text-base text-[#1a2f1c] pt-1.5 border-t border-gray-100">

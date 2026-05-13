@@ -33,13 +33,13 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
     const pricePerBottle = Math.round((discountedTotal / bundle.qty) * 100) / 100;
 
     addItem({
-      id: product.id,           // always use base product handle — it exists in Shopify
+      id: product.id,
       name: product.name,
       description: product.description,
-      price: pricePerBottle,    // discounted per-bottle price
+      price: basePrice,         // original per-unit price — CartContext applies the % discount
       image: product.image,
       colorBg: product.colorBg,
-      quantity: bundle.qty,     // send actual quantity (1, 3, or 6) to Shopify
+      quantity: bundle.qty,
     });
     onClose();
     openCart();
