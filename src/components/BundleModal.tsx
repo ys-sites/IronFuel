@@ -27,11 +27,11 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   ];
 
   const bundleHandleMap: Record<string, Record<number, string>> = {
-    'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-bundel-3',           6: 'zenfuel-ashwagandha-bundle-6' },
-    'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-bundel-3',          6: 'neurofuel-lions-mane-bundel-6' },
-    'gutfuel-gut-health':            { 3: 'gutfuel-bundel-3',                       6: 'gutfuel-bundel-6' },
-    'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-bundel-3',          6: 'fury-isolate-bundel-6' },
-    'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-bundel-3',         6: 'fury-hydrate-creatine-bundel-6' },
+    'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-for-deep-recovery-and-balance', 6: 'zenfuel-ashwagandha-bundle-6' },
+    'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-for-peak-mental-clarity',       6: 'neurofuel-lions-mane-bundel-6' },
+    'gutfuel-gut-health':            { 3: 'gutfuel-for-daily-digestive-balance-and-comfort',    6: 'gutfuel-bundel-6' },
+    'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-for-rapid-muscle-growth',       6: 'fury-isolate-bundel-6' },
+    'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-for-maximum-power-and-endurance', 6: 'fury-hydrate-creatine-bundel-6' },
   };
 
   const handleAddToCart = () => {
