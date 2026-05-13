@@ -40,29 +40,21 @@ const SUBSCRIBE_DISCOUNT = 0;
 
 // Maps each base product handle to its pre-priced Shopify bundle product handles
 const BUNDLE_HANDLES: Record<string, { bundle3: string; bundle6: string }> = {
-  'zenfuel-ashwagandha': {
-    bundle3: 'zenfuel-ashwagandha-bundel-3',
-    bundle6: 'zenfuel-ashwagandha-bundle-6',
-  },
-  'neurofuel-lions-mane-mushroom': {
-    bundle3: 'neurofuel-lion-s-mane-bundel-3',
-    bundle6: 'neurofuel-lion-s-mane-bundel-6',
-  },
-  'gutfuel-gut-health': {
-    bundle3: 'gutfuel-bundel-3',
-    bundle6: 'gutfuel-bundel-6',
-  },
-  'fury-isolate-vanilla': {
-    bundle3: 'fury-isolate-vanilla-bundel-3',
-    bundle6: 'fury-isolate-bundel-6',
-  },
-  'fury-hydrate-creatine-formula': {
-    bundle3: 'fury-hydrate-creatine-bundel-3',
-    bundle6: 'fury-hydrate-creatine-bundel-6',
-  },
+  'zenfuel-ashwagandha':           { bundle3: 'zenfuel-ashwagandha-bundel-3',      bundle6: 'zenfuel-ashwagandha-bundle-6' },
+  'neurofuel-lions-mane-mushroom': { bundle3: 'neurofuel-lions-mane-bundel-3',     bundle6: 'neurofuel-lions-mane-bundel-6' },
+  'gutfuel-gut-health':            { bundle3: 'gutfuel-bundel-3',                  bundle6: 'gutfuel-bundel-6' },
+  'fury-isolate-vanilla':          { bundle3: 'fury-isolate-vanilla-bundel-3',     bundle6: 'fury-isolate-bundel-6' },
+  'fury-hydrate-creatine-formula': { bundle3: 'fury-hydrate-creatine-bundel-3',    bundle6: 'fury-hydrate-bundle-6' },
 };
 
+// Set of all bundle handles — if item.id is one of these, checkout sends qty 1
+const ALL_BUNDLE_HANDLES = new Set<string>(
+  Object.values(BUNDLE_HANDLES).flatMap(b => [b.bundle3, b.bundle6])
+);
+
 function getCheckoutHandle(item: CartItem): string {
+  // BundleModal now sets item.id directly to the bundle handle, so just return it.
+  // For base-product items (qty 1) it's also just the base handle — either way correct.
   const b = BUNDLE_HANDLES[item.id];
   if (b && item.quantity >= 6) return b.bundle6;
   if (b && item.quantity >= 3) return b.bundle3;
@@ -70,6 +62,8 @@ function getCheckoutHandle(item: CartItem): string {
 }
 
 function getCheckoutQty(item: CartItem): number {
+  // Bundle products must be sent as qty 1 regardless of display quantity
+  if (ALL_BUNDLE_HANDLES.has(item.id)) return 1;
   const b = BUNDLE_HANDLES[item.id];
   if (b && item.quantity >= 3) return 1;
   return item.quantity;
@@ -121,6 +115,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           body: JSON.stringify({ query })
         });
         const data = await res.json();
+        console.log('Shopify handles:', data.data.products.edges.map((e: any) => e.node.handle));
         const map: Record<string, string> = {};
         data.data.products.edges.forEach((edge: any) => {
           if (edge.node.variants.edges.length > 0) {
