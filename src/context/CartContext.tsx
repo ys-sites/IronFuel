@@ -8,10 +8,12 @@ export interface CartProduct {
   image: string;
   colorBg: string;
   quantity?: number;
+  discountPct?: number;
 }
 
 export interface CartItem extends CartProduct {
   quantity: number;
+  discountPct?: number;
 }
 
 interface CartContextType {
@@ -38,36 +40,7 @@ const CartContext = createContext<CartContextType | null>(null);
 const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
-// Maps each base product handle to its pre-priced Shopify bundle product handles
-const BUNDLE_HANDLES: Record<string, { bundle3: string; bundle6: string }> = {
-  'zenfuel-ashwagandha':           { bundle3: 'zenfuel-ashwagandha-bundel-3',      bundle6: 'zenfuel-ashwagandha-bundle-6' },
-  'neurofuel-lions-mane-mushroom': { bundle3: 'neurofuel-lions-mane-bundel-3',     bundle6: 'neurofuel-lions-mane-bundel-6' },
-  'gutfuel-gut-health':            { bundle3: 'gutfuel-bundel-3',                  bundle6: 'gutfuel-bundel-6' },
-  'fury-isolate-vanilla':          { bundle3: 'fury-isolate-vanilla-bundel-3',     bundle6: 'fury-isolate-bundel-6' },
-  'fury-hydrate-creatine-formula': { bundle3: 'fury-hydrate-creatine-bundel-3',    bundle6: 'fury-hydrate-bundle-6' },
-};
 
-// Set of all bundle handles — if item.id is one of these, checkout sends qty 1
-const ALL_BUNDLE_HANDLES = new Set<string>(
-  Object.values(BUNDLE_HANDLES).flatMap(b => [b.bundle3, b.bundle6])
-);
-
-function getCheckoutHandle(item: CartItem): string {
-  // BundleModal now sets item.id directly to the bundle handle, so just return it.
-  // For base-product items (qty 1) it's also just the base handle — either way correct.
-  const b = BUNDLE_HANDLES[item.id];
-  if (b && item.quantity >= 6) return b.bundle6;
-  if (b && item.quantity >= 3) return b.bundle3;
-  return item.id;
-}
-
-function getCheckoutQty(item: CartItem): number {
-  // Bundle products must be sent as qty 1 regardless of display quantity
-  if (ALL_BUNDLE_HANDLES.has(item.id)) return 1;
-  const b = BUNDLE_HANDLES[item.id];
-  if (b && item.quantity >= 3) return 1;
-  return item.quantity;
-}
 
 function loadFromStorage(): CartItem[] {
   try {
@@ -143,13 +116,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems((prev) => {
       const existing = prev.find((i) => i.id === product.id);
       const quantityToAdd = product.quantity || 1;
-      
       if (existing) {
         return prev.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + quantityToAdd } : i
+          i.id === product.id
+            ? { ...i, quantity: i.quantity + quantityToAdd, discountPct: product.discountPct ?? i.discountPct }
+            : i
         );
       }
-      return [...prev, { ...product, quantity: quantityToAdd }];
+      return [...prev, { ...product, quantity: quantityToAdd, discountPct: product.discountPct ?? 0 }];
     });
   }, []);
 
@@ -180,11 +154,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const bundleSavings = useMemo(() => {
     return items.reduce((acc, item) => {
-      let discount = 0;
-      // Use the same 10%/15% logic as the modal
-      if (item.quantity >= 6) discount = 0.15;
-      else if (item.quantity >= 3) discount = 0.10;
-      
+      const discount = item.discountPct ?? 0;
       const originalTotal = item.price * item.quantity;
       const discountedTotal = Math.round(originalTotal * (1 - discount) * 100) / 100;
       return acc + (originalTotal - discountedTotal);
@@ -215,39 +185,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ query })
       });
       const data = await res.json();
+      if (!data?.data?.products) throw new Error('Shopify API error');
+
       const handleMap: Record<string, string> = {};
       data.data.products.edges.forEach((edge: any) => {
         if (edge.node.variants.edges.length > 0) {
           handleMap[edge.node.handle] = edge.node.variants.edges[0].node.id;
         }
       });
-      console.log('Available Shopify handles:', Object.keys(handleMap));
-
-      // For qty 3 or 6, route to the pre-priced Shopify bundle product (qty 1)
-      // so Shopify charges the discounted bundle price instead of base price × qty
-      const CHECKOUT_BUNDLE_MAP: Record<string, Record<number, string>> = {
-        'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-bundel-3',      6: 'zenfuel-ashwagandha-bundle-6' },
-        'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-bundel-3',     6: 'neurofuel-lions-mane-bundel-6' },
-        'gutfuel-gut-health':            { 3: 'gutfuel-bundel-3',                  6: 'gutfuel-bundel-6' },
-        'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-bundel-3',     6: 'fury-isolate-bundel-6' },
-        'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-bundel-3',    6: 'fury-hydrate-creatine-bundel-6' },
-      };
 
       const lineItems = items.map(item => {
-        const bundleHandle = CHECKOUT_BUNDLE_MAP[item.id]?.[item.quantity];
-        const checkoutHandle = bundleHandle ?? item.id;
-        const checkoutQty = bundleHandle ? 1 : item.quantity;
-        const variantId = handleMap[checkoutHandle];
-        if (!variantId) console.error(`❌ No Shopify product found for handle: "${checkoutHandle}" (base: "${item.id}", qty: ${item.quantity})`);
-        return { merchandiseId: variantId, quantity: checkoutQty };
+        const variantId = handleMap[item.id];
+        if (!variantId) console.error(`No Shopify variant for handle: "${item.id}". Available: ${Object.keys(handleMap).join(', ')}`);
+        return { merchandiseId: variantId, quantity: item.quantity };
       }).filter(i => i.merchandiseId);
 
-      if (lineItems.length === 0) throw new Error('No valid Shopify variants found. Check console for missing handles.');
+      if (lineItems.length === 0) throw new Error(`No valid variants. IDs used: ${items.map(i => i.id).join(', ')}`);
 
       const cartMutation = `mutation cartCreate($input: CartInput!) {
         cartCreate(input: $input) {
           cart { checkoutUrl }
-          userErrors { message }
+          userErrors { field message }
         }
       }`;
       const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
@@ -259,12 +217,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ query: cartMutation, variables: { input: { lines: lineItems } } })
       });
       const cartData = await cartRes.json();
-      console.log('Cart response:', JSON.stringify(cartData));
+
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
-        window.location.assign(cartData.data.cartCreate.cart.checkoutUrl);
+        let checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
+        const maxDiscount = Math.max(...items.map(i => i.discountPct ?? 0));
+        if (maxDiscount >= 0.15) {
+          checkoutUrl += (checkoutUrl.includes('?') ? '&' : '?') + 'discount=SAVE15';
+        } else if (maxDiscount >= 0.10) {
+          checkoutUrl += (checkoutUrl.includes('?') ? '&' : '?') + 'discount=SAVE10';
+        }
+        window.location.assign(checkoutUrl);
       } else {
-        console.error('Cart errors:', cartData.data?.cartCreate?.userErrors);
-        throw new Error('Failed to create cart');
+        const errs = cartData.data?.cartCreate?.userErrors;
+        throw new Error(errs?.length ? errs.map((e: any) => e.message).join(', ') : 'Failed to create cart');
       }
     } catch (e) {
       console.error('Checkout error:', e);

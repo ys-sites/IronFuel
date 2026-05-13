@@ -28,18 +28,15 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
 
   const handleAddToCart = () => {
     const bundle = bundles.find(b => b.qty === selectedBundle) || bundles[0];
-    const originalTotal = basePrice * bundle.qty;
-    const discountedTotal = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
-    const pricePerBottle = Math.round((discountedTotal / bundle.qty) * 100) / 100;
-
     addItem({
       id: product.id,
       name: product.name,
       description: product.description,
-      price: basePrice,         // original per-unit price — CartContext applies the % discount
+      price: basePrice,
       image: product.image,
       colorBg: product.colorBg,
       quantity: bundle.qty,
+      discountPct: bundle.discount,
     });
     onClose();
     openCart();
