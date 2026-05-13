@@ -122,7 +122,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           }
         });
         setVariantCache(map);
-        console.log('✅ Shopify handles loaded:', Object.keys(map));
+        console.log('SHOPIFY HANDLES:', JSON.stringify(Object.keys(map), null, 2));
       } catch (e) {
         console.error("Failed to pre-fetch variants", e);
       }
@@ -199,120 +199,66 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const total = useMemo(() => subtotal - savings, [subtotal, savings]);
 
   const checkout = useCallback(async (onComplete: () => void) => {
-    if (items.length === 0) {
-      onComplete();
-      return;
-    }
-    
+    if (items.length === 0) { onComplete(); return; }
     try {
-      let handleToVariant = { ...variantCache };
-      
-      // If any items are missing from cache, fetch them now
-      let missingItems = items.filter(i => !handleToVariant[getCheckoutHandle(i)]);
-
-      if (missingItems.length > 0) {
-        console.log("🔍 Looking up missing variants for handles:", missingItems.map(i => getCheckoutHandle(i)));
-        const handleQuery = missingItems.map(i => `handle:${getCheckoutHandle(i)}`).join(" OR ");
-        const productQuery = `
-          query getVariants($query: String!) {
-            products(first: 50, query: $query) {
-              edges {
-                node {
-                  title
-                  handle
-                  variants(first: 1) {
-                    edges {
-                      node {
-                        id
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `;
-
-        const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
-          },
-          body: JSON.stringify({ query: productQuery, variables: { query: handleQuery } })
-        });
-        const data = await res.json();
-        
-        data.data?.products?.edges?.forEach((edge: any) => {
-          if (edge.node.variants.edges.length > 0) {
-            handleToVariant[edge.node.handle] = edge.node.variants.edges[0].node.id;
-          }
-        });
-
-        const stillMissing = items.filter(i => !handleToVariant[getCheckoutHandle(i)]);
-        if (stillMissing.length > 0) {
-          console.error("❌ CHECKOUT ERROR: HANDLE MISMATCH ❌");
-          for (const item of stillMissing) {
-            console.error(`- Base ID: "${item.id}" | Checkout handle: "${getCheckoutHandle(item)}" | Name: "${item.name}"`);
-          }
+      const query = `query {
+        products(first: 100) {
+          edges { node { handle variants(first: 1) { edges { node { id } } } } }
         }
-        
-        // Update cache for next time
-        setVariantCache(prev => ({ ...prev, ...handleToVariant }));
-      }
-
-      const lineItems = items.map(item => ({
-        merchandiseId: handleToVariant[getCheckoutHandle(item)],
-        quantity: 1   // bundle products are always qty 1 in Shopify
-      })).filter(i => i.merchandiseId);
-
-      if (lineItems.length === 0) {
-        console.error("Checkout failed: No valid items found after lookup.", items);
-        throw new Error("No valid items");
-      }
-
-      const cartMutation = `
-        mutation cartCreate($input: CartInput!) {
-          cartCreate(input: $input) {
-            cart {
-              checkoutUrl
-            }
-            userErrors { message }
-          }
+      }`;
+      const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
+        },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      const handleMap: Record<string, string> = {};
+      data.data.products.edges.forEach((edge: any) => {
+        if (edge.node.variants.edges.length > 0) {
+          handleMap[edge.node.handle] = edge.node.variants.edges[0].node.id;
         }
-      `;
+      });
+      console.log('Available Shopify handles:', Object.keys(handleMap));
 
+      const lineItems = items.map(item => {
+        const variantId = handleMap[item.id];
+        if (!variantId) console.error(`❌ No Shopify product found for handle: "${item.id}"`);
+        return { merchandiseId: variantId, quantity: 1 };
+      }).filter(i => i.merchandiseId);
+
+      if (lineItems.length === 0) throw new Error('No valid Shopify variants found. Check console for missing handles.');
+
+      const cartMutation = `mutation cartCreate($input: CartInput!) {
+        cartCreate(input: $input) {
+          cart { checkoutUrl }
+          userErrors { message }
+        }
+      }`;
       const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
         },
-        body: JSON.stringify({
-          query: cartMutation,
-          variables: {
-            input: {
-              lines: lineItems
-            }
-          }
-        })
+        body: JSON.stringify({ query: cartMutation, variables: { input: { lines: lineItems } } })
       });
-
       const cartData = await cartRes.json();
+      console.log('Cart response:', JSON.stringify(cartData));
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
-        const rawUrl = cartData.data.cartCreate.cart.checkoutUrl;
-        const parsed = new URL(rawUrl);
-        const checkoutUrl = "https://76s90y-fe.myshopify.com" + parsed.pathname + parsed.search;
-        window.location.assign(checkoutUrl);
+        window.location.assign(cartData.data.cartCreate.cart.checkoutUrl);
       } else {
-        throw new Error("Failed to create cart");
+        console.error('Cart errors:', cartData.data?.cartCreate?.userErrors);
+        throw new Error('Failed to create cart');
       }
     } catch (e) {
-      console.error(e);
-      alert("Checkout failed. Please try again.");
+      console.error('Checkout error:', e);
+      alert('Checkout failed. Please try again.');
       onComplete();
     }
-  }, [items, variantCache]);
+  }, [items]);
 
   const value = useMemo<CartContextType>(
     () => ({

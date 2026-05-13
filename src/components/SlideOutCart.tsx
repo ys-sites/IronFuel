@@ -35,6 +35,12 @@ const UPSELL_OPTIONS = [
   }
 ];
 
+function getBundleInfo(id: string): { qty: number; label: string } | null {
+  if (id.includes('bundel-3') || id.includes('bundle-3')) return { qty: 3, label: '3 Bottles' };
+  if (id.includes('bundel-6') || id.includes('bundle-6')) return { qty: 6, label: '6 Bottles' };
+  return null;
+}
+
 export default function SlideOutCart() {
   const { language } = useLanguage();
   const t = translations[language];
@@ -125,7 +131,9 @@ export default function SlideOutCart() {
                 <div className="p-5 space-y-4">
                   {/* ── Cart items ── */}
                   <AnimatePresence initial={false}>
-                    {items.map((item) => (
+                    {items.map((item) => {
+                      const bundleInfo = getBundleInfo(item.id);
+                      return (
                       <motion.div
                         key={item.id}
                         layout
@@ -151,7 +159,13 @@ export default function SlideOutCart() {
                               <h4 className="font-bold text-[#1a2f1c] leading-tight text-sm truncate">
                                 {item.name}
                               </h4>
-                              <p className="text-xs text-[#59685e] font-medium mt-0.5">{item.description}</p>
+                              {bundleInfo ? (
+                                <p className="text-xs font-black text-[#4ca735] mt-0.5">
+                                  {language === 'en' ? bundleInfo.label : bundleInfo.label.replace('Bottles', 'Bouteilles')}
+                                </p>
+                              ) : (
+                                <p className="text-xs text-[#59685e] font-medium mt-0.5">{item.description}</p>
+                              )}
                             </div>
                             <button
                               onClick={() => removeItem(item.id)}
@@ -163,35 +177,42 @@ export default function SlideOutCart() {
                           </div>
 
                           <div className="flex justify-between items-center mt-3">
-                            <div className="flex items-center gap-2 bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100">
-                              <button
-                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                className="text-gray-400 hover:text-black transition-colors p-0.5"
-                                aria-label="Decrease quantity"
-                              >
-                                <Minus className="w-3 h-3" />
-                              </button>
-                              <span className="text-sm font-bold w-5 text-center">{item.quantity}</span>
-                              <button
-                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                className="text-gray-400 hover:text-black transition-colors p-0.5"
-                                aria-label="Increase quantity"
-                              >
-                                <Plus className="w-3 h-3" />
-                              </button>
-                            </div>
+                            {bundleInfo ? (
+                              <div className="flex items-center gap-1.5 bg-[#4ca735]/10 rounded-lg px-2.5 py-1 text-xs font-bold text-[#4ca735]">
+                                ×{bundleInfo.qty}
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-2 bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100">
+                                <button
+                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                  className="text-gray-400 hover:text-black transition-colors p-0.5"
+                                  aria-label="Decrease quantity"
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </button>
+                                <span className="text-sm font-bold w-5 text-center">{item.quantity}</span>
+                                <button
+                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                  className="text-gray-400 hover:text-black transition-colors p-0.5"
+                                  aria-label="Increase quantity"
+                                >
+                                  <Plus className="w-3 h-3" />
+                                </button>
+                              </div>
+                            )}
                             <div className="text-right">
                               <span className="font-bold text-[#1a2f1c] text-sm">
                                 ${(item.price * item.quantity).toFixed(2)}
                               </span>
-                              {item.quantity > 1 && (
+                              {!bundleInfo && item.quantity > 1 && (
                                 <p className="text-[10px] text-[#9faaa2]">${item.price.toFixed(2)} {language === 'en' ? 'each' : 'chacun'}</p>
                               )}
                             </div>
                           </div>
                         </div>
                       </motion.div>
-                    ))}
+                      );
+                    })}
                   </AnimatePresence>
 
                   {/* ── Subscribe & Save ── */}
