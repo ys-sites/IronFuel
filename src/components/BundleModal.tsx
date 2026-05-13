@@ -9,7 +9,7 @@ interface BundleModalProps {
   onClose: () => void;
 }
 
-const bundleHandleMap: Record<string, { 3: string; 6: string }> = {
+const bundleHandleMap: Record<string, Record<number, string>> = {
   'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-bundel-3',      6: 'zenfuel-ashwagandha-bundle-6' },
   'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-bundel-3',     6: 'neurofuel-lions-mane-bundel-6' },
   'gutfuel-gut-health':            { 3: 'gutfuel-bundel-3',                  6: 'gutfuel-bundel-6' },
@@ -35,19 +35,22 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   ];
 
   const handleAddToCart = () => {
-    const handles = bundleHandleMap[product.id];
-    const itemId = (selectedBundle === 3 || selectedBundle === 6) && handles
-      ? handles[selectedBundle as 3 | 6]
+    const bundle = bundles.find(b => b.qty === selectedBundle) || bundles[0];
+    const originalTotal = basePrice * bundle.qty;
+    const discountedPrice = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
+
+    const bundleId = selectedBundle > 1 && bundleHandleMap[product.id]?.[selectedBundle]
+      ? bundleHandleMap[product.id][selectedBundle]
       : product.id;
 
     addItem({
-      id: itemId,
+      id: bundleId,
       name: product.name,
       description: product.description,
-      price: parseFloat(product.price), // original per-unit price for savings display
+      price: discountedPrice,   // already discounted total
       image: product.image,
       colorBg: product.colorBg,
-      quantity: selectedBundle,
+      quantity: 1,              // always 1 — the bundle product IS the bundle
     });
     onClose();
     openCart();

@@ -115,7 +115,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           body: JSON.stringify({ query })
         });
         const data = await res.json();
-        console.log('Shopify handles:', data.data.products.edges.map((e: any) => e.node.handle));
         const map: Record<string, string> = {};
         data.data.products.edges.forEach((edge: any) => {
           if (edge.node.variants.edges.length > 0) {
@@ -123,6 +122,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           }
         });
         setVariantCache(map);
+        console.log('✅ Shopify handles loaded:', Object.keys(map));
       } catch (e) {
         console.error("Failed to pre-fetch variants", e);
       }
@@ -263,7 +263,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const lineItems = items.map(item => ({
         merchandiseId: handleToVariant[getCheckoutHandle(item)],
-        quantity: getCheckoutQty(item)
+        quantity: 1   // bundle products are always qty 1 in Shopify
       })).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) {
