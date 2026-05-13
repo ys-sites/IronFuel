@@ -184,7 +184,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ query })
       });
       const data = await res.json();
-      if (!data?.data?.products) throw new Error('Shopify API error');
+      if (!data?.data?.products) throw new Error('Shopify API error: ' + JSON.stringify(data));
 
       const handleMap: Record<string, string> = {};
       data.data.products.edges.forEach((edge: any) => {
@@ -219,9 +219,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const errs = cartData.data?.cartCreate?.userErrors;
         throw new Error(errs?.length ? errs.map((e: any) => e.message).join(', ') : 'Failed to create cart');
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error('Checkout error:', e);
-      alert('Checkout failed. Please try again.');
+      alert('Checkout failed: ' + (e?.message || 'Unknown error'));
       onComplete();
     }
   }, [items]);
