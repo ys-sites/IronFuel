@@ -9,11 +9,13 @@ export interface CartProduct {
   colorBg: string;
   quantity?: number;
   discountPct?: number;
+  bundleQty?: number;
 }
 
 export interface CartItem extends CartProduct {
   quantity: number;
   discountPct?: number;
+  bundleQty?: number;
 }
 
 interface CartContextType {
@@ -119,11 +121,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existing) {
         return prev.map((i) =>
           i.id === product.id
-            ? { ...i, quantity: i.quantity + quantityToAdd, discountPct: product.discountPct ?? i.discountPct }
+            ? { ...i, quantity: i.quantity + quantityToAdd, discountPct: product.discountPct ?? i.discountPct, bundleQty: product.bundleQty ?? i.bundleQty }
             : i
         );
       }
-      return [...prev, { ...product, quantity: quantityToAdd, discountPct: product.discountPct ?? 0 }];
+      return [...prev, { ...product, quantity: quantityToAdd, discountPct: product.discountPct ?? 0, bundleQty: product.bundleQty }];
     });
   }, []);
 
@@ -176,12 +178,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           edges { node { handle variants(first: 1) { edges { node { id } } } } }
         }
       }`;
-      const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
-        },
+      const res = await fetch('https://76s90y-fe.myshopify.com/api/2024-04/graphql.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': '665ed20ae0135838f2e0134f20e8811a' },
         body: JSON.stringify({ query })
       });
       const data = await res.json();
@@ -189,18 +188,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const handleMap: Record<string, string> = {};
       data.data.products.edges.forEach((edge: any) => {
-        if (edge.node.variants.edges.length > 0) {
+        if (edge.node.variants.edges.length > 0)
           handleMap[edge.node.handle] = edge.node.variants.edges[0].node.id;
-        }
       });
 
       const lineItems = items.map(item => {
         const variantId = handleMap[item.id];
-        if (!variantId) console.error(`No Shopify variant for handle: "${item.id}". Available: ${Object.keys(handleMap).join(', ')}`);
-        return { merchandiseId: variantId, quantity: item.quantity };
+        if (!variantId) console.error(`No variant for handle: "${item.id}". Available: ${Object.keys(handleMap).join(', ')}`);
+        return { merchandiseId: variantId, quantity: 1 };
       }).filter(i => i.merchandiseId);
 
-      if (lineItems.length === 0) throw new Error(`No valid variants. IDs used: ${items.map(i => i.id).join(', ')}`);
+      if (lineItems.length === 0) throw new Error(`No valid variants. Handles used: ${items.map(i => i.id).join(', ')}`);
 
       const cartMutation = `mutation cartCreate($input: CartInput!) {
         cartCreate(input: $input) {
@@ -208,25 +206,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           userErrors { field message }
         }
       }`;
-      const cartRes = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
-        },
+      const cartRes = await fetch('https://76s90y-fe.myshopify.com/api/2024-04/graphql.json', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': '665ed20ae0135838f2e0134f20e8811a' },
         body: JSON.stringify({ query: cartMutation, variables: { input: { lines: lineItems } } })
       });
       const cartData = await cartRes.json();
 
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
-        let checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
-        const maxDiscount = Math.max(...items.map(i => i.discountPct ?? 0));
-        if (maxDiscount >= 0.15) {
-          checkoutUrl += (checkoutUrl.includes('?') ? '&' : '?') + 'discount=SAVE15';
-        } else if (maxDiscount >= 0.10) {
-          checkoutUrl += (checkoutUrl.includes('?') ? '&' : '?') + 'discount=SAVE10';
-        }
-        window.location.assign(checkoutUrl);
+        window.location.assign(cartData.data.cartCreate.cart.checkoutUrl);
       } else {
         const errs = cartData.data?.cartCreate?.userErrors;
         throw new Error(errs?.length ? errs.map((e: any) => e.message).join(', ') : 'Failed to create cart');

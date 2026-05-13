@@ -26,17 +26,32 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
     { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.15, tag: language === 'en' ? 'SAVE 15%' : 'ÉCONOMISEZ 15%' },
   ];
 
+  const bundleHandleMap: Record<string, Record<number, string>> = {
+    'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-bundel-3',           6: 'zenfuel-ashwagandha-bundle-6' },
+    'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-bundel-3',          6: 'neurofuel-lions-mane-bundel-6' },
+    'gutfuel-gut-health':            { 3: 'gutfuel-bundel-3',                       6: 'gutfuel-bundel-6' },
+    'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-bundel-3',          6: 'fury-isolate-bundel-6' },
+    'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-bundel-3',         6: 'fury-hydrate-creatine-bundel-6' },
+  };
+
   const handleAddToCart = () => {
     const bundle = bundles.find(b => b.qty === selectedBundle) || bundles[0];
+    const originalTotal = basePrice * bundle.qty;
+    const discountedTotal = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
+
+    const shopifyId = selectedBundle > 1 && bundleHandleMap[product.id]?.[selectedBundle]
+      ? bundleHandleMap[product.id][selectedBundle]
+      : product.id;
+
     addItem({
-      id: product.id,
+      id: shopifyId,
       name: product.name,
       description: product.description,
-      price: basePrice,
+      price: discountedTotal,
       image: product.image,
       colorBg: product.colorBg,
-      quantity: bundle.qty,
-      discountPct: bundle.discount,
+      quantity: 1,
+      bundleQty: selectedBundle,
     });
     onClose();
     openCart();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Plus, Minus, ArrowRight, ShieldCheck, ShoppingCart, Truck } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart, CartItem } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
@@ -35,9 +35,9 @@ const UPSELL_OPTIONS = [
   }
 ];
 
-function getBundleInfo(item: { quantity: number }): { qty: number; label: string } | null {
-  if (item.quantity === 6) return { qty: 6, label: '6 Bottles' };
-  if (item.quantity === 3) return { qty: 3, label: '3 Bottles' };
+function getBundleInfo(item: CartItem): { qty: number; label: string } | null {
+  if (item.bundleQty === 6) return { qty: 6, label: '6 Bottles' };
+  if (item.bundleQty === 3) return { qty: 3, label: '3 Bottles' };
   return null;
 }
 
