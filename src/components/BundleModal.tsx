@@ -9,14 +9,6 @@ interface BundleModalProps {
   onClose: () => void;
 }
 
-const bundleHandleMap: Record<string, Record<number, string>> = {
-  'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-bundel-3',      6: 'zenfuel-ashwagandha-bundle-6' },
-  'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-bundel-3',     6: 'neurofuel-lions-mane-bundel-6' },
-  'gutfuel-gut-health':            { 3: 'gutfuel-bundel-3',                  6: 'gutfuel-bundel-6' },
-  'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-bundel-3',     6: 'fury-isolate-bundel-6' },
-  'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-bundel-3',    6: 'fury-hydrate-bundle-6' },
-};
-
 export default function BundleModal({ product, onClose }: BundleModalProps) {
   const { addItem, openCart } = useCart();
   const { language } = useLanguage();
@@ -37,20 +29,17 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   const handleAddToCart = () => {
     const bundle = bundles.find(b => b.qty === selectedBundle) || bundles[0];
     const originalTotal = basePrice * bundle.qty;
-    const discountedPrice = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
-
-    const bundleId = selectedBundle > 1 && bundleHandleMap[product.id]?.[selectedBundle]
-      ? bundleHandleMap[product.id][selectedBundle]
-      : product.id;
+    const discountedTotal = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
+    const pricePerBottle = Math.round((discountedTotal / bundle.qty) * 100) / 100;
 
     addItem({
-      id: bundleId,
+      id: product.id,           // always use base product handle — it exists in Shopify
       name: product.name,
       description: product.description,
-      price: discountedPrice,   // already discounted total
+      price: pricePerBottle,    // discounted per-bottle price
       image: product.image,
       colorBg: product.colorBg,
-      quantity: 1,              // always 1 — the bundle product IS the bundle
+      quantity: bundle.qty,     // send actual quantity (1, 3, or 6) to Shopify
     });
     onClose();
     openCart();

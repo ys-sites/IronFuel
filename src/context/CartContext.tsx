@@ -226,7 +226,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const lineItems = items.map(item => {
         const variantId = handleMap[item.id];
         if (!variantId) console.error(`❌ No Shopify product found for handle: "${item.id}"`);
-        return { merchandiseId: variantId, quantity: 1 };
+        return { merchandiseId: variantId, quantity: item.quantity };
       }).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) throw new Error('No valid Shopify variants found. Check console for missing handles.');

@@ -35,9 +35,9 @@ const UPSELL_OPTIONS = [
   }
 ];
 
-function getBundleInfo(id: string): { qty: number; label: string } | null {
-  if (id.includes('bundel-3') || id.includes('bundle-3')) return { qty: 3, label: '3 Bottles' };
-  if (id.includes('bundel-6') || id.includes('bundle-6')) return { qty: 6, label: '6 Bottles' };
+function getBundleInfo(item: { quantity: number }): { qty: number; label: string } | null {
+  if (item.quantity === 6) return { qty: 6, label: '6 Bottles' };
+  if (item.quantity === 3) return { qty: 3, label: '3 Bottles' };
   return null;
 }
 
@@ -132,7 +132,7 @@ export default function SlideOutCart() {
                   {/* ── Cart items ── */}
                   <AnimatePresence initial={false}>
                     {items.map((item) => {
-                      const bundleInfo = getBundleInfo(item.id);
+                      const bundleInfo = getBundleInfo(item);
                       return (
                       <motion.div
                         key={item.id}
