@@ -47,11 +47,12 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
       id: shopifyId,
       name: product.name,
       description: product.description,
-      price: discountedTotal,
+      price: originalTotal,
       image: product.image,
       colorBg: product.colorBg,
       quantity: 1,
       bundleQty: selectedBundle,
+      discountPct: bundle.discount,
     });
     onClose();
     openCart();

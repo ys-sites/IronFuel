@@ -195,7 +195,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const lineItems = items.map(item => {
         const variantId = handleMap[item.id];
         if (!variantId) console.error(`No variant for handle: "${item.id}". Available: ${Object.keys(handleMap).join(', ')}`);
-        return { merchandiseId: variantId, quantity: 1 };
+        return { merchandiseId: variantId, quantity: item.quantity };
       }).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) throw new Error(`No valid variants. Handles used: ${items.map(i => i.id).join(', ')}`);
