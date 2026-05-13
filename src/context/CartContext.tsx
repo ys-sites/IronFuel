@@ -223,10 +223,23 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       });
       console.log('Available Shopify handles:', Object.keys(handleMap));
 
+      // For qty 3 or 6, route to the pre-priced Shopify bundle product (qty 1)
+      // so Shopify charges the discounted bundle price instead of base price × qty
+      const CHECKOUT_BUNDLE_MAP: Record<string, Record<number, string>> = {
+        'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-bundel-3',      6: 'zenfuel-ashwagandha-bundle-6' },
+        'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-bundel-3',     6: 'neurofuel-lions-mane-bundel-6' },
+        'gutfuel-gut-health':            { 3: 'gutfuel-bundel-3',                  6: 'gutfuel-bundel-6' },
+        'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-bundel-3',     6: 'fury-isolate-bundel-6' },
+        'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-bundel-3',    6: 'fury-hydrate-creatine-bundel-6' },
+      };
+
       const lineItems = items.map(item => {
-        const variantId = handleMap[item.id];
-        if (!variantId) console.error(`❌ No Shopify product found for handle: "${item.id}"`);
-        return { merchandiseId: variantId, quantity: item.quantity };
+        const bundleHandle = CHECKOUT_BUNDLE_MAP[item.id]?.[item.quantity];
+        const checkoutHandle = bundleHandle ?? item.id;
+        const checkoutQty = bundleHandle ? 1 : item.quantity;
+        const variantId = handleMap[checkoutHandle];
+        if (!variantId) console.error(`❌ No Shopify product found for handle: "${checkoutHandle}" (base: "${item.id}", qty: ${item.quantity})`);
+        return { merchandiseId: variantId, quantity: checkoutQty };
       }).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) throw new Error('No valid Shopify variants found. Check console for missing handles.');

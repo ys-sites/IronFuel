@@ -177,34 +177,28 @@ export default function SlideOutCart() {
                           </div>
 
                           <div className="flex justify-between items-center mt-3">
-                            {bundleInfo ? (
-                              <div className="flex items-center gap-1.5 bg-[#4ca735]/10 rounded-lg px-2.5 py-1 text-xs font-bold text-[#4ca735]">
-                                ×{bundleInfo.qty}
-                              </div>
-                            ) : (
-                              <div className="flex items-center gap-2 bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100">
-                                <button
-                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                  className="text-gray-400 hover:text-black transition-colors p-0.5"
-                                  aria-label="Decrease quantity"
-                                >
-                                  <Minus className="w-3 h-3" />
-                                </button>
-                                <span className="text-sm font-bold w-5 text-center">{item.quantity}</span>
-                                <button
-                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                  className="text-gray-400 hover:text-black transition-colors p-0.5"
-                                  aria-label="Increase quantity"
-                                >
-                                  <Plus className="w-3 h-3" />
-                                </button>
-                              </div>
-                            )}
+                            <div className="flex items-center gap-2 bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100">
+                              <button
+                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                className="text-gray-400 hover:text-black transition-colors p-0.5"
+                                aria-label="Decrease quantity"
+                              >
+                                <Minus className="w-3 h-3" />
+                              </button>
+                              <span className="text-sm font-bold w-5 text-center">{item.quantity}</span>
+                              <button
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                className="text-gray-400 hover:text-black transition-colors p-0.5"
+                                aria-label="Increase quantity"
+                              >
+                                <Plus className="w-3 h-3" />
+                              </button>
+                            </div>
                             <div className="text-right">
                               <span className="font-bold text-[#1a2f1c] text-sm">
                                 ${(item.price * item.quantity).toFixed(2)}
                               </span>
-                              {!bundleInfo && item.quantity > 1 && (
+                              {item.quantity > 1 && (
                                 <p className="text-[10px] text-[#9faaa2]">${item.price.toFixed(2)} {language === 'en' ? 'each' : 'chacun'}</p>
                               )}
                             </div>
