@@ -42,7 +42,19 @@ const CartContext = createContext<CartContextType | null>(null);
 const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
+const BUNDLE_HANDLE_MAP: Record<string, Record<number, string>> = {
+  'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-for-deep-recovery-and-balance',      6: 'zenfuel-ashwagandha-bundle-6' },
+  'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-for-peak-mental-clarity',            6: 'neurofuel-lions-mane-bundel-6' },
+  'gutfuel-gut-health':            { 3: 'gutfuel-for-daily-digestive-balance-and-comfort',         6: 'gutfuel-bundel-6' },
+  'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-for-rapid-muscle-growth',            6: 'fury-isolate-bundel-6' },
+  'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-for-maximum-power-and-endurance',  6: 'fury-hydrate-creatine-bundel-6' },
+};
 
+const getCheckoutHandle = (id: string, qty: number): string => {
+  if (qty >= 6 && BUNDLE_HANDLE_MAP[id]?.[6]) return BUNDLE_HANDLE_MAP[id][6];
+  if (qty >= 3 && BUNDLE_HANDLE_MAP[id]?.[3]) return BUNDLE_HANDLE_MAP[id][3];
+  return id;
+};
 
 function loadFromStorage(): CartItem[] {
   try {
@@ -119,13 +131,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const existing = prev.find((i) => i.id === product.id);
       const quantityToAdd = product.quantity || 1;
       if (existing) {
-        return prev.map((i) =>
-          i.id === product.id
-            ? { ...i, quantity: i.quantity + quantityToAdd, discountPct: product.discountPct ?? i.discountPct, bundleQty: product.bundleQty ?? i.bundleQty }
-            : i
-        );
+        return prev.map((i) => {
+          if (i.id === product.id) {
+            const newQty = i.quantity + quantityToAdd;
+            const discountPct = newQty >= 6 ? 0.15 : newQty >= 3 ? 0.10 : 0;
+            return { ...i, quantity: newQty, discountPct };
+          }
+          return i;
+        });
       }
-      return [...prev, { ...product, quantity: quantityToAdd, discountPct: product.discountPct ?? 0, bundleQty: product.bundleQty }];
+      const initialQty = quantityToAdd;
+      const discountPct = initialQty >= 6 ? 0.15 : initialQty >= 3 ? 0.10 : 0;
+      return [...prev, { ...product, quantity: initialQty, discountPct }];
     });
   }, []);
 
@@ -138,7 +155,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setItems((prev) => prev.filter((i) => i.id !== id));
     } else {
       setItems((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity: qty } : i))
+        prev.map((i) => {
+          if (i.id === id) {
+            const discountPct = qty >= 6 ? 0.15 : qty >= 3 ? 0.10 : 0;
+            return { ...i, quantity: qty, discountPct };
+          }
+          return i;
+        })
       );
     }
   }, []);
@@ -156,7 +179,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const bundleSavings = useMemo(() => {
     return items.reduce((acc, item) => {
-      const discount = item.discountPct ?? 0;
+      const discount = item.quantity >= 6 ? 0.15 : item.quantity >= 3 ? 0.10 : 0;
       const originalTotal = item.price * item.quantity;
       const discountedTotal = Math.round(originalTotal * (1 - discount) * 100) / 100;
       return acc + (originalTotal - discountedTotal);
@@ -193,9 +216,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       });
 
       const lineItems = items.map(item => {
-        const variantId = handleMap[item.id];
-        if (!variantId) console.error(`No variant for handle: "${item.id}". Available: ${Object.keys(handleMap).join(', ')}`);
-        return { merchandiseId: variantId, quantity: item.quantity };
+        const handle = getCheckoutHandle(item.id, item.quantity);
+        const variantId = handleMap[handle];
+        if (!variantId) console.error(`No variant for handle: "${handle}". Available: ${Object.keys(handleMap).join(', ')}`);
+        const checkoutQty = handle !== item.id ? 1 : item.quantity;
+        return { merchandiseId: variantId, quantity: checkoutQty };
       }).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) throw new Error(`No valid variants. Handles used: ${items.map(i => i.id).join(', ')}`);

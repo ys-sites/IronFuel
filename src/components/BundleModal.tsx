@@ -18,6 +18,7 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   if (!product) return null;
 
   const basePrice = parseFloat(product.price);
+  const singleOriginalPrice = parseFloat(product.originalPrice || product.compareAtPrice || product.price);
   
   // Calculate bundle pricing
   const bundles = [
@@ -35,24 +36,14 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   };
 
   const handleAddToCart = () => {
-    const bundle = bundles.find(b => b.qty === selectedBundle) || bundles[0];
-    const originalTotal = basePrice * bundle.qty;
-    const discountedTotal = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
-
-    const shopifyId = selectedBundle > 1 && bundleHandleMap[product.id]?.[selectedBundle]
-      ? bundleHandleMap[product.id][selectedBundle]
-      : product.id;
-
     addItem({
-      id: shopifyId,
+      id: product.id,
       name: product.name,
       description: product.description,
-      price: originalTotal,
+      price: basePrice,
       image: product.image,
       colorBg: product.colorBg,
-      quantity: 1,
-      bundleQty: selectedBundle,
-      discountPct: bundle.discount,
+      quantity: selectedBundle,
     });
     onClose();
     openCart();
@@ -116,6 +107,7 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                   const savings = Math.round((originalTotal - totalPrice) * 100) / 100;
                   const itemPrice = totalPrice / bundle.qty;
                   const isSelected = selectedBundle === bundle.qty;
+                  const isSingleWithDiscount = bundle.qty === 1 && singleOriginalPrice > basePrice;
 
                   return (
                     <div
@@ -141,17 +133,21 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                         </div>
                         <div>
                           <h4 className="font-bold text-[#1a2f1c] text-sm md:text-lg">{bundle.title}</h4>
-                          {bundle.discount > 0 && (
+                          {(bundle.discount > 0 || isSingleWithDiscount) && (
                             <p className="text-xs md:text-sm font-black text-[#4ca735] mt-0.5">
-                              {language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} {(bundle.discount * 100).toFixed(0)}% (${savings.toFixed(2)})
+                              {isSingleWithDiscount
+                                ? `${language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} $${(singleOriginalPrice - basePrice).toFixed(2)}`
+                                : `${language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} ${(bundle.discount * 100).toFixed(0)}% ($${savings.toFixed(2)})`}
                             </p>
                           )}
                         </div>
                       </div>
 
                       <div className="text-right flex flex-col items-end">
-                        {bundle.discount > 0 && (
-                          <div className="text-xs font-bold text-gray-400 line-through mb-0.5">${originalTotal.toFixed(2)}</div>
+                        {(bundle.discount > 0 || isSingleWithDiscount) && (
+                          <div className="text-xs font-bold text-gray-400 line-through mb-0.5">
+                            ${isSingleWithDiscount ? singleOriginalPrice.toFixed(2) : originalTotal.toFixed(2)}
+                          </div>
                         )}
                         <div className="font-black text-lg md:text-2xl text-[#1a2f1c] leading-none">${totalPrice.toFixed(2)}</div>
                         <div className="text-[10px] md:text-xs text-gray-500 font-bold mt-0.5">
