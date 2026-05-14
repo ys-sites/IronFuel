@@ -231,7 +231,31 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           handleMap[edge.node.handle] = edge.node.variants.edges[0].node.id;
       });
 
-      const lineItems = items.map(item => {
+      const BASE_HANDLE_MAP: Record<string, string> = {
+        'zenfuel-ashwagandha':           'zenfuel-ashwagandha',
+        'neurofuel-lions-mane-mushroom': 'neurofuel-lion-s-mane-mushroom',
+        'gutfuel-gut-health':            'gutfuel-gut-health',
+        'fury-isolate-vanilla':          'fury-isolate-vanilla',
+        'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-formula',
+      };
+
+      const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
+        'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
+        'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
+        'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
+        'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
+        'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
+      };
+
+      const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
+        'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
+        'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
+        'gutfuel-gut-health':            'gutfuel-bundel-6',
+        'fury-isolate-vanilla':          'fury-isolate-bundel-6',
+        'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
+      };
+
+      const lineItems = items.flatMap(item => {
         let shopifyHandle: string;
         let shopifyQty: number;
 
@@ -242,17 +266,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           shopifyHandle = BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
           shopifyQty = 1;
         } else {
-          // qty 1, 2, 4, 5 — full price, base product, real quantity
           shopifyHandle = BASE_HANDLE_MAP[item.id] ?? item.id;
           shopifyQty = item.quantity;
         }
 
         const variantId = handleMap[shopifyHandle];
         if (!variantId) console.error(`No variant for handle: "${shopifyHandle}"`);
-        return { merchandiseId: variantId, quantity: shopifyQty };
-      }).filter(i => i.merchandiseId);
+        return variantId ? [{ merchandiseId: variantId, quantity: shopifyQty }] : [];
+      });
 
-      if (lineItems.length === 0) throw new Error(`No valid variants. Handles used: ${items.map(i => i.id).join(', ')}`);
+      if (lineItems.length === 0) throw new Error(`No valid variants. IDs: ${items.map(i => i.id).join(', ')}`);
 
       const cartMutation = `mutation cartCreate($input: CartInput!) {
         cartCreate(input: $input) {
