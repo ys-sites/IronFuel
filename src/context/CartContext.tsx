@@ -42,18 +42,34 @@ const CartContext = createContext<CartContextType | null>(null);
 const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
-const BUNDLE_HANDLE_MAP: Record<string, Record<number, string>> = {
-  'zenfuel-ashwagandha':           { 3: 'zenfuel-ashwagandha-for-deep-recovery-and-balance',      6: 'zenfuel-ashwagandha-bundle-6' },
-  'neurofuel-lions-mane-mushroom': { 3: 'neurofuel-lions-mane-for-peak-mental-clarity',            6: 'neurofuel-lions-mane-bundel-6' },
-  'gutfuel-gut-health':            { 3: 'gutfuel-for-daily-digestive-balance-and-comfort',         6: 'gutfuel-bundel-6' },
-  'fury-isolate-vanilla':          { 3: 'fury-isolate-vanilla-for-rapid-muscle-growth',            6: 'fury-isolate-bundel-6' },
-  'fury-hydrate-creatine-formula': { 3: 'fury-hydrate-creatine-for-maximum-power-and-endurance',  6: 'fury-hydrate-creatine-bundel-6' },
+function getBundleDiscount(qty: number): number {
+  if (qty >= 6) return 0.15;
+  if (qty === 3) return 0.10;
+  return 0; // 1, 2, 4, 5 = no discount
+}
+
+const BASE_HANDLE_MAP: Record<string, string> = {
+  'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
+  'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
+  'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
+  'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
+  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
 };
 
-const getCheckoutHandle = (id: string, qty: number): string => {
-  if (qty >= 6 && BUNDLE_HANDLE_MAP[id]?.[6]) return BUNDLE_HANDLE_MAP[id][6];
-  if (qty >= 3 && BUNDLE_HANDLE_MAP[id]?.[3]) return BUNDLE_HANDLE_MAP[id][3];
-  return id;
+const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
+  'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
+  'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
+  'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
+  'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
+  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
+};
+
+const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
+  'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
+  'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
+  'gutfuel-gut-health':            'gutfuel-bundel-6',
+  'fury-isolate-vanilla':          'fury-isolate-bundel-6',
+  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
 };
 
 function loadFromStorage(): CartItem[] {
@@ -134,14 +150,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         return prev.map((i) => {
           if (i.id === product.id) {
             const newQty = i.quantity + quantityToAdd;
-            const discountPct = newQty >= 6 ? 0.15 : newQty >= 3 ? 0.10 : 0;
+            const discountPct = getBundleDiscount(newQty);
             return { ...i, quantity: newQty, discountPct };
           }
           return i;
         });
       }
       const initialQty = quantityToAdd;
-      const discountPct = initialQty >= 6 ? 0.15 : initialQty >= 3 ? 0.10 : 0;
+      const discountPct = getBundleDiscount(initialQty);
       return [...prev, { ...product, quantity: initialQty, discountPct }];
     });
   }, []);
@@ -157,7 +173,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setItems((prev) =>
         prev.map((i) => {
           if (i.id === id) {
-            const discountPct = qty >= 6 ? 0.15 : qty >= 3 ? 0.10 : 0;
+            const discountPct = getBundleDiscount(qty);
             return { ...i, quantity: qty, discountPct };
           }
           return i;
@@ -179,7 +195,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const bundleSavings = useMemo(() => {
     return items.reduce((acc, item) => {
-      const discount = item.quantity >= 6 ? 0.15 : item.quantity >= 3 ? 0.10 : 0;
+      const discount = getBundleDiscount(item.quantity);
       const originalTotal = item.price * item.quantity;
       const discountedTotal = Math.round(originalTotal * (1 - discount) * 100) / 100;
       return acc + (originalTotal - discountedTotal);
@@ -216,11 +232,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       });
 
       const lineItems = items.map(item => {
-        const handle = getCheckoutHandle(item.id, item.quantity);
-        const variantId = handleMap[handle];
-        if (!variantId) console.error(`No variant for handle: "${handle}". Available: ${Object.keys(handleMap).join(', ')}`);
-        const checkoutQty = handle !== item.id ? 1 : item.quantity;
-        return { merchandiseId: variantId, quantity: checkoutQty };
+        let shopifyHandle: string;
+        let shopifyQty: number;
+
+        if (item.quantity === 3) {
+          shopifyHandle = BUNDLE_3_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
+          shopifyQty = 1;
+        } else if (item.quantity >= 6) {
+          shopifyHandle = BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
+          shopifyQty = 1;
+        } else {
+          // qty 1, 2, 4, 5 — full price, base product, real quantity
+          shopifyHandle = BASE_HANDLE_MAP[item.id] ?? item.id;
+          shopifyQty = item.quantity;
+        }
+
+        const variantId = handleMap[shopifyHandle];
+        if (!variantId) console.error(`No variant for handle: "${shopifyHandle}"`);
+        return { merchandiseId: variantId, quantity: shopifyQty };
       }).filter(i => i.merchandiseId);
 
       if (lineItems.length === 0) throw new Error(`No valid variants. Handles used: ${items.map(i => i.id).join(', ')}`);
@@ -247,6 +276,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } catch (e: any) {
       console.error('Checkout error:', e);
       alert('Checkout failed: ' + (e?.message || 'Unknown error'));
+    } finally {
       onComplete();
     }
   }, [items]);

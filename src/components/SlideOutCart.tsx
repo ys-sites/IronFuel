@@ -36,8 +36,8 @@ const UPSELL_OPTIONS = [
 ];
 
 function getBundleInfo(item: CartItem): { qty: number; label: string } | null {
-  if (item.bundleQty === 6) return { qty: 6, label: '6 Bottles' };
-  if (item.bundleQty === 3) return { qty: 3, label: '3 Bottles' };
+  if (item.quantity >= 6) return { qty: item.quantity, label: `${item.quantity} Bottles` };
+  if (item.quantity === 3) return { qty: 3, label: '3 Bottles' };
   return null;
 }
 
@@ -56,6 +56,16 @@ export default function SlideOutCart() {
   React.useEffect(() => {
     setIsCheckingOut(false);
   }, [isOpen]);
+
+  React.useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setIsCheckingOut(false); // reset when user comes back via browser back button
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+    return () => window.removeEventListener('pageshow', handlePageShow);
+  }, []);
 
   const availableUpsells = UPSELL_OPTIONS.filter(
     (opt) => !items.find((i) => i.id === opt.id)
@@ -346,15 +356,15 @@ export default function SlideOutCart() {
 
                 {/* Guarantee & Shipping Section */}
                 <div className="bg-[#f4f7f4] rounded-xl p-4 border border-[#eaf0ec] space-y-3">
-                  {total < 75 ? (
+                  {total < 50 ? (
                     <div>
                       <p className="text-xs font-bold text-[#59685e] mb-1.5">
                         {language === 'en'
-                          ? ("Add $" + (75 - total).toFixed(2) + " more for FREE shipping")
-                          : ("Ajoutez $" + (75 - total).toFixed(2) + " pour la livraison GRATUITE")}
+                          ? ("Add $" + (50 - total).toFixed(2) + " more for FREE shipping")
+                          : ("Ajoutez $" + (50 - total).toFixed(2) + " pour la livraison GRATUITE")}
                       </p>
                       <div className="w-full bg-gray-200 rounded-full h-1.5">
-                        <div className="bg-[#4ca735] h-1.5 rounded-full transition-all duration-500" style={{ width: Math.min(100, (total / 75) * 100) + "%" }} />
+                        <div className="bg-[#4ca735] h-1.5 rounded-full transition-all duration-500" style={{ width: Math.min(100, (total / 50) * 100) + "%" }} />
                       </div>
                     </div>
                   ) : (
