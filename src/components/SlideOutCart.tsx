@@ -219,37 +219,8 @@ export default function SlideOutCart() {
                     })}
                   </AnimatePresence>
 
-                  {/* ── Subscribe & Save ── */}
-                  <div className="relative border border-[#4ca735]/30 bg-[#4ca735]/5 rounded-2xl p-4 overflow-hidden">
-                    <div className="absolute top-0 right-0 bg-[#4ca735] text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-bl-xl tracking-wide">
-                      {language === 'en' ? 'Recommended' : 'Recommandé'}
-                    </div>
-                    <h5 className="font-bold text-[#2b4224] flex items-center gap-1.5 text-sm mb-1.5">
-                      <ShieldCheck className="w-4 h-4 text-[#4ca735]" /> {language === 'en' ? 'Subscribe Monthly' : 'S\'abonner mensuellement'}
-                    </h5>
-                    <p className="text-xs text-[#59685e] mb-3 leading-relaxed">
-                      {language === 'en' ? 'Get your protocol delivered automatically every month.' : 'Recevez votre protocole automatiquement chaque mois.'}
-                    </p>
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                      <div
-                        onClick={toggleSubscribe}
-                        className={`relative w-9 h-5 rounded-full transition-colors duration-300 ${
-                          isSubscribed ? 'bg-[#4ca735]' : 'bg-gray-200'
-                        }`}
-                      >
-                        <div
-                          className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform duration-300 ${
-                            isSubscribed ? 'translate-x-4' : 'translate-x-0.5'
-                          }`}
-                        />
-                      </div>
-                      <span className="text-sm font-semibold text-[#1a2f1c]">
-                        {isSubscribed
-                          ? `${language === 'en' ? 'Subscribe Monthly' : 'S\'abonner mensuellement'}`
-                          : (language === 'en' ? 'One-time purchase' : 'Achat unique')}
-                      </span>
-                    </label>
-                  </div>
+                  {/* ── Subscribe & Save Removed ── */}
+
 
                   {/* ── Upsells ── */}
                   {availableUpsells.length > 0 && (
