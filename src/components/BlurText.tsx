@@ -26,6 +26,7 @@ interface BlurTextProps {
   stepDuration?: number;
   highlightWord?: string;
   highlightColor?: string;
+  as?: React.ElementType;
 }
 
 const BlurText = ({
@@ -42,11 +43,12 @@ const BlurText = ({
   onAnimationComplete,
   stepDuration = 0.35,
   highlightWord,
-  highlightColor
+  highlightColor,
+  as: Component = 'p'
 }: BlurTextProps) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLParagraphElement>(null);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -89,7 +91,7 @@ const BlurText = ({
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
 
   return (
-    <p ref={ref} className={className} style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <Component ref={ref} className={className} style={{ display: 'flex', flexWrap: 'wrap' }}>
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
         
@@ -120,7 +122,7 @@ const BlurText = ({
           </motion.span>
         );
       })}
-    </p>
+    </Component>
   );
 };
 

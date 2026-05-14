@@ -361,6 +361,7 @@ const HeroSection = memo(function HeroSection() {
               }`}
             >
               <BlurText
+                as="h1"
                 text={slide.titleWords.map(w => t.hero[w.toLowerCase() as keyof typeof t.hero] || w).join(" ")}
                 direction="bottom"
                 delay={50}

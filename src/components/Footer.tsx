@@ -123,20 +123,11 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="mailto:support@ironfuellab.com"
+                  href="mailto:contact.ironfuellab@yahoo.com"
                   className="text-white/40 text-sm font-medium hover:text-white transition-colors duration-200 group flex items-center gap-2"
                 >
                   <Mail className="w-3.5 h-3.5 text-white/25 group-hover:text-[#dca853] transition-colors duration-200" />
-                  support@ironfuellab.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+18005551234"
-                  className="text-white/40 text-sm font-medium hover:text-white transition-colors duration-200 group flex items-center gap-2"
-                >
-                  <Phone className="w-3.5 h-3.5 text-white/25 group-hover:text-[#dca853] transition-colors duration-200" />
-                  +1 (800) 555-1234
+                  contact.ironfuellab@yahoo.com
                 </a>
               </li>
             </ul>
