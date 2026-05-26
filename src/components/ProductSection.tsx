@@ -62,6 +62,29 @@ const VARIANTS = [
   }
 ];
 
+const REVIEWS = [
+  {
+    name: "Marcus T.",
+    text: "The quality of Iron Fuel is unmatched. Clean ingredients, no fillers, and I actually feel the difference in my recovery."
+  },
+  {
+    name: "David L.",
+    text: "NeuroFuel is honestly the best cognitive enhancer I've used. I take it before deep work and get laser focus for hours."
+  },
+  {
+    name: "Sarah M.",
+    text: "GutFuel completely eliminated my bloating and restored my digestion. Highly recommend for daily gut health!"
+  },
+  {
+    name: "Chris F.",
+    text: "The Isolate is pure, mixes instantly, and digests easily. FURY is exactly what I needed for my recovery stack."
+  },
+  {
+    name: "Alex K.",
+    text: "Explosive power and hydration. I've noticed a significant increase in my workout endurance since starting FURY Creatine."
+  }
+];
+
 function LiveViewers() {
   const [viewers, setViewers] = useState(108);
 
@@ -193,14 +216,14 @@ export default function ProductSection() {
              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gray-200/50 to-transparent rounded-bl-full pointer-events-none"></div>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold">Marcus T.</h3>
+                <h3 className="font-semibold">{REVIEWS[activeVariant].name}</h3>
                 <CheckCircle className="text-[#4ca735]" size={16} />
               </div>
               <div className="flex gap-0.5 text-amber-500">
                 {[1, 2, 3, 4, 5].map(i => <Star key={i} size={14} fill="currentColor" />)}
               </div>
             </div>
-            <p className="text-sm text-gray-600">"The quality of Iron Fuel is unmatched. Clean ingredients, no fillers, and I actually feel the difference in my recovery."</p>
+            <p className="text-sm text-gray-600">"{REVIEWS[activeVariant].text}"</p>
           </div>
 
           {/* Formula Selection */}
