@@ -11,54 +11,54 @@ const VARIANTS = [
     title: "ZenFuel Ashwagandha", 
     price: 34.99, 
     comparePrice: 54.99, 
-    img: "/ZenFuel 1.webp", 
+    img: "/Ashwagandha.jpeg", 
     badge: "BEST SELLER", 
     active: true,
-    images: ["/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
+    images: ["/Ashwagandha.jpeg", "/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
   },
   { 
     id: "neurofuel-lions-mane", 
     title: "NeuroFuel Lion's Mane", 
     price: 39.99, 
     comparePrice: 59.99, 
-    img: "/NeuroFuel 1.webp", 
+    img: "/Lion.jpeg", 
     badge: "FOCUS", 
     savings: "SAVE $20", 
     active: false,
-    images: ["/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
+    images: ["/Lion.jpeg", "/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
   },
   { 
     id: "gutfuel-gut-health", 
     title: "GutFuel Gut Health", 
     price: 29.99, 
     comparePrice: 49.99, 
-    img: "/GutFuel 1.webp", 
+    img: "/Gut Health.jpeg", 
     badge: "DIGESTION", 
     savings: "SAVE $20", 
     active: false,
-    images: ["/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
+    images: ["/Gut Health.jpeg", "/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
   },
   { 
     id: "fury-isolate-vanilla", 
     title: "FURY Isolate Vanilla", 
     price: 79.99, 
     comparePrice: 109.99, 
-    img: "/Protein 1.webp", 
+    img: "/FURY Isolate.jpeg", 
     badge: "PROTEIN", 
     savings: "SAVE $30", 
     active: false,
-    images: ["/Protein 1.webp", "/Protein 2.webp", "/Protein 3.webp", "/Protein 4.webp"]
+    images: ["/FURY Isolate.jpeg", "/Protein 1.webp", "/Protein 2.webp", "/Protein 3.webp", "/Protein 4.webp"]
   },
   { 
     id: "fury-hydrate-creatine", 
     title: "FURY Hydrate Creatine", 
     price: 44.99, 
     comparePrice: 64.99, 
-    img: "/Creatine 1.webp", 
+    img: "/Creatine Formula.jpeg", 
     badge: "POWER", 
     savings: "SAVE $20", 
     active: false,
-    images: ["/Creatine 1.webp", "/Creatine 2.webp", "/Creatine 3.webp", "/Creatine 4.webp"]
+    images: ["/Creatine Formula.jpeg", "/Creatine 1.webp", "/Creatine 2.webp", "/Creatine 3.webp", "/Creatine 4.webp"]
   }
 ];
 

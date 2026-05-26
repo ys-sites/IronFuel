@@ -10,7 +10,7 @@ import BlurText from "./BlurText";
 const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
-    img: "/ZenFuel 1.webp",
+    img: "/Ashwagandha.jpeg",
     title: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
     subtitle: "ZenFuel Ashwagandha for deep recovery and balance.",
     price: 34.99,
@@ -21,11 +21,11 @@ const PRODUCTS = [
     marketingName: "ZenFuel Ashwagandha",
     description: "Deep recovery setup.",
     colorBg: "bg-[#e2eadc]",
-    images: ["/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
+    images: ["/Ashwagandha.jpeg", "/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
   },
   {
     id: "neurofuel-lions-mane",
-    img: "/NeuroFuel 1.webp",
+    img: "/Lion.jpeg",
     title: "Unlock Laser Focus — Your Cognitive Performance Stack",
     subtitle: "NeuroFuel Lion's Mane for peak mental clarity.",
     price: 39.99,
@@ -36,11 +36,11 @@ const PRODUCTS = [
     marketingName: "NeuroFuel Lion's Mane",
     description: "Cognitive performance stack.",
     colorBg: "bg-[#f5ebd7]",
-    images: ["/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
+    images: ["/Lion.jpeg", "/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
   },
   {
     id: "gutfuel-gut-health",
-    img: "/GutFuel 1.webp",
+    img: "/Gut Health.jpeg",
     title: "Eliminate Bloat, Restore Digestion — Your Gut Protocol",
     subtitle: "GutFuel for daily digestive balance and comfort.",
     price: 29.99,
@@ -51,11 +51,11 @@ const PRODUCTS = [
     marketingName: "GutFuel Gut Health",
     description: "Digestive balance.",
     colorBg: "bg-[#fff7ed]",
-    images: ["/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
+    images: ["/Gut Health.jpeg", "/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
   },
   {
     id: "fury-isolate-vanilla",
-    img: "/Protein 1.webp",
+    img: "/FURY Isolate.jpeg",
     title: "Build Lean Muscle, Recover Faster — Premium Protein",
     subtitle: "FURY Isolate Vanilla for rapid muscle growth.",
     price: 79.99,
@@ -66,11 +66,11 @@ const PRODUCTS = [
     marketingName: "FURY Isolate Vanilla",
     description: "Premium protein complex.",
     colorBg: "bg-[#f8eef2]",
-    images: ["/Protein 1.webp", "/Protein 2.webp", "/Protein 3.webp", "/Protein 4.webp"]
+    images: ["/FURY Isolate.jpeg", "/Protein 1.webp", "/Protein 2.webp", "/Protein 3.webp", "/Protein 4.webp"]
   },
   {
     id: "fury-hydrate-creatine",
-    img: "/Creatine 1.webp",
+    img: "/Creatine Formula.jpeg",
     title: "Explosive Power & Hydration — Your Peak Performance Stack",
     subtitle: "FURY Hydrate Creatine for maximum power and endurance.",
     price: 44.99,
@@ -81,7 +81,7 @@ const PRODUCTS = [
     marketingName: "FURY Hydrate Creatine",
     description: "Power & performance blend.",
     colorBg: "bg-[#d5dfe2]",
-    images: ["/Creatine 1.webp", "/Creatine 2.webp", "/Creatine 3.webp", "/Creatine 4.webp"]
+    images: ["/Creatine Formula.jpeg", "/Creatine 1.webp", "/Creatine 2.webp", "/Creatine 3.webp", "/Creatine 4.webp"]
   }
 ];
 
