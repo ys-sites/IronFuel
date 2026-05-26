@@ -19,9 +19,9 @@ export default function Header() {
   return (
     <>
       <header className="relative w-full px-4 md:px-8 pb-4 pt-2 z-50 bg-[#1a2318]">
-        <div className="bg-black/40 backdrop-blur-2xl border border-white/10 px-5 md:px-6 py-4 rounded-[2rem] flex items-center justify-between shadow-2xl mx-auto max-w-7xl">
+        <div className="bg-black/40 backdrop-blur-2xl border border-white/10 px-5 md:px-6 py-4 rounded-[2rem] flex items-center justify-between shadow-2xl mx-auto max-w-7xl relative">
           {/* Left: Nav Links (desktop) */}
-          <nav className="hidden lg:flex flex-1 gap-8 lg:gap-10 text-[11px] lg:text-[13px] text-white font-bold uppercase tracking-[0.2em]">
+          <nav className="hidden lg:flex gap-5 xl:gap-8 text-[11px] xl:text-[12px] text-white font-bold uppercase tracking-[0.12em] xl:tracking-[0.18em]">
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} className="hover:text-white transition-colors duration-200 text-gray-300 whitespace-nowrap">
                 {link.label}
@@ -29,17 +29,17 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Center: Brand */}
-          <div className="flex items-center justify-center shrink-0 flex-1 lg:flex-none">
+          {/* Center: Brand — absolutely centered on desktop */}
+          <div className="flex items-center justify-center flex-1 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:flex-none pointer-events-none lg:pointer-events-auto">
             <a href="/" className="flex items-center gap-3">
-              <span className="text-[14px] md:text-[16px] lg:text-xl font-black tracking-[0.35em] font-display text-white whitespace-nowrap uppercase leading-none">
+              <span className="text-[14px] md:text-[16px] lg:text-[17px] xl:text-xl font-black tracking-[0.3em] xl:tracking-[0.35em] font-display text-white whitespace-nowrap uppercase leading-none">
                 IRON FUEL LAB
               </span>
             </a>
           </div>
 
           {/* Right: Actions */}
-          <div className="flex gap-2 md:gap-3 items-center flex-1 justify-end ml-auto">
+          <div className="flex gap-2 md:gap-3 items-center lg:ml-auto justify-end">
             {/* Language Switcher */}
             <button
               onClick={() => setLanguage(language === "en" ? "fr" : "en")}
