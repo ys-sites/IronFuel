@@ -1,8 +1,25 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 
+const ROTATING_EN = [
+  "🔥 73 people bought in the last hour — stock running low",
+  "📦 Order before 3:00 PM EST → Delivered Tomorrow",
+  "⚡ 2,847 units sold this week — don't miss out",
+  "🏆 Join 14,200+ elite performers already on the protocol",
+  "🎯 This price won't last — flash deal expires tonight",
+];
+
+const ROTATING_FR = [
+  "🔥 73 personnes ont acheté dans la dernière heure — stock limité",
+  "📦 Commandez avant 15h00 EST → Livraison demain",
+  "⚡ 2 847 unités vendues cette semaine — ne manquez pas",
+  "🏆 Rejoignez 14 200+ performeurs d'élite déjà dans le protocole",
+  "🎯 Ce prix ne durera pas — l'offre flash expire ce soir",
+];
+
 export default function AnnouncementBar() {
   const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 13, seconds: 12 });
+  const [rotatingIdx, setRotatingIdx] = useState(0);
   const { language } = useLanguage();
 
   useEffect(() => {
@@ -24,17 +41,22 @@ export default function AnnouncementBar() {
     return () => clearInterval(timer);
   }, []);
 
+  // Rotate the bottom message every 3.5s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRotatingIdx(prev => (prev + 1) % ROTATING_EN.length);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const rotatingMessages = language === 'en' ? ROTATING_EN : ROTATING_FR;
+
   return (
     <div className="w-full flex flex-col font-sans">
       {/* Top Banner with Countdown */}
-      <div 
-        className="text-[#1a2318] text-center py-1 md:py-1.5"
-        style={{
-          background: "#4ca735",
-        }}
-      >
-        <div className="flex justify-center items-center gap-2 md:gap-4 text-[15px] md:text-base font-bold flex-wrap px-2 uppercase tracking-wide">
-          <span>{language === 'en' ? 'FLASH SALE ENDS IN' : 'VENTE FLASH SE TERMINE DANS'}</span>
+      <div className="text-[#1a2318] text-center py-1 md:py-1.5 bg-[#4ca735]">
+        <div className="flex justify-center items-center gap-2 md:gap-4 text-[13px] md:text-base font-bold flex-wrap px-2 uppercase tracking-wide">
+          <span>{language === 'en' ? '⚡ FLASH SALE ENDS IN' : '⚡ VENTE FLASH SE TERMINE DANS'}</span>
           <div className="flex items-center text-white">
             <div className="bg-[#1a2318] rounded-sm w-[22px] md:w-[30px] h-[26px] md:h-[40px] flex flex-col justify-center items-center mx-[2px]">
               <span className="text-[13px] md:text-sm font-black leading-none">{String(timeLeft.hours).padStart(2, '0')}</span>
@@ -51,22 +73,27 @@ export default function AnnouncementBar() {
               <span className="text-[7px] md:text-[8px] leading-none uppercase">Sec</span>
             </div>
           </div>
+          <span className="hidden sm:inline">
+            {language === 'en' ? '— 30% OFF ENDS WHEN TIMER HITS ZERO' : '— 30% DE RÉDUCTION SE TERMINE À ZÉRO'}
+          </span>
         </div>
       </div>
-      
-      {/* Bottom Banner */}
-      <div 
-        className="w-full text-white text-center py-3 md:py-4 flex justify-center items-center bg-[#1a2318]"
-      >
-        <span className="flex items-center text-base md:text-xl font-bold gap-2 uppercase tracking-tight">
-          ⚡ {language === 'en' ? '30% OFF ALL PERFORMANCE BUNDLES' : '30% DE RÉDUCTION SUR TOUS LES PACKS'}
-        </span>
+
+      {/* Bottom Banner — rotating urgency messages */}
+      <div className="w-full text-white text-center py-2.5 md:py-3 flex justify-center items-center bg-[#1a2318] overflow-hidden">
+        <div
+          key={rotatingIdx}
+          className="text-sm md:text-base font-bold tracking-tight animate-fade-in"
+          style={{ animation: "fadeInUp 0.4s ease forwards" }}
+        >
+          {rotatingMessages[rotatingIdx]}
+        </div>
       </div>
+
       <style>{`
-        @keyframes gradientFlow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>

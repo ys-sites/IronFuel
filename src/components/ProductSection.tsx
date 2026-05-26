@@ -65,25 +65,62 @@ const VARIANTS = [
 const REVIEWS = [
   {
     name: "Marcus T.",
-    text: "The quality of Iron Fuel is unmatched. Clean ingredients, no fillers, and I actually feel the difference in my recovery."
+    result: "Slept 8h solid for the first time in 2 years",
+    text: "Week 1 I was skeptical. Week 3 I threw out my melatonin. ZenFuel cut my cortisol, I wake up sharp and I'm hitting PRs in the gym. Zero side effects, just results."
   },
   {
     name: "David L.",
-    text: "NeuroFuel is honestly the best cognitive enhancer I've used. I take it before deep work and get laser focus for hours."
+    result: "Closed $40K in sales the week I started",
+    text: "NeuroFuel is the real deal. I'm processing information 2x faster. My reading comprehension, my deal flow, my recall — all upgraded. It's like putting jet fuel in a Ferrari."
   },
   {
     name: "Sarah M.",
-    text: "GutFuel completely eliminated my bloating and restored my digestion. Highly recommend for daily gut health!"
+    result: "Lost 8 lbs of bloat in 3 weeks",
+    text: "I had chronic bloating for 4 years. Tried everything. GutFuel fixed it in 11 days. My digestion is clockwork now. My skin cleared up too — didn't expect that bonus."
   },
   {
     name: "Chris F.",
-    text: "The Isolate is pure, mixes instantly, and digests easily. FURY is exactly what I needed for my recovery stack."
+    result: "Added 15 lbs of lean muscle in 60 days",
+    text: "FURY Isolate is the cleanest protein I've ever put in my body. Mixes in seconds, zero bloat, and my recovery between sessions dropped from 48h to under 24h."
   },
   {
     name: "Alex K.",
-    text: "Explosive power and hydration. I've noticed a significant increase in my workout endurance since starting FURY Creatine."
+    result: "Bench went from 185 to 225 in 6 weeks",
+    text: "I stacked FURY Creatine with the Ashwagandha and the strength gains were insane. My endurance in HIIT doubled. I'm genuinely stronger than I was at 22."
   }
 ];
+
+function ShipsByCountdown() {
+  const now = new Date();
+  // Ship same day if before 15:00 EST
+  const cutoff = new Date();
+  cutoff.setHours(15, 0, 0, 0); // 3 PM today
+  if (now >= cutoff) cutoff.setDate(cutoff.getDate() + 1);
+  const diff = cutoff.getTime() - now.getTime();
+  const hrs = Math.floor(diff / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  const [t, setT] = useState({ hrs, mins, secs });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setT(prev => {
+        let { hrs, mins, secs } = prev;
+        if (secs > 0) return { hrs, mins, secs: secs - 1 };
+        if (mins > 0) return { hrs, mins: mins - 1, secs: 59 };
+        if (hrs > 0) return { hrs: hrs - 1, mins: 59, secs: 59 };
+        return { hrs: 0, mins: 0, secs: 0 };
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <span className="font-black text-[#4ca735]">
+      {String(t.hrs).padStart(2,'0')}:{String(t.mins).padStart(2,'0')}:{String(t.secs).padStart(2,'0')}
+    </span>
+  );
+}
 
 function LiveViewers() {
   const [viewers, setViewers] = useState(108);
@@ -191,9 +228,11 @@ export default function ProductSection() {
             <ShinyText text={currentVariantInfo.title} disabled={false} speed={2} color="#000000" shineColor="#4ca735" />
           </h1>
           
-          <div className="flex items-center gap-2 mb-6">
+          {/* Live viewers + sold count */}
+          <div className="flex flex-wrap items-center gap-3 mb-5">
             <span className="bg-red-50 text-red-600 border border-red-200 text-[11px] font-bold px-2 py-0.5 rounded-full uppercase">● LIVE</span>
-            <span className="text-xs text-gray-500"><LiveViewers /> people are currently viewing this product</span>
+            <span className="text-xs text-gray-500"><LiveViewers /> people viewing right now</span>
+            <span className="text-xs font-bold text-[#4ca735] bg-[#4ca735]/8 px-2 py-0.5 rounded-full">✓ 2,847 sold this week</span>
           </div>
 
           {/* Icons list */}
@@ -212,19 +251,21 @@ export default function ProductSection() {
             ))}
           </div>
 
-          {/* Custom Mini Review Card */}
-          <div className="bg-gray-50 border border-gray-200 rounded-md p-4 mb-6 relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gray-200/50 to-transparent rounded-bl-full pointer-events-none"></div>
-            <div className="flex items-center justify-between mb-2">
+          {/* Mini Review Card — specific result headline */}
+          <div className="bg-gray-50 border border-gray-200 rounded-md p-4 mb-5 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gray-200/50 to-transparent rounded-bl-full pointer-events-none"></div>
+            <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold">{REVIEWS[activeVariant].name}</h3>
-                <CheckCircle className="text-[#4ca735]" size={16} />
+                <h3 className="font-semibold text-sm">{REVIEWS[activeVariant].name}</h3>
+                <CheckCircle className="text-[#4ca735]" size={14} />
+                <span className="text-[10px] text-gray-400 font-medium">Verified Purchase</span>
               </div>
               <div className="flex gap-0.5 text-amber-500">
-                {[1, 2, 3, 4, 5].map(i => <Star key={i} size={14} fill="currentColor" />)}
+                {[1,2,3,4,5].map(i => <Star key={i} size={12} fill="currentColor" />)}
               </div>
             </div>
-            <p className="text-sm text-gray-600">"{REVIEWS[activeVariant].text}"</p>
+            <p className="text-[11px] font-black text-[#4ca735] uppercase tracking-wide mb-1">✓ {REVIEWS[activeVariant].result}</p>
+            <p className="text-sm text-gray-600">&ldquo;{REVIEWS[activeVariant].text}&rdquo;</p>
           </div>
 
           {/* Formula Selection */}
@@ -301,17 +342,50 @@ export default function ProductSection() {
             </label>
           </div>
 
-          <div className="w-full bg-red-50 text-red-600 border border-red-100 py-2.5 rounded-md font-bold text-xs text-center mt-6 flex justify-center items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-red-600 shadow-[0_0_5px_rgba(220,38,38,0.8)] animate-pulse"></div>
-            ⚠️ Only 14 units left — over 230 people viewed this today
+          {/* Stock bar + shipping deadline */}
+          <div className="mt-6 space-y-3">
+            {/* Stock scarcity bar */}
+            <div className="bg-red-50 border border-red-100 rounded-md px-4 py-3">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-xs font-bold text-red-600 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse inline-block"></span>
+                  ⚠️ Only 14 units left at this price
+                </span>
+                <span className="text-[11px] text-gray-500 font-bold">14 / 80 remaining</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div className="bg-red-500 h-2 rounded-full transition-all" style={{ width: '17.5%' }}></div>
+              </div>
+              <p className="text-[11px] text-gray-500 mt-1.5">Over <strong className="text-red-600">230 people</strong> viewed this in the last 24h — bundles move fast.</p>
+            </div>
+
+            {/* Ship by countdown */}
+            <div className="bg-[#4ca735]/6 border border-[#4ca735]/20 rounded-md px-4 py-2.5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Truck size={16} className="text-[#4ca735] shrink-0" />
+                <span className="text-xs font-bold text-gray-700">Order in <ShipsByCountdown /> → Ships <strong>Today</strong></span>
+              </div>
+              <span className="text-[10px] text-gray-400 font-bold">FREE SHIPPING</span>
+            </div>
           </div>
 
-          <button 
+          <button
             onClick={handleAddToCart}
-            className="w-full bg-[#4ca735] hover:bg-[#3d862a] text-white rounded-md py-4 mt-3 text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]"
+            className="w-full bg-[#4ca735] hover:bg-[#3d862a] text-white rounded-md py-4 mt-4 text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98] relative overflow-hidden group"
           >
-            <span className="uppercase tracking-wide">⚡ Add To Cart — Free Shipping Today</span>
+            <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></span>
+            <span className="uppercase tracking-wide relative z-10">⚡ Claim My 30% Discount Now</span>
           </button>
+
+          {/* Social proof below button */}
+          <div className="mt-3 flex flex-col items-center gap-2">
+            <p className="text-[11px] text-gray-400 text-center font-medium">
+              🔒 Secure checkout &nbsp;·&nbsp; 60-Day Money-Back Guarantee &nbsp;·&nbsp; No questions asked
+            </p>
+            <p className="text-[11px] text-center text-gray-500 font-bold">
+              Join <span className="text-[#4ca735] font-black">14,200+ elite performers</span> already on the IronFuel protocol
+            </p>
+          </div>
 
           {/* Delivery & Badges */}
           <div className="mt-4 flex flex-col items-center">
