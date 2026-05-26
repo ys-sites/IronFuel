@@ -173,7 +173,7 @@ export default function ProductCarousel() {
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
           </button>
 
-          <div className="w-full overflow-hidden px-2 md:px-0 py-8 -my-8">
+          <div className="w-full overflow-hidden px-12 md:px-0 py-8 -my-8">
             <div className="flex flex-row gap-6 mx-auto justify-center sm:justify-start">
               <AnimatePresence mode="popLayout" custom={direction} initial={false}>
                 {visibleProducts.map((prod) => (
@@ -185,7 +185,20 @@ export default function ProductCarousel() {
                     animate="center"
                     exit="exit"
                     key={prod.id}
-                    className="relative z-10 flex flex-col bg-white rounded-3xl p-3 shadow-sm border border-gray-100 flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                    className="relative z-10 flex flex-col bg-white rounded-3xl p-3 shadow-sm border border-gray-100 flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] touch-pan-y select-none"
+                    drag={isMobile ? "x" : false}
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(event, info) => {
+                      if (isMobile) {
+                        const swipeThreshold = 50;
+                        if (info.offset.x < -swipeThreshold) {
+                          nextSlide();
+                        } else if (info.offset.x > swipeThreshold) {
+                          prevSlide();
+                        }
+                      }
+                    }}
                   >
                     <div 
                       onClick={() => setSelectedProduct({
