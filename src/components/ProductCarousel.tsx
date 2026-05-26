@@ -168,9 +168,9 @@ export default function ProductCarousel() {
           <button
             onClick={prevSlide}
             aria-label="Previous products"
-            className="absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 hidden sm:flex"
+            className="absolute left-2 sm:left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 flex"
           >
-            <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
           </button>
 
           <div className="w-full overflow-hidden px-2 md:px-0 py-8 -my-8">
@@ -271,9 +271,9 @@ export default function ProductCarousel() {
           <button
             onClick={nextSlide}
             aria-label="Next products"
-            className="absolute right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-20 p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 hidden sm:flex"
+            className="absolute right-2 sm:right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 flex"
           >
-            <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
           </button>
         </div>
       </div>

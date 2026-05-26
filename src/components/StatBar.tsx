@@ -38,16 +38,16 @@ export default function StatBar() {
           <div className="w-full flex-grow flex flex-col gap-6">
             {stats.map((s, i) => (
               <div key={i} className="flex flex-col gap-2">
-                <span className="text-white font-semibold text-sm tracking-wide uppercase">{s.label}</span>
-                <div className="relative w-full h-[52px] bg-[#131514] border border-white/20 rounded-md overflow-hidden">
+                <span className="text-white font-semibold text-xs md:text-sm tracking-wide uppercase">{s.label}</span>
+                <div className="relative w-full h-[46px] sm:h-[52px] bg-[#131514] border border-white/20 rounded-md overflow-hidden">
                   <motion.div 
                     initial={{ width: "0%" }}
                     whileInView={{ width: `${s.value}%` }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 1.5, delay: i * 0.2, ease: "easeOut" }}
-                    className="absolute top-0 left-0 h-full bg-[#4ca735] flex items-center pl-4"
+                    className="absolute top-0 left-0 h-full bg-[#4ca735] flex items-center pl-4 min-w-[75px] sm:min-w-[90px]"
                   >
-                    <span className="text-2xl md:text-4xl font-bold text-white drop-shadow-md">{s.value}%</span>
+                    <span className="text-xl sm:text-3xl md:text-4xl font-bold text-white drop-shadow-md whitespace-nowrap">{s.value}%</span>
                   </motion.div>
                 </div>
               </div>
