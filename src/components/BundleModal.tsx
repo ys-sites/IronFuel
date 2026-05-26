@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShieldCheck, Truck, Star, CheckCircle2 } from "lucide-react";
-import { useCart } from '../context/CartContext';
+import { useCart, getItemPricing } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
 interface BundleModalProps {
@@ -102,9 +102,10 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
 
               <div className="space-y-2.5 md:space-y-3 flex-1">
                 {bundles.map((bundle) => {
-                  const originalTotal = basePrice * bundle.qty;
-                  const totalPrice = Math.round(originalTotal * (1 - bundle.discount) * 100) / 100;
-                  const savings = Math.round((originalTotal - totalPrice) * 100) / 100;
+                  const pricing = getItemPricing(product.id, bundle.qty);
+                  const totalPrice = pricing.totalPrice;
+                  const originalTotal = pricing.originalTotalPrice;
+                  const savings = pricing.savings;
                   const itemPrice = totalPrice / bundle.qty;
                   const isSelected = selectedBundle === bundle.qty;
                   const isSingleWithDiscount = bundle.qty === 1 && singleOriginalPrice > basePrice;

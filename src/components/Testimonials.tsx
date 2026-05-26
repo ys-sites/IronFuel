@@ -1,7 +1,8 @@
-import React, { useEffect, useCallback } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import BlurText from './BlurText';
+import ShinyText from './ShinyText';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
@@ -100,26 +101,14 @@ const SCROLL_DURATION = 40;
 export default function Testimonials() {
   const { language } = useLanguage();
   const t = translations[language];
-  const controls = useAnimation();
   
   const currentTestimonials = language === 'en' ? TESTIMONIALS_EN : TESTIMONIALS_FR;
 
-  const startScroll = useCallback(() => {
-    controls.start({
-      x: ["0%", "-50%"],
-      transition: { repeat: Infinity, ease: "linear", duration: SCROLL_DURATION },
-    });
-  }, [controls]);
-
-  useEffect(() => {
-    startScroll();
-  }, [startScroll]);
-
   return (
-    <section id="testimonials" className="bg-[#0a0f0b] py-24 md:py-32 relative overflow-hidden">
+    <section id="testimonials" className="bg-white py-24 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4ca735] rounded-full blur-[150px] opacity-10" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#eab300] rounded-full blur-[150px] opacity-8" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#4ca735] rounded-full blur-[150px] opacity-[0.05]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#eab300] rounded-full blur-[150px] opacity-[0.05]" />
       </div>
 
       <div className="max-w-[85rem] mx-auto w-full relative z-10 px-4 md:px-12 mb-16 md:mb-20 text-center">
@@ -129,34 +118,29 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-block px-4 py-1.5 rounded-full border border-white/20 text-xs font-semibold mb-6 text-white tracking-wider uppercase backdrop-blur-sm">
+          <div className="inline-block px-4 py-1.5 rounded-full border border-gray-200 text-xs font-semibold mb-6 text-black tracking-wider uppercase backdrop-blur-sm">
             {language === 'en' ? "Community Verified" : "Vérifié par la Communauté"}
           </div>
-          <BlurText
-            text={t.nav.testimonials}
-            direction="bottom"
-            className="text-2xl sm:text-4xl md:text-4xl lg:text-7xl font-extrabold tracking-tighter text-white mb-6 justify-center text-center"
-          />
+          <h2 className="text-2xl sm:text-4xl md:text-4xl lg:text-7xl font-extrabold tracking-tighter text-black mb-6 flex justify-center text-center">
+            <ShinyText text={t.nav.testimonials} disabled={false} speed={2} color="#000000" shineColor="#4ca735" />
+          </h2>
         </motion.div>
       </div>
 
       {/* Scrolling track — pauses on hover */}
       <div
-        className="relative w-full flex overflow-x-hidden pt-8 pb-12 cursor-default"
-        onMouseEnter={() => controls.stop()}
-        onMouseLeave={startScroll}
+        className="relative w-full flex overflow-x-hidden pt-8 pb-12 cursor-default hover-pause"
       >
-        <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-[#0a0f0b] to-transparent z-20 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-[#0a0f0b] to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
 
-        <motion.div
-          animate={controls}
-          className="flex gap-6 md:gap-8 px-6 md:px-8 w-max"
+        <div
+          className="flex gap-6 md:gap-8 pr-6 md:pr-8 w-max animate-marquee"
         >
           {[...currentTestimonials, ...currentTestimonials].map((test, index) => (
             <div
               key={index}
-              className="w-[240px] sm:w-[300px] md:w-[380px] shrink-0 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between hover:bg-white/8 hover:border-white/20 transition-all duration-300 shadow-2xl"
+              className="w-[240px] sm:w-[300px] md:w-[380px] shrink-0 bg-gray-50 border border-gray-200 backdrop-blur-md rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 flex flex-col justify-between hover:bg-white hover:border-gray-300 transition-all duration-300 shadow-sm"
             >
               <div>
                 <div className="flex gap-1 mb-5">
@@ -164,7 +148,7 @@ export default function Testimonials() {
                     <Star key={i} className="w-4 h-4 md:w-5 md:h-5 text-[#eab300] fill-current" />
                   ))}
                 </div>
-                <p className="text-base md:text-lg text-white/90 leading-relaxed font-medium tracking-tight mb-7">
+                <p className="text-base md:text-lg text-gray-700 leading-relaxed font-medium tracking-tight mb-7">
                   "{test.quote}"
                 </p>
               </div>
@@ -174,16 +158,16 @@ export default function Testimonials() {
                   alt={test.name}
                   loading="lazy"
                   decoding="async"
-                  className="w-11 h-11 rounded-full border-2 border-white/20 object-cover"
+                  className="w-11 h-11 rounded-full border-2 border-gray-200 object-cover"
                 />
                 <div>
-                  <h4 className="text-white font-bold tracking-tight text-sm">{test.name}</h4>
-                  <p className="text-white/50 text-xs">{test.role}</p>
+                  <h4 className="text-black font-bold tracking-tight text-sm">{test.name}</h4>
+                  <p className="text-gray-500 text-xs">{test.role}</p>
                 </div>
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Check, X, ShieldCheck } from 'lucide-react';
+import ShinyText from "./ShinyText";
+import BlurText from "./BlurText";
 import { useLanguage } from '../context/LanguageContext';
 
 export default function ComparisonTable() {
@@ -64,14 +66,16 @@ export default function ComparisonTable() {
           <div className="inline-block px-4 py-1.5 rounded-full border border-[#2b4224]/30 text-xs font-semibold mb-4 text-[#2b4224] tracking-wider uppercase">
             {language === 'en' ? 'The IronFuel Difference' : 'La Difference IronFuel'}
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-[#1a2f1c] mb-4">
-            {language === 'en' ? 'Why IronFuel Outperforms the Rest' : 'Pourquoi IronFuel Surpasse les Autres'}
+          <h2 className="text-3xl md:text-5xl font-black text-[#1a2f1c] mb-4 flex justify-center">
+            <ShinyText text={language === 'en' ? 'Why IronFuel Outperforms the Rest' : 'Pourquoi IronFuel Surpasse les Autres'} disabled={false} speed={2} color="#1a2f1c" shineColor="#4ca735" />
           </h2>
-          <p className="text-gray-500 font-medium max-w-2xl mx-auto text-lg">
-            {language === 'en'
+          <BlurText 
+             text={language === 'en'
               ? "Stop paying for under-dosed, filler-packed supplements. See exactly where we stand apart."
               : "Arretez de payer pour des supplements sous-doses et bourres de charges. Voyez exactement ce qui nous distingue."}
-          </p>
+             direction="bottom"
+             className="text-gray-500 font-medium max-w-2xl mx-auto text-lg flex justify-center"
+          />
         </div>
 
         <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100">

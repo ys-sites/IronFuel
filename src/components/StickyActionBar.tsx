@@ -28,7 +28,7 @@ export default function StickyActionBar({ isVisible }: StickyActionBarProps) {
             <div className="flex items-center gap-3 pl-2 sm:pl-4">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#e2eadc] to-[#c1ddcb] rounded-full overflow-hidden border border-white/50 shrink-0 shadow-inner">
                 <img
-                  src="/Ashwagandha.jpeg"
+                  src="https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg"
                   alt="ZenFuel Ashwagandha"
                   className="w-full h-full object-cover mix-blend-multiply scale-110"
                 />
@@ -50,7 +50,7 @@ export default function StickyActionBar({ isVisible }: StickyActionBarProps) {
                   name: "ZenFuel – Ashwagandha",
                   description: "Relax. Recover. Stay Balanced.",
                   price: 34.99,
-                  image: "/Ashwagandha.jpeg",
+                  image: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg",
                   colorBg: "bg-[#e2eadc]"
                 });
                 openCart();

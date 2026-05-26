@@ -7,11 +7,11 @@ import { translations } from '../translations';
 
 const UPSELL_OPTIONS = [
   {
-    id: 'neurofuel-lions-mane-mushroom',
+    id: 'neurofuel-lions-mane',
     name: "NeuroFuel Lion's Mane",
     description: 'Cognitive Focus',
-    price: 44.99,
-    image: '/Lion.jpeg',
+    price: 39.99,
+    image: 'https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg',
     colorBg: 'bg-[#f5ebd7]',
     accent: '#eab300'
   },
@@ -19,17 +19,17 @@ const UPSELL_OPTIONS = [
     id: 'gutfuel-gut-health',
     name: "GutFuel Gut Health",
     description: 'Digestive Balance',
-    price: 39.99,
-    image: '/Gut Health.jpeg',
+    price: 29.99,
+    image: 'https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg',
     colorBg: 'bg-[#fff7ed]',
     accent: '#f97316'
   },
   {
-    id: 'fury-hydrate-creatine-formula',
+    id: 'fury-hydrate-creatine',
     name: "FURY Hydrate Creatine",
     description: 'Power & Performance',
-    price: 40.49,
-    image: '/Creatine Formula.jpeg',
+    price: 44.99,
+    image: 'https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Creatine Formula.jpeg',
     colorBg: 'bg-[#d5dfe2]',
     accent: '#334155'
   }

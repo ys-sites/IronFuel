@@ -42,6 +42,34 @@ const CartContext = createContext<CartContextType | null>(null);
 const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
+export const SHOPIFY_PRICES: Record<string, { base: number; bundle3: number; bundle6: number }> = {
+  'zenfuel-ashwagandha':           { base: 34.99, bundle3: 94.47,  bundle6: 178.45 },
+  'neurofuel-lions-mane':          { base: 39.99, bundle3: 121.47, bundle6: 229.45 },
+  'neurofuel-lions-mane-mushroom': { base: 39.99, bundle3: 121.47, bundle6: 229.45 },
+  'gutfuel-gut-health':            { base: 29.99, bundle3: 107.97, bundle6: 203.95 },
+  'fury-isolate-vanilla':          { base: 79.99, bundle3: 215.97, bundle6: 407.95 },
+  'fury-hydrate-creatine':         { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
+  'fury-hydrate-creatine-formula': { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
+};
+
+export function getItemPricing(itemId: string, qty: number): { totalPrice: number; originalTotalPrice: number; savings: number } {
+  const prices = SHOPIFY_PRICES[itemId] || { base: 34.99, bundle3: 94.47, bundle6: 178.45 };
+  const num6 = Math.floor(qty / 6);
+  const rem = qty % 6;
+  const num3 = Math.floor(rem / 3);
+  const num1 = rem % 3;
+  
+  const totalPrice = (num6 * prices.bundle6) + (num3 * prices.bundle3) + (num1 * prices.base);
+  const originalTotalPrice = prices.base * qty;
+  const savings = Math.max(0, originalTotalPrice - totalPrice);
+  
+  return {
+    totalPrice: Math.round(totalPrice * 100) / 100,
+    originalTotalPrice: Math.round(originalTotalPrice * 100) / 100,
+    savings: Math.round(savings * 100) / 100,
+  };
+}
+
 function getBundleDiscount(qty: number): number {
   if (qty >= 6) return 0.15;
   if (qty === 3) return 0.10;
@@ -49,33 +77,51 @@ function getBundleDiscount(qty: number): number {
 }
 
 const BASE_HANDLE_MAP: Record<string, string> = {
-  'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
-  'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
-  'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
-  'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
-  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
+  'zenfuel-ashwagandha':           'zenfuel-ashwagandha',
+  'neurofuel-lions-mane':          'neurofuel-lion-s-mane-mushroom',
+  'neurofuel-lions-mane-mushroom': 'neurofuel-lion-s-mane-mushroom',
+  'gutfuel-gut-health':            'gutfuel-gut-health',
+  'fury-isolate-vanilla':          'fury-isolate-vanilla',
+  'fury-hydrate-creatine':         'fury-hydrate-creatine-formula',
+  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-formula',
 };
 
 const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
   'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
+  'neurofuel-lions-mane':          'neurofuel-lions-mane-for-peak-mental-clarity',
   'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
   'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
   'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
+  'fury-hydrate-creatine':         'fury-hydrate-creatine-for-maximum-power-and-endurance',
   'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
 };
 
 const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
   'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
+  'neurofuel-lions-mane':          'neurofuel-lions-mane-bundel-6',
   'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
   'gutfuel-gut-health':            'gutfuel-bundel-6',
   'fury-isolate-vanilla':          'fury-isolate-bundel-6',
+  'fury-hydrate-creatine':         'fury-hydrate-creatine-bundel-6',
   'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
 };
 
 function loadFromStorage(): CartItem[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed.map(item => ({
+        ...item,
+        id: item.id ? item.id.replace(/-(1|3|6)pack$/, '') : item.id,
+        price: typeof item.price === 'string' ? parseFloat(item.price) : (item.price || 0),
+        quantity: typeof item.quantity === 'number' ? item.quantity : 1,
+        colorBg: item.colorBg || 'bg-[#f4f7f4]',
+      }));
+    }
+    return [];
   } catch {
     return [];
   }
@@ -188,23 +234,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const closeCart = useCallback(() => setIsOpen(false), []);
 
   const count = useMemo(() => items.reduce((s, i) => s + i.quantity, 0), [items]);
-  const subtotal = useMemo(
-    () => items.reduce((s, i) => s + i.price * i.quantity, 0),
-    [items]
-  );
+  
+  const subtotal = useMemo(() => {
+    return items.reduce((acc, item) => {
+      const pricing = getItemPricing(item.id, item.quantity);
+      return acc + pricing.originalTotalPrice;
+    }, 0);
+  }, [items]);
 
   const bundleSavings = useMemo(() => {
     return items.reduce((acc, item) => {
-      const discount = getBundleDiscount(item.quantity);
-      const originalTotal = item.price * item.quantity;
-      const discountedTotal = Math.round(originalTotal * (1 - discount) * 100) / 100;
-      return acc + (originalTotal - discountedTotal);
+      const pricing = getItemPricing(item.id, item.quantity);
+      return acc + pricing.savings;
     }, 0);
   }, [items]);
 
   const savings = useMemo(
-    () => bundleSavings + (isSubscribed ? (subtotal - bundleSavings) * SUBSCRIBE_DISCOUNT : 0),
-    [subtotal, bundleSavings, isSubscribed]
+    () => bundleSavings,
+    [bundleSavings]
   );
   
   const total = useMemo(() => subtotal - savings, [subtotal, savings]);
@@ -233,46 +280,59 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const BASE_HANDLE_MAP: Record<string, string> = {
         'zenfuel-ashwagandha':           'zenfuel-ashwagandha',
+        'neurofuel-lions-mane':          'neurofuel-lion-s-mane-mushroom',
         'neurofuel-lions-mane-mushroom': 'neurofuel-lion-s-mane-mushroom',
         'gutfuel-gut-health':            'gutfuel-gut-health',
         'fury-isolate-vanilla':          'fury-isolate-vanilla',
+        'fury-hydrate-creatine':         'fury-hydrate-creatine-formula',
         'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-formula',
       };
 
       const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
         'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
+        'neurofuel-lions-mane':          'neurofuel-lions-mane-for-peak-mental-clarity',
         'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
         'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
         'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
+        'fury-hydrate-creatine':         'fury-hydrate-creatine-for-maximum-power-and-endurance',
         'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
       };
 
       const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
         'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
+        'neurofuel-lions-mane':          'neurofuel-lions-mane-bundel-6',
         'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
         'gutfuel-gut-health':            'gutfuel-bundel-6',
         'fury-isolate-vanilla':          'fury-isolate-bundel-6',
+        'fury-hydrate-creatine':         'fury-hydrate-creatine-bundel-6',
         'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
       };
 
       const lineItems = items.flatMap(item => {
-        let shopifyHandle: string;
-        let shopifyQty: number;
+        const num6 = Math.floor(item.quantity / 6);
+        const rem = item.quantity % 6;
+        const num3 = Math.floor(rem / 3);
+        const num1 = rem % 3;
 
-        if (item.quantity === 3) {
-          shopifyHandle = BUNDLE_3_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
-          shopifyQty = 1;
-        } else if (item.quantity >= 6) {
-          shopifyHandle = BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
-          shopifyQty = 1;
-        } else {
-          shopifyHandle = BASE_HANDLE_MAP[item.id] ?? item.id;
-          shopifyQty = item.quantity;
+        const lines: { merchandiseId: string; quantity: number }[] = [];
+
+        if (num6 > 0) {
+          const handle = BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
+          const variantId = handleMap[handle];
+          if (variantId) lines.push({ merchandiseId: variantId, quantity: num6 });
+        }
+        if (num3 > 0) {
+          const handle = BUNDLE_3_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
+          const variantId = handleMap[handle];
+          if (variantId) lines.push({ merchandiseId: variantId, quantity: num3 });
+        }
+        if (num1 > 0) {
+          const handle = BASE_HANDLE_MAP[item.id] ?? item.id;
+          const variantId = handleMap[handle];
+          if (variantId) lines.push({ merchandiseId: variantId, quantity: num1 });
         }
 
-        const variantId = handleMap[shopifyHandle];
-        if (!variantId) console.error(`No variant for handle: "${shopifyHandle}"`);
-        return variantId ? [{ merchandiseId: variantId, quantity: shopifyQty }] : [];
+        return lines;
       });
 
       if (lineItems.length === 0) throw new Error(`No valid variants. IDs: ${items.map(i => i.id).join(', ')}`);
@@ -291,7 +351,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const cartData = await cartRes.json();
 
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
-        window.location.assign(cartData.data.cartCreate.cart.checkoutUrl);
+        const checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
+        const secureUrl = checkoutUrl.replace('https://76s90y-fe.myshopify.com', '');
+        window.location.assign(secureUrl);
       } else {
         const errs = cartData.data?.cartCreate?.userErrors;
         throw new Error(errs?.length ? errs.map((e: any) => e.message).join(', ') : 'Failed to create cart');

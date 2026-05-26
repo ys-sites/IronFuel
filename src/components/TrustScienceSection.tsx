@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, TestTube, Leaf, Award } from 'lucide-react';
 import BlurText from './BlurText';
+import ShinyText from './ShinyText';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
@@ -46,11 +47,9 @@ export default function TrustScienceSection() {
            className="flex flex-col lg:flex-row justify-between items-center gap-16 lg:gap-24"
         >
           <div className="lg:w-[40%] text-center lg:text-left">
-            <BlurText 
-               text={t.trust.heading}
-               direction="bottom"
-               className="text-[#1a2f1c] text-3xl md:text-4xl lg:text-[2.75rem] font-black uppercase tracking-tighter mb-6 italic leading-[0.95]"
-            />
+            <h2 className="text-[#1a2f1c] text-3xl md:text-4xl lg:text-[2.75rem] font-black uppercase tracking-tighter mb-6 italic leading-[0.95] flex lg:justify-start justify-center">
+              <ShinyText text={t.trust.heading} disabled={false} speed={2} color="#1a2f1c" shineColor="#4ca735" />
+            </h2>
             <BlurText 
                text={t.trust.description}
                direction="bottom"

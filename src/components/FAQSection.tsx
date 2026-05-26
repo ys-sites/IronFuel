@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 import BlurText from './BlurText';
+import ShinyText from './ShinyText';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
@@ -73,7 +74,7 @@ export default function FAQSection() {
           >
             <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100">
                <img 
-                 src="/guy.jpg" 
+                 src="https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/guy.jpg" 
                  alt="Athlete performing" 
                  className="w-full h-full object-cover object-center"
                />
@@ -102,11 +103,9 @@ export default function FAQSection() {
                 <div className="inline-block px-5 py-2 rounded-full border border-[#4ca735]/20 text-[10px] md:text-xs font-black mb-8 text-[#4ca735] tracking-[0.2em] uppercase bg-[#4ca735]/5">
                   {language === 'en' ? "Performance Knowledge Base" : "Base de Connaissances Performance"}
                 </div>
-                <BlurText 
-                   text={t.faq.heading}
-                   direction="bottom"
-                   className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-[#1a2f1c] mb-6 leading-[0.95]"
-                />
+                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-tighter text-[#1a2f1c] mb-6 leading-[0.95] inline-flex">
+                   <ShinyText text={`${t.faq.headingPart1} ${t.faq.headingPart2}`} disabled={false} speed={2} color="#1a2f1c" shineColor="#4ca735" />
+                </h2>
                 <BlurText 
                    text={t.faq.description}
                    direction="bottom"

@@ -14,14 +14,13 @@ export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const badges = [
-    { icon: ShieldCheck, label: t.footer.tested },
-    { icon: Leaf, label: t.footer.vegan },
-    { icon: Zap, label: t.footer.usa },
+    { icon: ShieldCheck, label: 'Pureté Vérifiée' },
+    { icon: Leaf, label: '100% Végane' },
+    { icon: Zap, label: 'Fabriqué aux USA' },
   ];
 
   return (
     <footer className="relative bg-[#060b07] overflow-hidden">
-
       {/* ── Ambient glow ── */}
       <div
         className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[340px] rounded-full pointer-events-none"
@@ -32,31 +31,23 @@ export default function Footer() {
         }}
       />
 
-      {/* ── Top gradient divider ── */}
-      <div
-        className="w-full h-[2px]"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(76,167,53,0.5) 30%, rgba(220,168,83,0.5) 70%, transparent 100%)',
-        }}
-      />
-
-      <div className="relative max-w-[85rem] mx-auto w-full px-6 md:px-12 pt-16 pb-10">
-
+      <div className="relative max-w-[85rem] mx-auto w-full px-6 md:px-12 pt-20 pb-24">
         {/* ── Main grid ── */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mb-16">
-
           {/* Brand column */}
           <div className="md:col-span-5">
             {/* Logo */}
-            <button onClick={scrollTop} className="cursor-pointer text-left mb-8 flex flex-col items-start gap-4 group">
-              <span className="text-3xl lg:text-4xl font-black tracking-tighter italic uppercase leading-none text-white whitespace-nowrap">
+            <button onClick={scrollTop} className="cursor-pointer text-left mb-6 flex flex-col items-start gap-4 group">
+              <span className="text-3xl lg:text-[40px] font-black tracking-[-0.04em] italic uppercase leading-none text-white whitespace-nowrap">
                 IRON FUEL LAB.
               </span>
             </button>
 
-            <p className="text-[#6b7d6e] text-sm leading-relaxed mb-8 max-w-[320px]">
-              {t.footer.brandDesc}
+            <p className="text-[#6b7d6e] text-[15px] leading-relaxed mb-8 max-w-[360px]">
+              {language === 'en' 
+                ? 'Advanced naturally sourced formulas designed for high performers seeking optimal results. Backed by science. Made in the USA.'
+                : 'Des formules avancées de source naturelle conçues pour les performeurs de haut niveau recherchant des résultats optimaux. Soutenu par la science. Fabriqué aux États-Unis.'
+              }
             </p>
 
             {/* Trust badges */}
@@ -64,22 +55,22 @@ export default function Footer() {
               {badges.map(({ icon: Icon, label }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-[#0c130d] hover:border-white/20 transition-colors"
                 >
-                  <Icon className="w-3.5 h-3.5 text-[#4ca735]" />
-                  <span className="text-[11px] font-semibold text-white/60 tracking-wide">{label}</span>
+                  <Icon className="w-4 h-4 text-[#4ca735]" />
+                  <span className="text-xs font-bold text-[#839886] tracking-wide">{label}</span>
                 </div>
               ))}
             </div>
 
             {/* Social */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-4">
               <a
                 href="#"
                 aria-label="Instagram"
-                className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#4ca735] hover:text-white hover:border-[#4ca735] transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-[#111912] border border-white/5 flex items-center justify-center text-[#839886] hover:bg-[#4ca735] hover:text-white hover:border-[#4ca735] transition-all duration-300"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -89,23 +80,22 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="md:col-span-3">
-            <h4 className="text-white font-bold tracking-[0.2em] uppercase text-[10px] mb-7 flex items-center gap-2">
-              <span className="w-4 h-[1px] bg-[#4ca735] inline-block" />
-              {t.footer.navigate}
+            <h4 className="text-white font-black tracking-[0.1em] uppercase text-xs mb-8 flex items-center gap-3">
+              <span className="w-6 h-[2px] bg-[#4ca735] inline-block" />
+              NAVIGUER
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-5">
               {[
-                { label: t.nav.products, id: 'products-section' },
-                { label: t.nav.specs, id: 'about-section' },
-                { label: t.nav.testimonials, id: 'testimonials' },
-                { label: t.nav.faq, id: 'faq' },
+                { label: 'Produits', id: 'products-section' },
+                { label: 'Spécifications', id: 'about-section' },
+                { label: 'Témoignages', id: 'testimonials' },
+                { label: 'FAQ', id: 'faq' },
               ].map(({ label, id }) => (
                 <li key={id}>
                   <button
                     onClick={() => scrollTo(id)}
-                    className="text-white/40 text-sm font-medium hover:text-white transition-colors duration-200 cursor-pointer group flex items-center gap-2"
+                    className="text-[#6b7d6e] text-[15px] font-semibold hover:text-white transition-colors duration-200 cursor-pointer text-left"
                   >
-                    <span className="w-0 group-hover:w-3 h-[1px] bg-[#4ca735] transition-all duration-300 inline-block" />
                     {label}
                   </button>
                 </li>
@@ -115,18 +105,17 @@ export default function Footer() {
 
           {/* Support */}
           <div className="md:col-span-3">
-            <h4 className="text-white font-bold tracking-[0.2em] uppercase text-[10px] mb-7 flex items-center gap-2">
-              <span className="w-4 h-[1px] bg-[#dca853] inline-block" />
-              {t.footer.support}
+            <h4 className="text-white font-black tracking-[0.1em] uppercase text-xs mb-8 flex items-center gap-3">
+              <span className="w-6 h-[2px] bg-[#dca853] inline-block" />
+              SUPPORT
             </h4>
             <ul className="space-y-4">
-
               <li>
                 <a
                   href="mailto:contact.ironfuellab@yahoo.com"
-                  className="text-white/40 text-sm font-medium hover:text-white transition-colors duration-200 group flex items-center gap-2"
+                  className="text-[#6b7d6e] text-[15px] font-semibold hover:text-white transition-colors duration-200 group flex items-start gap-3"
                 >
-                  <Mail className="w-3.5 h-3.5 text-white/25 group-hover:text-[#dca853] transition-colors duration-200" />
+                  <Mail className="w-5 h-5 text-[#839886] shrink-0 mt-0.5" />
                   contact.ironfuellab@yahoo.com
                 </a>
               </li>
@@ -136,19 +125,18 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div
-          className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+          className="pt-8 flex flex-col md:flex-row justify-between items-center gap-6"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
         >
-          <p className="text-white/20 text-xs font-medium">
-            © {new Date().getFullYear()} Iron Fuel Lab. {t.footer.rights}
+          <p className="text-[#6b7d6e] text-[13px] font-semibold">
+            © {new Date().getFullYear()} Iron Fuel Lab. Tous droits réservés.
           </p>
-          <div className="flex gap-6 text-white/20 text-xs font-medium">
-            <a href="#" className="hover:text-white transition-colors duration-200">{t.footer.privacy}</a>
-            <a href="#" className="hover:text-white transition-colors duration-200">{t.footer.terms}</a>
-            <a href="#" className="hover:text-white transition-colors duration-200">{t.footer.refund}</a>
+          <div className="flex flex-wrap justify-center gap-6 text-[#6b7d6e] text-[13px] font-semibold">
+            <a href="#" className="hover:text-white transition-colors duration-200">Confidentialité</a>
+            <a href="#" className="hover:text-white transition-colors duration-200">Conditions d'utilisation</a>
+            <a href="#" className="hover:text-white transition-colors duration-200">Politique de Remboursement</a>
           </div>
         </div>
-
       </div>
     </footer>
   );
