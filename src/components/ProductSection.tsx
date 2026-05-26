@@ -19,22 +19,22 @@ const VARIANTS = [
   { 
     id: "neurofuel-lions-mane", 
     title: "NeuroFuel Lion's Mane", 
-    price: 39.99, 
-    comparePrice: 57.13, 
+    price: 44.99, 
+    comparePrice: 64.27, 
     img: "/Lion.jpeg", 
     badge: "FOCUS", 
-    savings: "SAVE $17.14", 
+    savings: "SAVE $19.28", 
     active: false,
     images: ["/Lion.jpeg", "/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
   },
   { 
     id: "gutfuel-gut-health", 
     title: "GutFuel Gut Health", 
-    price: 29.99, 
-    comparePrice: 42.84, 
+    price: 39.99, 
+    comparePrice: 57.13, 
     img: "/Gut Health.jpeg", 
     badge: "DIGESTION", 
-    savings: "SAVE $12.85", 
+    savings: "SAVE $17.14", 
     active: false,
     images: ["/Gut Health.jpeg", "/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
   },
@@ -301,16 +301,16 @@ export default function ProductSection() {
             </label>
           </div>
 
-          <div className="w-full bg-red-50 text-red-600 py-2 rounded-md font-bold text-xs text-center mt-6 flex justify-center items-center gap-2">
+          <div className="w-full bg-red-50 text-red-600 border border-red-100 py-2.5 rounded-md font-bold text-xs text-center mt-6 flex justify-center items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-red-600 shadow-[0_0_5px_rgba(220,38,38,0.8)] animate-pulse"></div>
-            HIGH DEMAND: ORDER NOW
+            ⚠️ Only 14 units left — over 230 people viewed this today
           </div>
 
           <button 
             onClick={handleAddToCart}
-            className="w-full bg-[#1a2f1c] hover:bg-black text-white rounded-md py-4 mt-3 text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]"
+            className="w-full bg-[#4ca735] hover:bg-[#3d862a] text-white rounded-md py-4 mt-3 text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98]"
           >
-            <span className="uppercase tracking-wide">Add To Cart</span>
+            <span className="uppercase tracking-wide">⚡ Add To Cart — Free Shipping Today</span>
           </button>
 
           {/* Delivery & Badges */}
