@@ -11,7 +11,7 @@ const UPSELL_OPTIONS = [
     name: "NeuroFuel Lion's Mane",
     description: 'Cognitive Focus',
     price: 39.99,
-    image: 'https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg',
+    image: '/Lion.jpeg',
     colorBg: 'bg-[#f5ebd7]',
     accent: '#eab300'
   },
@@ -20,7 +20,7 @@ const UPSELL_OPTIONS = [
     name: "GutFuel Gut Health",
     description: 'Digestive Balance',
     price: 29.99,
-    image: 'https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg',
+    image: '/Gut Health.jpeg',
     colorBg: 'bg-[#fff7ed]',
     accent: '#f97316'
   },
@@ -29,7 +29,7 @@ const UPSELL_OPTIONS = [
     name: "FURY Hydrate Creatine",
     description: 'Power & Performance',
     price: 44.99,
-    image: 'https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Creatine Formula.jpeg',
+    image: '/Creatine Formula.jpeg',
     colorBg: 'bg-[#d5dfe2]',
     accent: '#334155'
   }
@@ -368,3 +368,4 @@ export default function SlideOutCart() {
     </AnimatePresence>
   );
 }
+

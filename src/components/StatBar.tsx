@@ -32,7 +32,7 @@ export default function StatBar() {
 
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-10 mt-10">
           <div className="w-full md:w-[45%] flex-shrink-0 relative">
-            <img src="https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg" alt="Stats" className="w-full rounded-2xl object-cover border border-white/10 shadow-lg filter brightness-90 hover:brightness-100 transition-all duration-500" />
+            <img src="/Lion.jpeg" alt="Stats" className="w-full rounded-2xl object-cover border border-white/10 shadow-lg filter brightness-90 hover:brightness-100 transition-all duration-500" />
           </div>
           
           <div className="w-full flex-grow flex flex-col gap-6">
@@ -58,3 +58,4 @@ export default function StatBar() {
     </section>
   );
 }
+

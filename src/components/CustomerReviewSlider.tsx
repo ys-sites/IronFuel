@@ -5,21 +5,21 @@ export default function CustomerReviewSlider() {
       text: "“I’ve been taking ZenFuel for a month. The difference in my deep sleep is noticeable. I wake up completely refreshed without grogginess.”",
       img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1100&auto=format&fit=crop",
       date: "Purchased ZenFuel Ashwagandha",
-      prodImg: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg"
+      prodImg: "/Ashwagandha.jpeg"
     },
     {
       name: "David L.",
       text: "“NeuroFuel is honestly the best cognitive enhancer I've used. I take it before deep work and get laser focus for hours.”",
       img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1100&auto=format&fit=crop",
       date: "Purchased NeuroFuel Lion's Mane",
-      prodImg: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg"
+      prodImg: "/Lion.jpeg"
     },
     {
       name: "Chris F.",
       text: "”The Isolate is pure, mixes instantly, and digests easily. FURY is exactly what I needed for my recovery stack.”",
       img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1100&auto=format&fit=crop",
       date: "Purchased FURY Isolate Vanilla",
-      prodImg: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/FURY Isolate.jpeg"
+      prodImg: "/FURY Isolate.jpeg"
     },
   ];
 
@@ -65,3 +65,4 @@ export default function CustomerReviewSlider() {
     </section>
   );
 }
+

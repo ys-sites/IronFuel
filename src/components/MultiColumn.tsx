@@ -10,22 +10,22 @@ export default function MultiColumn() {
 
   const columns = [
     {
-      img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg",
+      img: "/Ashwagandha.jpeg",
       title: t.col1Title,
       text: t.col1Text
     },
     {
-      img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg",
+      img: "/Lion.jpeg",
       title: t.col2Title,
       text: t.col2Text
     },
     {
-      img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg",
+      img: "/Gut Health.jpeg",
       title: t.col3Title,
       text: t.col3Text
     },
     {
-      img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Creatine Formula.jpeg",
+      img: "/Creatine Formula.jpeg",
       title: t.col4Title,
       text: t.col4Text
     }
@@ -80,3 +80,4 @@ export default function MultiColumn() {
     </section>
   );
 }
+

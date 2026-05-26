@@ -10,7 +10,7 @@ import BlurText from "./BlurText";
 const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
-    img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg",
+    img: "/Ashwagandha.jpeg",
     title: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
     subtitle: "ZenFuel Ashwagandha for deep recovery and balance.",
     price: 34.99,
@@ -24,7 +24,7 @@ const PRODUCTS = [
   },
   {
     id: "neurofuel-lions-mane",
-    img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg",
+    img: "/Lion.jpeg",
     title: "Unlock Laser Focus — Your Cognitive Performance Stack",
     subtitle: "NeuroFuel Lion's Mane for peak mental clarity.",
     price: 39.99,
@@ -38,7 +38,7 @@ const PRODUCTS = [
   },
   {
     id: "gutfuel-gut-health",
-    img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg",
+    img: "/Gut Health.jpeg",
     title: "Eliminate Bloat, Restore Digestion — Your Gut Protocol",
     subtitle: "GutFuel for daily digestive balance and comfort.",
     price: 29.99,
@@ -52,7 +52,7 @@ const PRODUCTS = [
   },
   {
     id: "fury-isolate-vanilla",
-    img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/FURY Isolate.jpeg",
+    img: "/FURY Isolate.jpeg",
     title: "Build Lean Muscle, Recover Faster — Premium Protein",
     subtitle: "FURY Isolate Vanilla for rapid muscle growth.",
     price: 79.99,
@@ -66,7 +66,7 @@ const PRODUCTS = [
   },
   {
     id: "fury-hydrate-creatine",
-    img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Creatine Formula.jpeg",
+    img: "/Creatine Formula.jpeg",
     title: "Explosive Power & Hydration — Your Peak Performance Stack",
     subtitle: "FURY Hydrate Creatine for maximum power and endurance.",
     price: 44.99,
@@ -255,3 +255,4 @@ export default function ProductCarousel() {
     </section>
   );
 }
+

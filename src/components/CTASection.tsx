@@ -15,7 +15,7 @@ export default function CTASection() {
       {/* Full-section background image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg"
+          src="/Ashwagandha.jpeg"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover object-center opacity-80"
@@ -42,7 +42,7 @@ export default function CTASection() {
           <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
           <div className="flex justify-center mb-8 relative z-10">
-            <img src="https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/logo.png" alt="Iron Fuel Lab" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+            <img src="/logo.png" alt="Iron Fuel Lab" className="w-16 h-16 md:w-20 md:h-20 object-contain" />
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-white mb-4 flex justify-center">
@@ -72,3 +72,4 @@ export default function CTASection() {
     </section>
   );
 }
+

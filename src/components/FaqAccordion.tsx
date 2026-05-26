@@ -43,7 +43,7 @@ export default function FaqAccordion() {
           className="w-full md:w-[45%] sticky top-24"
         >
           <div className="rounded-2xl shadow-xl p-4 bg-white border border-gray-200">
-            <img src="https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg" alt="FAQ" className="w-full rounded-xl object-cover" />
+            <img src="/Gut Health.jpeg" alt="FAQ" className="w-full rounded-xl object-cover" />
           </div>
         </motion.div>
         
@@ -113,3 +113,4 @@ export default function FaqAccordion() {
     </section>
   );
 }
+

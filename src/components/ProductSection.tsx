@@ -6,11 +6,11 @@ import ShinyText from "./ShinyText";
 import { motion } from "framer-motion";
 
 const VARIANTS = [
-  { id: "zenfuel-ashwagandha", title: "ZenFuel Ashwagandha", price: 34.99, comparePrice: 54.99, img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg", badge: "BEST SELLER", active: true },
-  { id: "neurofuel-lions-mane", title: "NeuroFuel Lion's Mane", price: 39.99, comparePrice: 59.99, img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg", badge: "FOCUS", savings: "SAVE $20", active: false },
-  { id: "gutfuel-gut-health", title: "GutFuel Gut Health", price: 29.99, comparePrice: 49.99, img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg", badge: "DIGESTION", savings: "SAVE $20", active: false },
-  { id: "fury-isolate-vanilla", title: "FURY Isolate Vanilla", price: 79.99, comparePrice: 109.99, img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/FURY Isolate.jpeg", badge: "PROTEIN", savings: "SAVE $30", active: false },
-  { id: "fury-hydrate-creatine", title: "FURY Hydrate Creatine", price: 44.99, comparePrice: 64.99, img: "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Creatine Formula.jpeg", badge: "POWER", savings: "SAVE $20", active: false }
+  { id: "zenfuel-ashwagandha", title: "ZenFuel Ashwagandha", price: 34.99, comparePrice: 54.99, img: "/Ashwagandha.jpeg", badge: "BEST SELLER", active: true },
+  { id: "neurofuel-lions-mane", title: "NeuroFuel Lion's Mane", price: 39.99, comparePrice: 59.99, img: "/Lion.jpeg", badge: "FOCUS", savings: "SAVE $20", active: false },
+  { id: "gutfuel-gut-health", title: "GutFuel Gut Health", price: 29.99, comparePrice: 49.99, img: "/Gut Health.jpeg", badge: "DIGESTION", savings: "SAVE $20", active: false },
+  { id: "fury-isolate-vanilla", title: "FURY Isolate Vanilla", price: 79.99, comparePrice: 109.99, img: "/FURY Isolate.jpeg", badge: "PROTEIN", savings: "SAVE $30", active: false },
+  { id: "fury-hydrate-creatine", title: "FURY Hydrate Creatine", price: 44.99, comparePrice: 64.99, img: "/Creatine Formula.jpeg", badge: "POWER", savings: "SAVE $20", active: false }
 ];
 
 function LiveViewers() {
@@ -54,7 +54,7 @@ export default function ProductSection() {
   const pricing6 = getItemPricing(currentVariantInfo.id, 6);
 
   // Set the images for the gallery based on variant (could be expanded)
-  const currentImages = [currentVariantInfo.img, "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Ashwagandha.jpeg", "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Lion.jpeg", "https://raw.githubusercontent.com/ys-sites/IronFuel/main/public/Gut Health.jpeg"];
+  const currentImages = [currentVariantInfo.img, "/Ashwagandha.jpeg", "/Lion.jpeg", "/Gut Health.jpeg"];
 
   const handleAddToCart = () => {
     addItem({
@@ -253,3 +253,4 @@ export default function ProductSection() {
     </section>
   );
 }
+
