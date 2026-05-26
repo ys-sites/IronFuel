@@ -122,7 +122,7 @@ export default function Testimonials() {
             {language === 'en' ? "Community Verified" : "Vérifié par la Communauté"}
           </div>
           <h2 className="text-2xl sm:text-4xl md:text-4xl lg:text-7xl font-extrabold tracking-tighter text-black mb-6 flex justify-center text-center">
-            <ShinyText text={t.nav.testimonials} disabled={false} speed={2} color="#000000" shineColor="#4ca735" />
+            <ShinyText text={t.nav.testimonials} disabled={true} speed={2} color="#000000" shineColor="#4ca735" />
           </h2>
         </motion.div>
       </div>

@@ -374,7 +374,9 @@ export default function ProductSection() {
             className="w-full bg-[#4ca735] hover:bg-[#3d862a] text-white rounded-md py-4 mt-4 text-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg active:scale-[0.98] relative overflow-hidden group"
           >
             <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></span>
-            <span className="uppercase tracking-wide relative z-10">⚡ Claim My 30% Discount Now</span>
+            <span className="uppercase tracking-wide relative z-10">
+              ⚡ Claim My {quantity === 6 ? '45%' : quantity === 3 ? '40%' : '30%'} Discount Now
+            </span>
           </button>
 
           {/* Social proof below button */}
