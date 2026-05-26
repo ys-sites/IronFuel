@@ -62,7 +62,7 @@ export default function FAQSection() {
   return (
     <section id="faq" className="bg-white py-24 md:py-40 px-4 md:px-8 border-t border-[#eaf0ec] overflow-hidden">
       <div className="max-w-[85rem] mx-auto w-full">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+        <div className="flex flex-col lg:flex-row gap-20 lg:gap-24 items-center">
           
           {/* Left Side: Image with Animation */}
           <motion.div 
@@ -70,9 +70,9 @@ export default function FAQSection() {
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-1/2 relative shrink-0"
+            className="w-full lg:w-1/2 relative shrink-0 z-10 mb-4 lg:mb-0"
           >
-            <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] md:aspect-square lg:aspect-[4/5] border border-gray-100">
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.2)] aspect-[3/2] sm:aspect-[4/3] md:aspect-square lg:aspect-[4/5] border border-gray-100">
                <img 
                  src="/guy.jpg" 
                  alt="Athlete performing" 
@@ -87,12 +87,12 @@ export default function FAQSection() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#4ca735]/15 rounded-full blur-[100px] -z-10"
+              className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#4ca735]/15 rounded-full blur-[100px] -z-10"
             />
           </motion.div>
 
           {/* Right Side: FAQs */}
-          <div className="w-full lg:w-1/2 pt-4 md:pt-0">
+          <div className="w-full lg:w-1/2 pt-8 md:pt-4 lg:pt-0 relative z-10">
             <div className="mb-14 text-left">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
