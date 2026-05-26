@@ -23,9 +23,9 @@ export default function ContactFooter() {
           <div className="pt-8 border-t border-[#333333] flex flex-col md:flex-row items-center justify-between gap-6">
             <p className="text-[#b0b0b0] text-xs">© 2026 IRON FUEL LAB</p>
             <div className="flex gap-3 items-center">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo_2014.svg" alt="Visa" className="h-[14px]" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" className="h-5" />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-4" />
+              <img src="/visa.svg" alt="Visa" className="h-[14px]" />
+              <img src="/mastercard.svg" alt="Mastercard" className="h-5" />
+              <img src="/paypal.svg" alt="PayPal" className="h-4" />
             </div>
           </div>
         </div>
