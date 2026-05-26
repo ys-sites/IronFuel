@@ -40,10 +40,10 @@ export default function FaqAccordion() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="w-full md:w-[45%] sticky top-24"
+          className="w-full md:w-[45%] md:sticky md:top-24 mb-8 md:mb-0"
         >
           <div className="rounded-2xl shadow-xl p-4 bg-white border border-gray-200">
-            <img src="/guy.jpg" alt="FAQ" className="w-full rounded-xl object-cover" />
+            <img src="/guy.jpg" alt="FAQ" className="w-full rounded-xl object-cover max-h-[280px] md:max-h-none object-top" />
           </div>
         </motion.div>
         
