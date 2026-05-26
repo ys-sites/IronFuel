@@ -28,8 +28,8 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   // Calculate bundle pricing
   const bundles = [
     { qty: 1, title: language === 'en' ? '1 Bottle' : '1 Bouteille', discount: 0, tag: null },
-    { qty: 3, title: language === 'en' ? '3 Bottles' : '3 Bouteilles', discount: 0.10, tag: language === 'en' ? 'SAVE 10%' : 'ÉCONOMISEZ 10%' },
-    { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.15, tag: language === 'en' ? 'SAVE 15%' : 'ÉCONOMISEZ 15%' },
+    { qty: 3, title: language === 'en' ? '3 Bottles' : '3 Bouteilles', discount: 0.10, tag: language === 'en' ? 'SAVE ANOTHER 10%' : 'ÉCONOMISEZ 10% DE PLUS' },
+    { qty: 6, title: language === 'en' ? '6 Bottles' : '6 Bouteilles', discount: 0.15, tag: language === 'en' ? 'SAVE ANOTHER 15%' : 'ÉCONOMISEZ 15% DE PLUS' },
   ];
 
   const bundleHandleMap: Record<string, Record<number, string>> = {
@@ -163,8 +163,8 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                           {(bundle.discount > 0 || isSingleWithDiscount) && (
                             <p className="text-xs md:text-sm font-black text-[#4ca735] mt-0.5">
                               {isSingleWithDiscount
-                                ? `${language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} $${(singleOriginalPrice - basePrice).toFixed(2)}`
-                                : `${language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} ${(bundle.discount * 100).toFixed(0)}% ($${savings.toFixed(2)})`}
+                                ? `${language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} ${Math.round((singleOriginalPrice - basePrice) / singleOriginalPrice * 100)}% ($${(singleOriginalPrice - basePrice).toFixed(2)})`
+                                : `${language === 'en' ? 'SAVE ANOTHER' : 'ÉCONOMISEZ'} ${(bundle.discount * 100).toFixed(0)}%${language === 'en' ? '' : ' DE PLUS'} ($${savings.toFixed(2)})`}
                             </p>
                           )}
                         </div>

@@ -129,6 +129,7 @@ export default function ProductSection() {
   const pricing1 = getItemPricing(currentVariantInfo.id, 1);
   const pricing3 = getItemPricing(currentVariantInfo.id, 3);
   const pricing6 = getItemPricing(currentVariantInfo.id, 6);
+  const discountPct1 = Math.round((currentVariantInfo.comparePrice - pricing1.totalPrice) / currentVariantInfo.comparePrice * 100);
 
   // Set the images for the gallery based on variant
   const currentImages = currentVariantInfo.images;
@@ -255,7 +256,7 @@ export default function ProductSection() {
                 <input type="radio" checked={quantity === 1} onChange={() => setQuantity(1)} className="w-5 h-5 accent-[#4ca735]" />
                 <div className="flex flex-col">
                   <div className="font-bold text-sm md:text-base">1 Bottle</div>
-                  <div className="text-xs font-bold text-[#4ca735]">SAVE ${(currentVariantInfo.comparePrice - pricing1.totalPrice).toFixed(2)}</div>
+                  <div className="text-xs font-bold text-[#4ca735]">SAVE {discountPct1}% (${(currentVariantInfo.comparePrice - pricing1.totalPrice).toFixed(2)})</div>
                 </div>
               </div>
               <div className="flex flex-col items-end">
@@ -267,12 +268,12 @@ export default function ProductSection() {
 
             {/* 3 Bottles */}
             <label className={`border rounded-lg p-4 cursor-pointer flex items-center justify-between transition-all relative pt-6 ${quantity === 3 ? "border-[#4ca735] bg-[#4ca735]/5 shadow-sm" : "border-[#4ca735] bg-white border-opacity-50 hover:border-opacity-100"}`}>
-              <div className={`absolute top-0 left-0 w-full text-center py-1 text-[11px] font-bold uppercase rounded-t-[7px] text-white bg-[#1a2f1c]`}>SAVE 10%</div>
+              <div className={`absolute top-0 left-0 w-full text-center py-1 text-[11px] font-bold uppercase rounded-t-[7px] text-white bg-[#1a2f1c]`}>SAVE ANOTHER 10%</div>
               <div className="flex items-center gap-3">
                 <input type="radio" checked={quantity === 3} onChange={() => setQuantity(3)} className="w-5 h-5 accent-[#4ca735]" />
                 <div className="flex flex-col">
                   <div className="font-bold text-sm md:text-base">3 Bottles</div>
-                  <div className="text-xs font-bold text-[#4ca735]">SAVE 10% (${pricing3.savings.toFixed(2)})</div>
+                  <div className="text-xs font-bold text-[#4ca735]">SAVE ANOTHER 10% (${pricing3.savings.toFixed(2)})</div>
                 </div>
               </div>
               <div className="flex flex-col items-end">
@@ -284,12 +285,12 @@ export default function ProductSection() {
 
             {/* 6 Bottles */}
             <label className={`border rounded-lg p-4 cursor-pointer flex items-center justify-between transition-all relative pt-6 ${quantity === 6 ? "border-[#4ca735] bg-[#4ca735]/5 shadow-sm" : "border-gray-200 bg-white hover:border-[#4ca735]/50"}`}>
-              <div className={`absolute top-0 left-0 w-full text-center py-1 text-[11px] font-bold uppercase rounded-t-[7px] text-white bg-red-600`}>SAVE 15%</div>
+              <div className={`absolute top-0 left-0 w-full text-center py-1 text-[11px] font-bold uppercase rounded-t-[7px] text-white bg-red-600`}>SAVE ANOTHER 15%</div>
               <div className="flex items-center gap-3">
                 <input type="radio" checked={quantity === 6} onChange={() => setQuantity(6)} className="w-5 h-5 accent-[#4ca735]" />
                 <div className="flex flex-col">
                   <div className="font-bold text-sm md:text-base">6 Bottles</div>
-                  <div className="text-xs font-bold text-[#4ca735]">SAVE 15% (${pricing6.savings.toFixed(2)})</div>
+                  <div className="text-xs font-bold text-[#4ca735]">SAVE ANOTHER 15% (${pricing6.savings.toFixed(2)})</div>
                 </div>
               </div>
               <div className="flex flex-col items-end">

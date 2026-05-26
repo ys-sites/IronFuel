@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Plus, Minus, ArrowRight, ShieldCheck, ShoppingCart, Truck } from 'lucide-react';
-import { useCart, CartItem } from '../context/CartContext';
+import { useCart, CartItem, getItemPricing } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
 
@@ -206,10 +206,12 @@ export default function SlideOutCart() {
                             </div>
                             <div className="text-right">
                               <span className="font-bold text-[#1a2f1c] text-sm">
-                                ${(item.price * item.quantity).toFixed(2)}
+                                ${getItemPricing(item.id, item.quantity).totalPrice.toFixed(2)}
                               </span>
                               {item.quantity > 1 && (
-                                <p className="text-[10px] text-[#9faaa2]">${item.price.toFixed(2)} {language === 'en' ? 'each' : 'chacun'}</p>
+                                <p className="text-[10px] text-[#9faaa2]">
+                                  ${(getItemPricing(item.id, item.quantity).totalPrice / item.quantity).toFixed(2)} {language === 'en' ? 'each' : 'chacun'}
+                                </p>
                               )}
                             </div>
                           </div>
