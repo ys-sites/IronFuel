@@ -14,6 +14,11 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   const { language } = useLanguage();
   // Pre-select the most popular (3 bottles)
   const [selectedBundle, setSelectedBundle] = useState(3);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  React.useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [product?.id]);
 
   if (!product) return null;
 
@@ -49,6 +54,8 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
     openCart();
   };
 
+  const images = product?.images && product.images.length > 0 ? product.images : [product.image];
+
   return (
     <AnimatePresence>
       <motion.div
@@ -67,34 +74,53 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
         >
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 p-1.5 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-10"
+            className="absolute top-3 right-3 p-1.5 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full transition-colors z-20 shadow-sm border border-black/5"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4 text-black" />
           </button>
 
           <div className="flex flex-col md:flex-row">
-            {/* Left side: Product Image — hidden on mobile */}
-            <div className={`hidden md:flex md:w-2/5 p-8 flex-col items-center justify-center ${product.colorBg}`}>
-              <img src={product.image} alt={product.name} className="w-full h-auto object-cover mix-blend-multiply scale-110 drop-shadow-xl" />
-              <div className="mt-6 flex justify-center gap-1 text-amber-400">
+            {/* Left side: Product Image Gallery */}
+            <div className={`w-full md:w-2/5 p-6 md:p-8 flex flex-col items-center justify-center ${product.colorBg}`}>
+              <div className="w-full max-w-[200px] md:max-w-none aspect-square flex items-center justify-center bg-transparent">
+                <img 
+                  src={images[selectedImageIndex]} 
+                  alt={product.name} 
+                  className="max-h-full max-w-full object-contain mix-blend-multiply scale-110 drop-shadow-xl transition-all duration-300" 
+                />
+              </div>
+
+              {/* Gallery Thumbnails */}
+              {images.length > 1 && (
+                <div className="flex gap-1.5 mt-6 overflow-x-auto pb-1 max-w-full justify-center scrollbar-none">
+                  {images.map((img: string, i: number) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedImageIndex(i)}
+                      className={`w-11 h-11 md:w-12 md:h-12 rounded-lg overflow-hidden border-2 transition-all cursor-pointer bg-white shrink-0 ${
+                        selectedImageIndex === i ? 'border-[#4ca735] shadow-sm' : 'border-transparent opacity-65 hover:opacity-100'
+                      }`}
+                    >
+                      <img src={img} alt="Thumb" className="w-full h-full object-cover mix-blend-multiply" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className="mt-5 flex justify-center gap-1 text-amber-400">
                 {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
               </div>
-              <p className="text-xs text-center font-bold text-gray-800 mt-2 opacity-70">
+              <p className="text-xs text-center font-bold text-gray-800 mt-1 opacity-70">
                 {language === 'en' ? '1,000+ 5-Star Reviews' : 'Plus de 1000 avis 5 étoiles'}
               </p>
             </div>
 
             {/* Right side: Bundles */}
             <div className="w-full md:w-3/5 p-5 md:p-8 flex flex-col">
-              {/* Mobile-only compact header with thumbnail */}
-              <div className={`flex md:hidden items-center gap-3 -mx-5 -mt-5 px-5 pt-4 pb-3 mb-3 ${product.colorBg}`}>
-                <img src={product.image} alt={product.name} className="w-14 h-14 object-cover mix-blend-multiply rounded-xl shrink-0" />
-                <div>
-                  <h2 className="text-base font-black text-[#1a2f1c] leading-tight">{product.marketingName || product.name}</h2>
-                  <div className="flex gap-0.5 mt-0.5 text-amber-400">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-current" />)}
-                  </div>
-                </div>
+              {/* Mobile-only compact header */}
+              <div className="md:hidden pb-3 mb-2 border-b border-gray-100">
+                <h2 className="text-xl font-black text-[#1a2f1c] leading-tight">{product.marketingName || product.name}</h2>
+                <p className="text-gray-500 font-medium text-xs mt-1">{product.description}</p>
               </div>
 
               <h2 className="hidden md:block text-2xl font-black text-[#1a2f1c] leading-tight mb-1">{product.marketingName || product.name}</h2>

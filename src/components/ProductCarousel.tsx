@@ -10,7 +10,7 @@ import BlurText from "./BlurText";
 const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
-    img: "/Ashwagandha.jpeg",
+    img: "/ZenFuel 1.webp",
     title: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
     subtitle: "ZenFuel Ashwagandha for deep recovery and balance.",
     price: 34.99,
@@ -21,10 +21,11 @@ const PRODUCTS = [
     marketingName: "ZenFuel Ashwagandha",
     description: "Deep recovery setup.",
     colorBg: "bg-[#e2eadc]",
+    images: ["/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
   },
   {
     id: "neurofuel-lions-mane",
-    img: "/Lion.jpeg",
+    img: "/NeuroFuel 1.webp",
     title: "Unlock Laser Focus — Your Cognitive Performance Stack",
     subtitle: "NeuroFuel Lion's Mane for peak mental clarity.",
     price: 39.99,
@@ -35,10 +36,11 @@ const PRODUCTS = [
     marketingName: "NeuroFuel Lion's Mane",
     description: "Cognitive performance stack.",
     colorBg: "bg-[#f5ebd7]",
+    images: ["/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
   },
   {
     id: "gutfuel-gut-health",
-    img: "/Gut Health.jpeg",
+    img: "/GutFuel 1.webp",
     title: "Eliminate Bloat, Restore Digestion — Your Gut Protocol",
     subtitle: "GutFuel for daily digestive balance and comfort.",
     price: 29.99,
@@ -49,10 +51,11 @@ const PRODUCTS = [
     marketingName: "GutFuel Gut Health",
     description: "Digestive balance.",
     colorBg: "bg-[#fff7ed]",
+    images: ["/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
   },
   {
     id: "fury-isolate-vanilla",
-    img: "/FURY Isolate.jpeg",
+    img: "/Protein 1.webp",
     title: "Build Lean Muscle, Recover Faster — Premium Protein",
     subtitle: "FURY Isolate Vanilla for rapid muscle growth.",
     price: 79.99,
@@ -63,10 +66,11 @@ const PRODUCTS = [
     marketingName: "FURY Isolate Vanilla",
     description: "Premium protein complex.",
     colorBg: "bg-[#f8eef2]",
+    images: ["/Protein 1.webp", "/Protein 2.webp", "/Protein 3.webp", "/Protein 4.webp"]
   },
   {
     id: "fury-hydrate-creatine",
-    img: "/Creatine Formula.jpeg",
+    img: "/Creatine 1.webp",
     title: "Explosive Power & Hydration — Your Peak Performance Stack",
     subtitle: "FURY Hydrate Creatine for maximum power and endurance.",
     price: 44.99,
@@ -77,6 +81,7 @@ const PRODUCTS = [
     marketingName: "FURY Hydrate Creatine",
     description: "Power & performance blend.",
     colorBg: "bg-[#d5dfe2]",
+    images: ["/Creatine 1.webp", "/Creatine 2.webp", "/Creatine 3.webp", "/Creatine 4.webp"]
   }
 ];
 
@@ -182,15 +187,41 @@ export default function ProductCarousel() {
                     key={prod.id}
                     className="relative z-10 flex flex-col bg-white rounded-3xl p-3 shadow-sm border border-gray-100 flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                   >
-                    <div className="relative rounded-2xl overflow-hidden mb-5 aspect-[16/10] bg-gray-200">
-                      <img src={prod.img} alt={prod.title} className="w-full h-full object-cover" />
+                    <div 
+                      onClick={() => setSelectedProduct({
+                        id: prod.id,
+                        name: prod.marketingName,
+                        marketingName: prod.title,
+                        description: prod.subtitle,
+                        price: prod.price,
+                        originalPrice: prod.comparePrice,
+                        image: prod.img,
+                        colorBg: prod.colorBg,
+                        images: prod.images
+                      })}
+                      className="relative rounded-2xl overflow-hidden mb-5 aspect-[16/10] bg-gray-200 cursor-pointer group"
+                    >
+                      <img src={prod.img} alt={prod.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
                       <div className="absolute top-4 right-4 bg-[#1a2f1c] text-white text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
                         {prod.savingsText.replace('Économisez', 'SAVE').replace('$', ' $')}
                       </div>
                     </div>
                     
                     <div className="flex-1 flex flex-col px-2">
-                      <h3 className="font-bold text-xl md:text-[22px] leading-tight mb-2 text-black pr-4 h-[3.5rem] md:h-[4rem]">
+                      <h3 
+                        onClick={() => setSelectedProduct({
+                          id: prod.id,
+                          name: prod.marketingName,
+                          marketingName: prod.title,
+                          description: prod.subtitle,
+                          price: prod.price,
+                          originalPrice: prod.comparePrice,
+                          image: prod.img,
+                          colorBg: prod.colorBg,
+                          images: prod.images
+                        })}
+                        className="font-bold text-xl md:text-[22px] leading-tight mb-2 text-black pr-4 h-[3.5rem] md:h-[4rem] cursor-pointer hover:text-[#4ca735] transition-colors"
+                      >
                         {prod.title}
                       </h3>
                       <p className="text-gray-500 text-[15px] mb-6 flex-1 pr-4">
@@ -222,7 +253,8 @@ export default function ProductCarousel() {
                             price: prod.price,
                             originalPrice: prod.comparePrice,
                             image: prod.img,
-                            colorBg: prod.colorBg
+                            colorBg: prod.colorBg,
+                            images: prod.images
                           })}
                           className={`${prod.buttonColor} text-white px-5 py-3 rounded-full font-bold text-[15px] flex items-center justify-center gap-2 transition-transform hover:scale-105 shadow-sm whitespace-nowrap w-full xl:w-auto h-[48px] cursor-pointer`}
                         >

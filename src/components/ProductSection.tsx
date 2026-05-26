@@ -6,11 +6,60 @@ import ShinyText from "./ShinyText";
 import { motion } from "framer-motion";
 
 const VARIANTS = [
-  { id: "zenfuel-ashwagandha", title: "ZenFuel Ashwagandha", price: 34.99, comparePrice: 54.99, img: "/Ashwagandha.jpeg", badge: "BEST SELLER", active: true },
-  { id: "neurofuel-lions-mane", title: "NeuroFuel Lion's Mane", price: 39.99, comparePrice: 59.99, img: "/Lion.jpeg", badge: "FOCUS", savings: "SAVE $20", active: false },
-  { id: "gutfuel-gut-health", title: "GutFuel Gut Health", price: 29.99, comparePrice: 49.99, img: "/Gut Health.jpeg", badge: "DIGESTION", savings: "SAVE $20", active: false },
-  { id: "fury-isolate-vanilla", title: "FURY Isolate Vanilla", price: 79.99, comparePrice: 109.99, img: "/FURY Isolate.jpeg", badge: "PROTEIN", savings: "SAVE $30", active: false },
-  { id: "fury-hydrate-creatine", title: "FURY Hydrate Creatine", price: 44.99, comparePrice: 64.99, img: "/Creatine Formula.jpeg", badge: "POWER", savings: "SAVE $20", active: false }
+  { 
+    id: "zenfuel-ashwagandha", 
+    title: "ZenFuel Ashwagandha", 
+    price: 34.99, 
+    comparePrice: 54.99, 
+    img: "/ZenFuel 1.webp", 
+    badge: "BEST SELLER", 
+    active: true,
+    images: ["/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
+  },
+  { 
+    id: "neurofuel-lions-mane", 
+    title: "NeuroFuel Lion's Mane", 
+    price: 39.99, 
+    comparePrice: 59.99, 
+    img: "/NeuroFuel 1.webp", 
+    badge: "FOCUS", 
+    savings: "SAVE $20", 
+    active: false,
+    images: ["/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
+  },
+  { 
+    id: "gutfuel-gut-health", 
+    title: "GutFuel Gut Health", 
+    price: 29.99, 
+    comparePrice: 49.99, 
+    img: "/GutFuel 1.webp", 
+    badge: "DIGESTION", 
+    savings: "SAVE $20", 
+    active: false,
+    images: ["/GutFuel 1.webp", "/GutFuel 2.webp", "/GutFuel 3.webp", "/GutFuel 4.webp"]
+  },
+  { 
+    id: "fury-isolate-vanilla", 
+    title: "FURY Isolate Vanilla", 
+    price: 79.99, 
+    comparePrice: 109.99, 
+    img: "/Protein 1.webp", 
+    badge: "PROTEIN", 
+    savings: "SAVE $30", 
+    active: false,
+    images: ["/Protein 1.webp", "/Protein 2.webp", "/Protein 3.webp", "/Protein 4.webp"]
+  },
+  { 
+    id: "fury-hydrate-creatine", 
+    title: "FURY Hydrate Creatine", 
+    price: 44.99, 
+    comparePrice: 64.99, 
+    img: "/Creatine 1.webp", 
+    badge: "POWER", 
+    savings: "SAVE $20", 
+    active: false,
+    images: ["/Creatine 1.webp", "/Creatine 2.webp", "/Creatine 3.webp", "/Creatine 4.webp"]
+  }
 ];
 
 function LiveViewers() {
@@ -37,7 +86,12 @@ function LiveViewers() {
 export default function ProductSection() {
   const [activeVariant, setActiveVariant] = useState(0); // Default to Ashwagandha
   const [quantity, setQuantity] = useState(3); // Default to 3 bottles
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { addItem, openCart } = useCart();
+
+  useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [activeVariant]);
 
   const currentVariantInfo = VARIANTS[activeVariant];
   
@@ -53,8 +107,8 @@ export default function ProductSection() {
   const pricing3 = getItemPricing(currentVariantInfo.id, 3);
   const pricing6 = getItemPricing(currentVariantInfo.id, 6);
 
-  // Set the images for the gallery based on variant (could be expanded)
-  const currentImages = [currentVariantInfo.img, "/Ashwagandha.jpeg", "/Lion.jpeg", "/Gut Health.jpeg"];
+  // Set the images for the gallery based on variant
+  const currentImages = currentVariantInfo.images;
 
   const handleAddToCart = () => {
     addItem({
@@ -79,13 +133,14 @@ export default function ProductSection() {
           className="flex flex-col gap-4"
         >
           <div className="w-full aspect-square bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-            <img src={currentVariantInfo.img} alt="Product" className="w-full h-full object-cover" />
+            <img src={currentImages[selectedImageIndex]} alt="Product" className="w-full h-full object-cover" />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
             {currentImages.map((img, i) => (
               <button 
                 key={i} 
-                className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all ${i === 0 ? "border-[#4ca735]" : "border-transparent opacity-50 hover:opacity-100 cursor-default"}`}
+                onClick={() => setSelectedImageIndex(i)}
+                className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all cursor-pointer ${selectedImageIndex === i ? "border-[#4ca735]" : "border-transparent opacity-50 hover:opacity-100"}`}
               >
                 <img src={img} alt="Thumb" className="w-full h-full object-cover" />
               </button>
