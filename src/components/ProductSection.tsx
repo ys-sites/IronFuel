@@ -11,10 +11,10 @@ const VARIANTS = [
     title: "ZenFuel Ashwagandha", 
     price: 34.99, 
     comparePrice: 54.99, 
-    img: "/Ashwagandha.jpeg", 
+    img: "/Ashwagandha1.jpeg", 
     badge: "BEST SELLER", 
     active: true,
-    images: ["/Ashwagandha.jpeg", "/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
+    images: ["/Ashwagandha1.jpeg", "/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
   },
   { 
     id: "neurofuel-lions-mane", 
@@ -321,7 +321,7 @@ export default function ProductSection() {
             
             <div className="flex gap-2 justify-center flex-wrap items-center">
               <CreditCard size={24} className="text-gray-600" />
-              <img src="/visa.svg" alt="Visa" className="h-[14px]" />
+              <img src="/visa.png" alt="Visa" className="h-[14px]" />
               <img src="/mastercard.svg" alt="Mastercard" className="h-5" />
               <img src="/paypal.svg" alt="PayPal" className="h-4" />
             </div>

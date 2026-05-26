@@ -10,7 +10,7 @@ import BlurText from "./BlurText";
 const PRODUCTS = [
   {
     id: "zenfuel-ashwagandha",
-    img: "/Ashwagandha.jpeg",
+    img: "/Ashwagandha1.jpeg",
     title: "Sleep Deeper, Wake Renewed — Your Stress Relief Matrix",
     subtitle: "ZenFuel Ashwagandha for deep recovery and balance.",
     price: 34.99,
@@ -21,7 +21,7 @@ const PRODUCTS = [
     marketingName: "ZenFuel Ashwagandha",
     description: "Deep recovery setup.",
     colorBg: "bg-[#e2eadc]",
-    images: ["/Ashwagandha.jpeg", "/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
+    images: ["/Ashwagandha1.jpeg", "/ZenFuel 1.webp", "/ZenFuel 2.webp", "/ZenFuel 3.webp", "/ZenFuel 4.webp", "/sup1.jpeg"]
   },
   {
     id: "neurofuel-lions-mane",

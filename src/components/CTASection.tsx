@@ -15,7 +15,7 @@ export default function CTASection() {
       {/* Full-section background image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/Ashwagandha.jpeg"
+          src="/Ashwagandha1.jpeg"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover object-center opacity-80"

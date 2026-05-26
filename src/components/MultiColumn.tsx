@@ -10,7 +10,7 @@ export default function MultiColumn() {
 
   const columns = [
     {
-      img: "/Ashwagandha.jpeg",
+      img: "/Ashwagandha1.jpeg",
       title: t.col1Title,
       text: t.col1Text
     },

@@ -5,7 +5,7 @@ export default function CustomerReviewSlider() {
       text: "“I’ve been taking ZenFuel for a month. The difference in my deep sleep is noticeable. I wake up completely refreshed without grogginess.”",
       img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1100&auto=format&fit=crop",
       date: "Purchased ZenFuel Ashwagandha",
-      prodImg: "/Ashwagandha.jpeg"
+      prodImg: "/Ashwagandha1.jpeg"
     },
     {
       name: "David L.",
