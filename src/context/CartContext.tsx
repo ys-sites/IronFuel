@@ -405,7 +405,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
         const checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
-        const secureUrl = checkoutUrl.replace('https://76s90y-fe.myshopify.com', '');
 
         if (window.fbq) {
           window.fbq('track', 'Purchase', {
@@ -417,7 +416,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           });
         }
 
-        window.location.assign(secureUrl);
+        window.location.assign(checkoutUrl);
       } else {
         const errs = cartData.data?.cartCreate?.userErrors;
         throw new Error(errs?.length ? errs.map((e: any) => e.message).join(', ') : 'Failed to create cart');
