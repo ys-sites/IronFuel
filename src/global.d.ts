@@ -10,3 +10,8 @@ declare namespace JSX {
     'shopify-list-context': any;
   }
 }
+
+interface Window {
+  fbq?: (...args: any[]) => void;
+}
+

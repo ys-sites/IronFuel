@@ -76,7 +76,7 @@ function getBundleDiscount(qty: number): number {
   return 0; // 1, 2, 4, 5 = no discount
 }
 
-const BASE_HANDLE_MAP: Record<string, string> = {
+export const BASE_HANDLE_MAP: Record<string, string> = {
   'zenfuel-ashwagandha':           'zenfuel-ashwagandha',
   'neurofuel-lions-mane':          'neurofuel-lion-s-mane-mushroom',
   'neurofuel-lions-mane-mushroom': 'neurofuel-lion-s-mane-mushroom',
@@ -86,7 +86,7 @@ const BASE_HANDLE_MAP: Record<string, string> = {
   'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-formula',
 };
 
-const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
+export const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
   'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
   'neurofuel-lions-mane':          'neurofuel-lions-mane-for-peak-mental-clarity',
   'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
@@ -96,7 +96,7 @@ const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
   'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
 };
 
-const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
+export const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
   'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
   'neurofuel-lions-mane':          'neurofuel-lions-mane-bundel-6',
   'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
@@ -104,6 +104,26 @@ const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
   'fury-isolate-vanilla':          'fury-isolate-bundel-6',
   'fury-hydrate-creatine':         'fury-hydrate-creatine-bundel-6',
   'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
+};
+
+export const getCartHandles = (cartItems: CartItem[]) => {
+  return cartItems.flatMap(item => {
+    const num6 = Math.floor(item.quantity / 6);
+    const rem = item.quantity % 6;
+    const num3 = Math.floor(rem / 3);
+    const num1 = rem % 3;
+    const handles: string[] = [];
+    if (num6 > 0) {
+      handles.push(BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id);
+    }
+    if (num3 > 0) {
+      handles.push(BUNDLE_3_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id);
+    }
+    if (num1 > 0) {
+      handles.push(BASE_HANDLE_MAP[item.id] ?? item.id);
+    }
+    return handles;
+  });
 };
 
 function loadFromStorage(): CartItem[] {
@@ -206,6 +226,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const discountPct = getBundleDiscount(initialQty);
       return [...prev, { ...product, quantity: initialQty, discountPct }];
     });
+
+    const qtyAdded = product.quantity || 1;
+    const pricing = getItemPricing(product.id, qtyAdded);
+    const addedValue = pricing.totalPrice;
+
+    let handle = product.id;
+    if (qtyAdded === 6) {
+      handle = BUNDLE_6_HANDLE_MAP[product.id] || BASE_HANDLE_MAP[product.id] || product.id;
+    } else if (qtyAdded === 3) {
+      handle = BUNDLE_3_HANDLE_MAP[product.id] || BASE_HANDLE_MAP[product.id] || product.id;
+    } else {
+      handle = BASE_HANDLE_MAP[product.id] || product.id;
+    }
+
+    if (window.fbq) {
+      window.fbq('track', 'AddToCart', {
+        content_ids: [handle],
+        content_name: product.name,
+        value: addedValue,
+        currency: 'USD'
+      });
+    }
   }, []);
 
   const removeItem = useCallback((id: string) => {
@@ -258,6 +300,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const checkout = useCallback(async (onComplete: () => void) => {
     if (items.length === 0) { onComplete(); return; }
+
+    if (window.fbq) {
+      window.fbq('track', 'InitiateCheckout', {
+        content_ids: getCartHandles(items),
+        content_type: 'product',
+        value: total,
+        currency: 'USD',
+        num_items: count
+      });
+    }
+
     try {
       const query = `query {
         products(first: 100) {
@@ -353,6 +406,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (cartData.data?.cartCreate?.cart?.checkoutUrl) {
         const checkoutUrl = cartData.data.cartCreate.cart.checkoutUrl;
         const secureUrl = checkoutUrl.replace('https://76s90y-fe.myshopify.com', '');
+
+        if (window.fbq) {
+          window.fbq('track', 'Purchase', {
+            content_ids: getCartHandles(items),
+            content_type: 'product',
+            value: total,
+            currency: 'USD',
+            num_items: count
+          });
+        }
+
         window.location.assign(secureUrl);
       } else {
         const errs = cartData.data?.cartCreate?.userErrors;
@@ -364,7 +428,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       onComplete();
     }
-  }, [items]);
+  }, [items, total, count]);
 
   const value = useMemo<CartContextType>(
     () => ({
