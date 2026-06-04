@@ -19,7 +19,7 @@ const UPSELL_OPTIONS = [
     id: 'gutfuel-gut-health',
     name: "GutFuel Gut Health",
     description: 'Digestive Balance',
-    price: 29.99,
+    price: 39.99,
     image: '/Gut Health.jpeg',
     colorBg: 'bg-[#fff7ed]',
     accent: '#f97316'
@@ -35,10 +35,22 @@ const UPSELL_OPTIONS = [
   }
 ];
 
-function getBundleInfo(item: CartItem): { qty: number; label: string } | null {
-  if (item.quantity >= 6) return { qty: item.quantity, label: `${item.quantity} Bottles` };
-  if (item.quantity === 3) return { qty: 3, label: '3 Bottles' };
-  return null;
+function getBundleInfo(item: CartItem): { label: string } | null {
+  const qty = item.quantity;
+  if (qty <= 1) return null;
+  if (qty === 2) return { label: '2 Bottles' };
+
+  const num6 = Math.floor(qty / 6);
+  const rem = qty % 6;
+  const num3 = Math.floor(rem / 3);
+  const num1 = rem % 3;
+
+  const parts: string[] = [];
+  if (num6 > 0) parts.push(`${num6 > 1 ? `${num6}×` : ''}Bundle of 6`);
+  if (num3 > 0) parts.push(`${num3 > 1 ? `${num3}×` : ''}Bundle of 3`);
+  if (num1 > 0) parts.push(`+${num1}`);
+
+  return { label: parts.join(' + ') };
 }
 
 export default function SlideOutCart() {
@@ -171,7 +183,7 @@ export default function SlideOutCart() {
                               </h4>
                               {bundleInfo ? (
                                 <p className="text-xs font-black text-[#4ca735] mt-0.5">
-                                  {language === 'en' ? bundleInfo.label : bundleInfo.label.replace('Bottles', 'Bouteilles')}
+                                  {bundleInfo.label}
                                 </p>
                               ) : (
                                 <p className="text-xs text-[#59685e] font-medium mt-0.5">{item.description}</p>
@@ -186,7 +198,7 @@ export default function SlideOutCart() {
                             </button>
                           </div>
 
-                          <div className="flex justify-between items-center mt-3">
+                          <div className="flex justify-between items-end mt-3">
                             <div className="flex items-center gap-2 bg-white rounded-lg px-2 py-1 shadow-sm border border-gray-100">
                               <button
                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -205,16 +217,48 @@ export default function SlideOutCart() {
                               </button>
                             </div>
                             <div className="text-right">
-                              <span className="font-bold text-[#1a2f1c] text-sm">
-                                ${getItemPricing(item.id, item.quantity).totalPrice.toFixed(2)}
-                              </span>
-                              {item.quantity > 1 && (
-                                <p className="text-[10px] text-[#9faaa2]">
-                                  ${(getItemPricing(item.id, item.quantity).totalPrice / item.quantity).toFixed(2)} {language === 'en' ? 'each' : 'chacun'}
-                                </p>
-                              )}
+                              {(() => {
+                                const pricing = getItemPricing(item.id, item.quantity);
+                                return (
+                                  <>
+                                    {pricing.savings > 0 && (
+                                      <p className="text-[10px] line-through text-[#9faaa2]">
+                                        ${pricing.originalTotalPrice.toFixed(2)}
+                                      </p>
+                                    )}
+                                    <span className="font-bold text-[#1a2f1c] text-sm">
+                                      ${pricing.totalPrice.toFixed(2)}
+                                    </span>
+                                    {pricing.savings > 0 && (
+                                      <p className="text-[10px] font-bold text-[#4ca735]">
+                                        Save ${pricing.savings.toFixed(2)}
+                                      </p>
+                                    )}
+                                  </>
+                                );
+                              })()}
                             </div>
                           </div>
+
+                          {/* Pricing breakdown segments */}
+                          {(() => {
+                            const pricing = getItemPricing(item.id, item.quantity);
+                            if (pricing.segments.length <= 1 && pricing.segments[0]?.discountPct === 0) return null;
+                            return (
+                              <div className="mt-2 space-y-0.5">
+                                {pricing.segments.map((seg, i) => (
+                                  <div key={i} className="flex justify-between items-center text-[10px]">
+                                    <span className="text-[#59685e] font-medium">
+                                      {seg.qty > 1 ? `${seg.qty}× ` : ''}{seg.label}
+                                    </span>
+                                    <span className={seg.discountPct > 0 ? 'font-bold text-[#4ca735]' : 'text-[#59685e]'}>
+                                      ${(seg.qty * seg.unitPrice).toFixed(2)}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            );
+                          })()}
                         </div>
                       </motion.div>
                       );

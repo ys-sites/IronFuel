@@ -44,29 +44,49 @@ const SUBSCRIBE_DISCOUNT = 0;
 
 export const SHOPIFY_PRICES: Record<string, { base: number; bundle3: number; bundle6: number }> = {
   'zenfuel-ashwagandha':           { base: 34.99, bundle3: 94.47,  bundle6: 178.45 },
-  'neurofuel-lions-mane':          { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
-  'neurofuel-lions-mane-mushroom': { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
+  'neurofuel-lions-mane':          { base: 39.99, bundle3: 107.97, bundle6: 203.95 },
+  'neurofuel-lions-mane-mushroom': { base: 39.99, bundle3: 107.97, bundle6: 203.95 },
   'gutfuel-gut-health':            { base: 39.99, bundle3: 107.97, bundle6: 203.95 },
   'fury-isolate-vanilla':          { base: 79.99, bundle3: 215.97, bundle6: 407.95 },
   'fury-hydrate-creatine':         { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
   'fury-hydrate-creatine-formula': { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
 };
 
-export function getItemPricing(itemId: string, qty: number): { totalPrice: number; originalTotalPrice: number; savings: number } {
+export interface PricingBreakdown {
+  totalPrice: number;
+  originalTotalPrice: number;
+  savings: number;
+  segments: Array<{
+    qty: number;        // how many of this bundle unit
+    unitQty: number;    // bottles per unit (6, 3, or 1)
+    unitPrice: number;  // price per bundle unit
+    discountPct: number; // 0.15, 0.10, or 0
+    label: string;      // e.g. "Bundle of 6 (−15%)"
+  }>;
+}
+
+export function getItemPricing(itemId: string, qty: number): PricingBreakdown {
   const prices = SHOPIFY_PRICES[itemId] || { base: 34.99, bundle3: 94.47, bundle6: 178.45 };
   const num6 = Math.floor(qty / 6);
   const rem = qty % 6;
   const num3 = Math.floor(rem / 3);
   const num1 = rem % 3;
-  
+
+  const segments: PricingBreakdown['segments'] = [];
+
+  if (num6 > 0) segments.push({ qty: num6, unitQty: 6, unitPrice: prices.bundle6, discountPct: 0.15, label: 'Bundle of 6 (−15%)' });
+  if (num3 > 0) segments.push({ qty: num3, unitQty: 3, unitPrice: prices.bundle3, discountPct: 0.10, label: 'Bundle of 3 (−10%)' });
+  if (num1 > 0) segments.push({ qty: num1, unitQty: 1, unitPrice: prices.base, discountPct: 0, label: num1 === 1 ? '1 Bottle' : `${num1} Bottles` });
+
   const totalPrice = (num6 * prices.bundle6) + (num3 * prices.bundle3) + (num1 * prices.base);
   const originalTotalPrice = prices.base * qty;
   const savings = Math.max(0, originalTotalPrice - totalPrice);
-  
+
   return {
     totalPrice: Math.round(totalPrice * 100) / 100,
     originalTotalPrice: Math.round(originalTotalPrice * 100) / 100,
     savings: Math.round(savings * 100) / 100,
+    segments,
   };
 }
 
@@ -331,35 +351,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           handleMap[edge.node.handle] = edge.node.variants.edges[0].node.id;
       });
 
-      const BASE_HANDLE_MAP: Record<string, string> = {
-        'zenfuel-ashwagandha':           'zenfuel-ashwagandha',
-        'neurofuel-lions-mane':          'neurofuel-lion-s-mane-mushroom',
-        'neurofuel-lions-mane-mushroom': 'neurofuel-lion-s-mane-mushroom',
-        'gutfuel-gut-health':            'gutfuel-gut-health',
-        'fury-isolate-vanilla':          'fury-isolate-vanilla',
-        'fury-hydrate-creatine':         'fury-hydrate-creatine-formula',
-        'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-formula',
-      };
-
-      const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
-        'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
-        'neurofuel-lions-mane':          'neurofuel-lions-mane-for-peak-mental-clarity',
-        'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
-        'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
-        'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
-        'fury-hydrate-creatine':         'fury-hydrate-creatine-for-maximum-power-and-endurance',
-        'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
-      };
-
-      const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
-        'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
-        'neurofuel-lions-mane':          'neurofuel-lions-mane-bundel-6',
-        'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
-        'gutfuel-gut-health':            'gutfuel-bundel-6',
-        'fury-isolate-vanilla':          'fury-isolate-bundel-6',
-        'fury-hydrate-creatine':         'fury-hydrate-creatine-bundel-6',
-        'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
-      };
+      const BASE_HANDLE_MAP_LOCAL = BASE_HANDLE_MAP;
+      const BUNDLE_3_HANDLE_MAP_LOCAL = BUNDLE_3_HANDLE_MAP;
+      const BUNDLE_6_HANDLE_MAP_LOCAL = BUNDLE_6_HANDLE_MAP;
 
       const lineItems = items.flatMap(item => {
         const num6 = Math.floor(item.quantity / 6);
@@ -370,17 +364,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const lines: { merchandiseId: string; quantity: number }[] = [];
 
         if (num6 > 0) {
-          const handle = BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
+          const handle = BUNDLE_6_HANDLE_MAP_LOCAL[item.id] ?? BASE_HANDLE_MAP_LOCAL[item.id] ?? item.id;
           const variantId = handleMap[handle];
           if (variantId) lines.push({ merchandiseId: variantId, quantity: num6 });
         }
         if (num3 > 0) {
-          const handle = BUNDLE_3_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id;
+          const handle = BUNDLE_3_HANDLE_MAP_LOCAL[item.id] ?? BASE_HANDLE_MAP_LOCAL[item.id] ?? item.id;
           const variantId = handleMap[handle];
           if (variantId) lines.push({ merchandiseId: variantId, quantity: num3 });
         }
         if (num1 > 0) {
-          const handle = BASE_HANDLE_MAP[item.id] ?? item.id;
+          const handle = BASE_HANDLE_MAP_LOCAL[item.id] ?? item.id;
           const variantId = handleMap[handle];
           if (variantId) lines.push({ merchandiseId: variantId, quantity: num1 });
         }
