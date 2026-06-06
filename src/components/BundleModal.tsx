@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShieldCheck, Truck, Star, CheckCircle2 } from "lucide-react";
-import { useCart, getItemPricing, BASE_HANDLE_MAP, BUNDLE_3_HANDLE_MAP, BUNDLE_6_HANDLE_MAP } from '../context/CartContext';
+import { useCart, getItemPricing, BUNDLE_VARIANT_MAP } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
 interface BundleModalProps {
@@ -25,14 +25,8 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
       const pricing = getItemPricing(product.id, selectedBundle);
       const value = pricing.totalPrice;
       
-      let handle = product.id;
-      if (selectedBundle === 6) {
-        handle = BUNDLE_6_HANDLE_MAP[product.id] || BASE_HANDLE_MAP[product.id] || product.id;
-      } else if (selectedBundle === 3) {
-        handle = BUNDLE_3_HANDLE_MAP[product.id] || BASE_HANDLE_MAP[product.id] || product.id;
-      } else {
-        handle = BASE_HANDLE_MAP[product.id] || product.id;
-      }
+      const mapping = BUNDLE_VARIANT_MAP[product.id];
+      const handle = mapping ? mapping.productHandle : product.id;
 
       if (window.fbq) {
         window.fbq('track', 'ViewContent', {

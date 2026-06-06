@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Star, CheckCircle, ShieldCheck, Zap, Lock, Truck, CreditCard, ShoppingBag } from "lucide-react";
-import { useCart, getItemPricing, BASE_HANDLE_MAP, BUNDLE_3_HANDLE_MAP, BUNDLE_6_HANDLE_MAP } from "../context/CartContext";
+import { useCart, getItemPricing, BUNDLE_VARIANT_MAP } from "../context/CartContext";
 import BlurText from "./BlurText";
 import ShinyText from "./ShinyText";
 import { motion } from "framer-motion";
@@ -158,14 +158,8 @@ export default function ProductSection() {
     const pricing = getItemPricing(currentVariantInfo.id, quantity);
     const value = pricing.totalPrice;
     
-    let handle = currentVariantInfo.id;
-    if (quantity === 6) {
-      handle = BUNDLE_6_HANDLE_MAP[currentVariantInfo.id] || BASE_HANDLE_MAP[currentVariantInfo.id] || currentVariantInfo.id;
-    } else if (quantity === 3) {
-      handle = BUNDLE_3_HANDLE_MAP[currentVariantInfo.id] || BASE_HANDLE_MAP[currentVariantInfo.id] || currentVariantInfo.id;
-    } else {
-      handle = BASE_HANDLE_MAP[currentVariantInfo.id] || currentVariantInfo.id;
-    }
+    const mapping = BUNDLE_VARIANT_MAP[currentVariantInfo.id];
+    const handle = mapping ? mapping.productHandle : currentVariantInfo.id;
 
     if (window.fbq) {
       window.fbq('track', 'ViewContent', {

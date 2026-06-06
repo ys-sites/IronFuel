@@ -96,55 +96,63 @@ function getBundleDiscount(qty: number): number {
   return 0; // 1, 2, 4, 5 = no discount
 }
 
-export const BASE_HANDLE_MAP: Record<string, string> = {
-  'zenfuel-ashwagandha':           'zenfuel-ashwagandha',
-  'neurofuel-lions-mane':          'neurofuel-lion-s-mane-mushroom',
-  'neurofuel-lions-mane-mushroom': 'neurofuel-lion-s-mane-mushroom',
-  'gutfuel-gut-health':            'gutfuel-gut-health',
-  'fury-isolate-vanilla':          'fury-isolate-vanilla',
-  'fury-hydrate-creatine':         'fury-hydrate-creatine-formula',
-  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-formula',
-};
-
-export const BUNDLE_3_HANDLE_MAP: Record<string, string> = {
-  'zenfuel-ashwagandha':           'zenfuel-ashwagandha-for-deep-recovery-and-balance',
-  'neurofuel-lions-mane':          'neurofuel-lions-mane-for-peak-mental-clarity',
-  'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-for-peak-mental-clarity',
-  'gutfuel-gut-health':            'gutfuel-for-daily-digestive-balance-and-comfort',
-  'fury-isolate-vanilla':          'fury-isolate-vanilla-for-rapid-muscle-growth',
-  'fury-hydrate-creatine':         'fury-hydrate-creatine-for-maximum-power-and-endurance',
-  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-for-maximum-power-and-endurance',
-};
-
-export const BUNDLE_6_HANDLE_MAP: Record<string, string> = {
-  'zenfuel-ashwagandha':           'zenfuel-ashwagandha-bundle-6',
-  'neurofuel-lions-mane':          'neurofuel-lions-mane-bundel-6',
-  'neurofuel-lions-mane-mushroom': 'neurofuel-lions-mane-bundel-6',
-  'gutfuel-gut-health':            'gutfuel-bundel-6',
-  'fury-isolate-vanilla':          'fury-isolate-bundel-6',
-  'fury-hydrate-creatine':         'fury-hydrate-creatine-bundel-6',
-  'fury-hydrate-creatine-formula': 'fury-hydrate-creatine-bundel-6',
+export const BUNDLE_VARIANT_MAP: Record<string, {
+  productHandle: string;
+  base: string;
+  bundle3: string;
+  bundle6: string;
+}> = {
+  'zenfuel-ashwagandha': {
+    productHandle: 'ashwagandha-bundle',
+    base:    '1 Bottle',
+    bundle3: '3 Bottles - Most Popular',
+    bundle6: '6 Bottles - Best Value',
+  },
+  'neurofuel-lions-mane': {
+    productHandle: 'pack-lions-mane',
+    base:    '1 Bottle',
+    bundle3: '3 Bottles - Most Popular',
+    bundle6: '6 Bottles - Best Value',
+  },
+  'neurofuel-lions-mane-mushroom': {
+    productHandle: 'pack-lions-mane',
+    base:    '1 Bottle',
+    bundle3: '3 Bottles - Most Popular',
+    bundle6: '6 Bottles - Best Value',
+  },
+  'gutfuel-gut-health': {
+    productHandle: 'pack-gutfuel-gut-health',
+    base:    '1 Bottle',
+    bundle3: '3 Bottles - Most Popular',
+    bundle6: '6 Bottles - Best Value',
+  },
+  'fury-isolate-vanilla': {
+    productHandle: 'pack-proteine',
+    base:    '1 Tub',
+    bundle3: '3 Tubs - Most Popular',
+    bundle6: '6 Tubs - Best Value',
+  },
+  'fury-hydrate-creatine': {
+    productHandle: 'pack-de-supplements',
+    base:    '1 Bottle',
+    bundle3: '3 Bottles - Most Popular',
+    bundle6: '6 Bottles - Best Value',
+  },
+  'fury-hydrate-creatine-formula': {
+    productHandle: 'pack-de-supplements',
+    base:    '1 Bottle',
+    bundle3: '3 Bottles - Most Popular',
+    bundle6: '6 Bottles - Best Value',
+  },
 };
 
 export const getCartHandles = (cartItems: CartItem[]) => {
   return cartItems.flatMap(item => {
-    const num6 = Math.floor(item.quantity / 6);
-    const rem = item.quantity % 6;
-    const num3 = Math.floor(rem / 3);
-    const num1 = rem % 3;
-    const handles: string[] = [];
-    if (num6 > 0) {
-      handles.push(BUNDLE_6_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id);
-    }
-    if (num3 > 0) {
-      handles.push(BUNDLE_3_HANDLE_MAP[item.id] ?? BASE_HANDLE_MAP[item.id] ?? item.id);
-    }
-    if (num1 > 0) {
-      handles.push(BASE_HANDLE_MAP[item.id] ?? item.id);
-    }
-    return handles;
+    const mapping = BUNDLE_VARIANT_MAP[item.id];
+    return mapping ? [mapping.productHandle] : [];
   });
 };
+
 
 function loadFromStorage(): CartItem[] {
   try {
@@ -179,14 +187,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       try {
         const query = `
           query {
-            products(first: 50) {
+            products(first: 100) {
               edges {
                 node {
                   handle
-                  variants(first: 1) {
+                  variants(first: 10) {
                     edges {
                       node {
                         id
+                        title
                       }
                     }
                   }
@@ -204,14 +213,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           body: JSON.stringify({ query })
         });
         const data = await res.json();
-        const map: Record<string, string> = {};
+        const handleMap: Record<string, string> = {};
         data.data.products.edges.forEach((edge: any) => {
-          if (edge.node.variants.edges.length > 0) {
-            map[edge.node.handle] = edge.node.variants.edges[0].node.id;
-          }
+          edge.node.variants.edges.forEach((v: any) => {
+            const key = `${edge.node.handle}::${v.node.title}`;
+            handleMap[key] = v.node.id;
+          });
         });
-        setVariantCache(map);
-        console.log('SHOPIFY HANDLES:', JSON.stringify(Object.keys(map), null, 2));
+        setVariantCache(handleMap);
+        console.log('VARIANT KEYS:', Object.keys(handleMap));
       } catch (e) {
         console.error("Failed to pre-fetch variants", e);
       }
@@ -251,14 +261,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const pricing = getItemPricing(product.id, qtyAdded);
     const addedValue = pricing.totalPrice;
 
-    let handle = product.id;
-    if (qtyAdded === 6) {
-      handle = BUNDLE_6_HANDLE_MAP[product.id] || BASE_HANDLE_MAP[product.id] || product.id;
-    } else if (qtyAdded === 3) {
-      handle = BUNDLE_3_HANDLE_MAP[product.id] || BASE_HANDLE_MAP[product.id] || product.id;
-    } else {
-      handle = BASE_HANDLE_MAP[product.id] || product.id;
-    }
+    const mapping = BUNDLE_VARIANT_MAP[product.id];
+    const handle = mapping ? mapping.productHandle : product.id;
 
     if (window.fbq) {
       window.fbq('track', 'AddToCart', {
@@ -334,7 +338,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const query = `query {
         products(first: 100) {
-          edges { node { handle variants(first: 1) { edges { node { id } } } } }
+          edges {
+            node {
+              handle
+              variants(first: 10) {
+                edges {
+                  node {
+                    id
+                    title
+                  }
+                }
+              }
+            }
+          }
         }
       }`;
       const res = await fetch('https://76s90y-fe.myshopify.com/api/2024-04/graphql.json', {
@@ -347,38 +363,37 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const handleMap: Record<string, string> = {};
       data.data.products.edges.forEach((edge: any) => {
-        if (edge.node.variants.edges.length > 0)
-          handleMap[edge.node.handle] = edge.node.variants.edges[0].node.id;
+        edge.node.variants.edges.forEach((v: any) => {
+          const key = `${edge.node.handle}::${v.node.title}`;
+          handleMap[key] = v.node.id;
+        });
       });
-
-      const BASE_HANDLE_MAP_LOCAL = BASE_HANDLE_MAP;
-      const BUNDLE_3_HANDLE_MAP_LOCAL = BUNDLE_3_HANDLE_MAP;
-      const BUNDLE_6_HANDLE_MAP_LOCAL = BUNDLE_6_HANDLE_MAP;
 
       const lineItems = items.flatMap(item => {
         const num6 = Math.floor(item.quantity / 6);
-        const rem = item.quantity % 6;
+        const rem  = item.quantity % 6;
         const num3 = Math.floor(rem / 3);
         const num1 = rem % 3;
+        const mapping = BUNDLE_VARIANT_MAP[item.id];
+        if (!mapping) return [];
 
         const lines: { merchandiseId: string; quantity: number }[] = [];
 
         if (num6 > 0) {
-          const handle = BUNDLE_6_HANDLE_MAP_LOCAL[item.id] ?? BASE_HANDLE_MAP_LOCAL[item.id] ?? item.id;
-          const variantId = handleMap[handle];
+          const key = `${mapping.productHandle}::${mapping.bundle6}`;
+          const variantId = handleMap[key];
           if (variantId) lines.push({ merchandiseId: variantId, quantity: num6 });
         }
         if (num3 > 0) {
-          const handle = BUNDLE_3_HANDLE_MAP_LOCAL[item.id] ?? BASE_HANDLE_MAP_LOCAL[item.id] ?? item.id;
-          const variantId = handleMap[handle];
+          const key = `${mapping.productHandle}::${mapping.bundle3}`;
+          const variantId = handleMap[key];
           if (variantId) lines.push({ merchandiseId: variantId, quantity: num3 });
         }
         if (num1 > 0) {
-          const handle = BASE_HANDLE_MAP_LOCAL[item.id] ?? item.id;
-          const variantId = handleMap[handle];
+          const key = `${mapping.productHandle}::${mapping.base}`;
+          const variantId = handleMap[key];
           if (variantId) lines.push({ merchandiseId: variantId, quantity: num1 });
         }
-
         return lines;
       });
 
