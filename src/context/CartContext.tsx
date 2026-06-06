@@ -43,13 +43,13 @@ const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
 export const SHOPIFY_PRICES: Record<string, { base: number; bundle3: number; bundle6: number }> = {
-  'zenfuel-ashwagandha':           { base: 34.99, bundle3: 94.47,  bundle6: 178.45 },
-  'neurofuel-lions-mane':          { base: 39.99, bundle3: 107.97, bundle6: 203.95 },
-  'neurofuel-lions-mane-mushroom': { base: 39.99, bundle3: 107.97, bundle6: 203.95 },
-  'gutfuel-gut-health':            { base: 39.99, bundle3: 107.97, bundle6: 203.95 },
-  'fury-isolate-vanilla':          { base: 79.99, bundle3: 215.97, bundle6: 407.95 },
-  'fury-hydrate-creatine':         { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
-  'fury-hydrate-creatine-formula': { base: 44.99, bundle3: 121.47, bundle6: 229.45 },
+  'zenfuel-ashwagandha':           { base: 34.99, bundle3: 99.99,  bundle6: 179.99 },
+  'neurofuel-lions-mane':          { base: 39.99, bundle3: 114.99, bundle6: 209.99 },
+  'neurofuel-lions-mane-mushroom': { base: 39.99, bundle3: 114.99, bundle6: 209.99 },
+  'gutfuel-gut-health':            { base: 39.99, bundle3: 114.99, bundle6: 209.99 },
+  'fury-isolate-vanilla':          { base: 79.99, bundle3: 229.99, bundle6: 419.99 },
+  'fury-hydrate-creatine':         { base: 44.99, bundle3: 124.99, bundle6: 229.99 },
+  'fury-hydrate-creatine-formula': { base: 44.99, bundle3: 124.99, bundle6: 229.99 },
 };
 
 export interface PricingBreakdown {
@@ -96,61 +96,60 @@ function getBundleDiscount(qty: number): number {
   return 0; // 1, 2, 4, 5 = no discount
 }
 
-export const BUNDLE_VARIANT_MAP: Record<string, {
-  productHandle: string;
-  base: string;
+export const VARIANT_ID_MAP: Record<string, {
+  base:    string;
   bundle3: string;
   bundle6: string;
 }> = {
   'zenfuel-ashwagandha': {
-    productHandle: 'ashwagandha-bundle',
-    base:    '1 Bottle',
-    bundle3: '3 Bottles - Most Popular',
-    bundle6: '6 Bottles - Best Value',
+    base:    'gid://shopify/ProductVariant/44409016844339',
+    bundle3: 'gid://shopify/ProductVariant/44409016877107',
+    bundle6: 'gid://shopify/ProductVariant/44409016909875',
   },
   'neurofuel-lions-mane': {
-    productHandle: 'pack-lions-mane',
-    base:    '1 Bottle',
-    bundle3: '3 Bottles - Most Popular',
-    bundle6: '6 Bottles - Best Value',
+    base:    'gid://shopify/ProductVariant/44409903251507',
+    bundle3: 'gid://shopify/ProductVariant/44409903284275',
+    bundle6: 'gid://shopify/ProductVariant/44409903317043',
   },
   'neurofuel-lions-mane-mushroom': {
-    productHandle: 'pack-lions-mane',
-    base:    '1 Bottle',
-    bundle3: '3 Bottles - Most Popular',
-    bundle6: '6 Bottles - Best Value',
+    base:    'gid://shopify/ProductVariant/44409903251507',
+    bundle3: 'gid://shopify/ProductVariant/44409903284275',
+    bundle6: 'gid://shopify/ProductVariant/44409903317043',
   },
   'gutfuel-gut-health': {
-    productHandle: 'pack-gutfuel-gut-health',
-    base:    '1 Bottle',
-    bundle3: '3 Bottles - Most Popular',
-    bundle6: '6 Bottles - Best Value',
+    base:    'gid://shopify/ProductVariant/44409906987059',
+    bundle3: 'gid://shopify/ProductVariant/44409907019827',
+    bundle6: 'gid://shopify/ProductVariant/44409907052595',
   },
   'fury-isolate-vanilla': {
-    productHandle: 'pack-proteine',
-    base:    '1 Tub',
-    bundle3: '3 Tubs - Most Popular',
-    bundle6: '6 Tubs - Best Value',
+    base:    'gid://shopify/ProductVariant/44409902202931',
+    bundle3: 'gid://shopify/ProductVariant/44409902235699',
+    bundle6: 'gid://shopify/ProductVariant/44409902268467',
   },
   'fury-hydrate-creatine': {
-    productHandle: 'pack-de-supplements',
-    base:    '1 Bottle',
-    bundle3: '3 Bottles - Most Popular',
-    bundle6: '6 Bottles - Best Value',
+    base:    'gid://shopify/ProductVariant/44409905578035',
+    bundle3: 'gid://shopify/ProductVariant/44409905610803',
+    bundle6: 'gid://shopify/ProductVariant/44409905643571',
   },
   'fury-hydrate-creatine-formula': {
-    productHandle: 'pack-de-supplements',
-    base:    '1 Bottle',
-    bundle3: '3 Bottles - Most Popular',
-    bundle6: '6 Bottles - Best Value',
+    base:    'gid://shopify/ProductVariant/44409905578035',
+    bundle3: 'gid://shopify/ProductVariant/44409905610803',
+    bundle6: 'gid://shopify/ProductVariant/44409905643571',
   },
 };
 
+export const BUNDLE_VARIANT_MAP: Record<string, string> = {
+  'zenfuel-ashwagandha':           'ashwagandha-bundle',
+  'neurofuel-lions-mane':          'pack-lions-mane',
+  'neurofuel-lions-mane-mushroom': 'pack-lions-mane',
+  'gutfuel-gut-health':            'pack-gutfuel-gut-health',
+  'fury-isolate-vanilla':          'pack-proteine',
+  'fury-hydrate-creatine':         'pack-de-supplements',
+  'fury-hydrate-creatine-formula': 'pack-de-supplements',
+};
+
 export const getCartHandles = (cartItems: CartItem[]) => {
-  return cartItems.flatMap(item => {
-    const mapping = BUNDLE_VARIANT_MAP[item.id];
-    return mapping ? [mapping.productHandle] : [];
-  });
+  return cartItems.map(item => BUNDLE_VARIANT_MAP[item.id] || item.id);
 };
 
 
@@ -179,56 +178,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(loadFromStorage);
   const [isSubscribed, setIsSubscribed] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [variantCache, setVariantCache] = useState<Record<string, string>>({});
-
-  // Pre-fetch all variants to speed up checkout
-  useEffect(() => {
-    const fetchAllVariants = async () => {
-      try {
-        const query = `
-          query {
-            products(first: 100) {
-              edges {
-                node {
-                  handle
-                  variants(first: 10) {
-                    edges {
-                      node {
-                        id
-                        title
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `;
-        const res = await fetch("https://76s90y-fe.myshopify.com/api/2024-04/graphql.json", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Shopify-Storefront-Access-Token": "665ed20ae0135838f2e0134f20e8811a"
-          },
-          body: JSON.stringify({ query })
-        });
-        const data = await res.json();
-        const handleMap: Record<string, string> = {};
-        data.data.products.edges.forEach((edge: any) => {
-          edge.node.variants.edges.forEach((v: any) => {
-            const key = `${edge.node.handle}::${v.node.title}`;
-            handleMap[key] = v.node.id;
-          });
-        });
-        setVariantCache(handleMap);
-        console.log('VARIANT KEYS:', Object.keys(handleMap));
-      } catch (e) {
-        console.error("Failed to pre-fetch variants", e);
-      }
-    };
-    fetchAllVariants();
-  }, []);
-
   // Persist cart to localStorage whenever items change
   useEffect(() => {
     try {
@@ -261,8 +210,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const pricing = getItemPricing(product.id, qtyAdded);
     const addedValue = pricing.totalPrice;
 
-    const mapping = BUNDLE_VARIANT_MAP[product.id];
-    const handle = mapping ? mapping.productHandle : product.id;
+    const handle = BUNDLE_VARIANT_MAP[product.id] || product.id;
 
     if (window.fbq) {
       window.fbq('track', 'AddToCart', {
@@ -327,8 +275,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     if (window.fbq) {
       window.fbq('track', 'InitiateCheckout', {
-        content_ids: getCartHandles(items),
-        content_type: 'product',
+        content_ids: items.map(i => i.id),
         value: total,
         currency: 'USD',
         num_items: count
@@ -336,68 +283,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      const query = `query {
-        products(first: 100) {
-          edges {
-            node {
-              handle
-              variants(first: 10) {
-                edges {
-                  node {
-                    id
-                    title
-                  }
-                }
-              }
-            }
-          }
-        }
-      }`;
-      const res = await fetch('https://76s90y-fe.myshopify.com/api/2024-04/graphql.json', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': '665ed20ae0135838f2e0134f20e8811a' },
-        body: JSON.stringify({ query })
-      });
-      const data = await res.json();
-      if (!data?.data?.products) throw new Error('Shopify API error: ' + JSON.stringify(data));
-
-      const handleMap: Record<string, string> = {};
-      data.data.products.edges.forEach((edge: any) => {
-        edge.node.variants.edges.forEach((v: any) => {
-          const key = `${edge.node.handle}::${v.node.title}`;
-          handleMap[key] = v.node.id;
-        });
-      });
-
       const lineItems = items.flatMap(item => {
         const num6 = Math.floor(item.quantity / 6);
         const rem  = item.quantity % 6;
         const num3 = Math.floor(rem / 3);
         const num1 = rem % 3;
-        const mapping = BUNDLE_VARIANT_MAP[item.id];
-        if (!mapping) return [];
-
+        const mapping = VARIANT_ID_MAP[item.id];
+        if (!mapping) {
+          console.error('No variant mapping for:', item.id);
+          return [];
+        }
         const lines: { merchandiseId: string; quantity: number }[] = [];
-
-        if (num6 > 0) {
-          const key = `${mapping.productHandle}::${mapping.bundle6}`;
-          const variantId = handleMap[key];
-          if (variantId) lines.push({ merchandiseId: variantId, quantity: num6 });
-        }
-        if (num3 > 0) {
-          const key = `${mapping.productHandle}::${mapping.bundle3}`;
-          const variantId = handleMap[key];
-          if (variantId) lines.push({ merchandiseId: variantId, quantity: num3 });
-        }
-        if (num1 > 0) {
-          const key = `${mapping.productHandle}::${mapping.base}`;
-          const variantId = handleMap[key];
-          if (variantId) lines.push({ merchandiseId: variantId, quantity: num1 });
-        }
+        if (num6 > 0) lines.push({ merchandiseId: mapping.bundle6, quantity: num6 });
+        if (num3 > 0) lines.push({ merchandiseId: mapping.bundle3, quantity: num3 });
+        if (num1 > 0) lines.push({ merchandiseId: mapping.base,    quantity: num1 });
         return lines;
       });
 
-      if (lineItems.length === 0) throw new Error(`No valid variants. IDs: ${items.map(i => i.id).join(', ')}`);
+      if (lineItems.length === 0) throw new Error('No valid variants found for cart items');
 
       const cartMutation = `mutation cartCreate($input: CartInput!) {
         cartCreate(input: $input) {
@@ -407,7 +310,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }`;
       const cartRes = await fetch('https://76s90y-fe.myshopify.com/api/2024-04/graphql.json', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Shopify-Storefront-Access-Token': '665ed20ae0135838f2e0134f20e8811a' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': '665ed20ae0135838f2e0134f20e8811a'
+        },
         body: JSON.stringify({ query: cartMutation, variables: { input: { lines: lineItems } } })
       });
       const cartData = await cartRes.json();

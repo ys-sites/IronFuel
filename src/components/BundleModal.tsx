@@ -25,8 +25,7 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
       const pricing = getItemPricing(product.id, selectedBundle);
       const value = pricing.totalPrice;
       
-      const mapping = BUNDLE_VARIANT_MAP[product.id];
-      const handle = mapping ? mapping.productHandle : product.id;
+      const handle = BUNDLE_VARIANT_MAP[product.id] || product.id;
 
       if (window.fbq) {
         window.fbq('track', 'ViewContent', {

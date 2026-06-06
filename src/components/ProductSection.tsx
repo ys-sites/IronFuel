@@ -158,8 +158,7 @@ export default function ProductSection() {
     const pricing = getItemPricing(currentVariantInfo.id, quantity);
     const value = pricing.totalPrice;
     
-    const mapping = BUNDLE_VARIANT_MAP[currentVariantInfo.id];
-    const handle = mapping ? mapping.productHandle : currentVariantInfo.id;
+    const handle = BUNDLE_VARIANT_MAP[currentVariantInfo.id] || currentVariantInfo.id;
 
     if (window.fbq) {
       window.fbq('track', 'ViewContent', {
