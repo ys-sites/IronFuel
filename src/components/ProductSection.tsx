@@ -19,11 +19,11 @@ const VARIANTS = [
   { 
     id: "neurofuel-lions-mane", 
     title: "NeuroFuel Lion's Mane", 
-    price: 44.99, 
+    price: 39.99, 
     comparePrice: 64.27, 
     img: "/Lion.jpeg", 
     badge: "FOCUS", 
-    savings: "SAVE $19.28", 
+    savings: "SAVE $24.28", 
     active: false,
     images: ["/Lion.jpeg", "/NeuroFuel 1.webp", "/NeuroFuel 2.webp", "/NeuroFuel 3.webp", "/NeuroFuel 4.webp"]
   },
