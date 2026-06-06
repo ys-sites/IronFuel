@@ -43,13 +43,13 @@ const STORAGE_KEY = 'ironfuellab_cart';
 const SUBSCRIBE_DISCOUNT = 0;
 
 export const SHOPIFY_PRICES: Record<string, { base: number; bundle3: number; bundle6: number }> = {
-  'zenfuel-ashwagandha':           { base: 34.99, bundle3: 94.98,  bundle6: 169.98 },
-  'neurofuel-lions-mane':          { base: 39.99, bundle3: 109.88, bundle6: 199.97 },
-  'neurofuel-lions-mane-mushroom': { base: 39.99, bundle3: 109.88, bundle6: 199.97 },
-  'gutfuel-gut-health':            { base: 39.99, bundle3: 109.99, bundle6: 199.97 },
-  'fury-isolate-vanilla':          { base: 79.99, bundle3: 219.99, bundle6: 400.02 },
-  'fury-hydrate-creatine':         { base: 44.99, bundle3: 115.97, bundle6: 220.00 },
-  'fury-hydrate-creatine-formula': { base: 44.99, bundle3: 115.97, bundle6: 220.00 },
+  'zenfuel-ashwagandha':           { base: 34.99, bundle3: 99.99,  bundle6: 179.99 },
+  'neurofuel-lions-mane':          { base: 39.99, bundle3: 114.99, bundle6: 209.99 },
+  'neurofuel-lions-mane-mushroom': { base: 39.99, bundle3: 114.99, bundle6: 209.99 },
+  'gutfuel-gut-health':            { base: 39.99, bundle3: 114.99, bundle6: 209.99 },
+  'fury-isolate-vanilla':          { base: 79.99, bundle3: 229.99, bundle6: 419.99 },
+  'fury-hydrate-creatine':         { base: 44.99, bundle3: 124.99, bundle6: 229.99 },
+  'fury-hydrate-creatine-formula': { base: 44.99, bundle3: 124.99, bundle6: 229.99 },
 };
 
 export interface PricingBreakdown {
@@ -66,7 +66,7 @@ export interface PricingBreakdown {
 }
 
 export function getItemPricing(itemId: string, qty: number): PricingBreakdown {
-  const prices = SHOPIFY_PRICES[itemId] || { base: 34.99, bundle3: 94.98, bundle6: 169.98 };
+  const prices = SHOPIFY_PRICES[itemId] || { base: 34.99, bundle3: 99.99, bundle6: 179.99 };
   const num6 = Math.floor(qty / 6);
   const rem = qty % 6;
   const num3 = Math.floor(rem / 3);
