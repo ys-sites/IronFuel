@@ -42,8 +42,7 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
   if (!product) return null;
 
   const basePrice = parseFloat(product.price);
-  const singleOriginalPrice = parseFloat(product.originalPrice || product.compareAtPrice || product.price);
-  
+
   // Calculate bundle pricing
   const bundles = [
     { qty: 1, title: language === 'en' ? '1 Bottle' : '1 Bouteille', discount: 0, tag: null },
@@ -153,8 +152,6 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                   const savings = pricing.savings;
                   const itemPrice = totalPrice / bundle.qty;
                   const isSelected = selectedBundle === bundle.qty;
-                  const isSingleWithDiscount = bundle.qty === 1 && singleOriginalPrice > basePrice;
-
                   return (
                     <div
                       key={bundle.qty}
@@ -179,20 +176,18 @@ export default function BundleModal({ product, onClose }: BundleModalProps) {
                         </div>
                         <div>
                           <h4 className="font-bold text-[#1a2f1c] text-sm md:text-lg">{bundle.title}</h4>
-                          {(bundle.discount > 0 || isSingleWithDiscount) && (
+                          {bundle.discount > 0 && (
                             <p className="text-xs md:text-sm font-black text-[#4ca735] mt-0.5">
-                              {isSingleWithDiscount
-                                ? `${language === 'en' ? 'SAVE' : 'ÉCONOMISEZ'} ${Math.round((singleOriginalPrice - basePrice) / singleOriginalPrice * 100)}% ($${(singleOriginalPrice - basePrice).toFixed(2)})`
-                                : `${language === 'en' ? 'SAVE ANOTHER' : 'ÉCONOMISEZ'} ${(bundle.discount * 100).toFixed(0)}%${language === 'en' ? '' : ' DE PLUS'} ($${savings.toFixed(2)})`}
+                              {`${language === 'en' ? 'SAVE ANOTHER' : 'ÉCONOMISEZ'} ${(bundle.discount * 100).toFixed(0)}%${language === 'en' ? '' : ' DE PLUS'} ($${savings.toFixed(2)})`}
                             </p>
                           )}
                         </div>
                       </div>
 
                       <div className="text-right flex flex-col items-end">
-                        {(bundle.discount > 0 || isSingleWithDiscount) && (
+                        {bundle.discount > 0 && (
                           <div className="text-xs font-bold text-gray-400 line-through mb-0.5">
-                            ${isSingleWithDiscount ? singleOriginalPrice.toFixed(2) : originalTotal.toFixed(2)}
+                            ${originalTotal.toFixed(2)}
                           </div>
                         )}
                         <div className="font-black text-lg md:text-2xl text-[#1a2f1c] leading-none">${totalPrice.toFixed(2)}</div>

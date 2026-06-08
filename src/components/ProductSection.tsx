@@ -184,7 +184,6 @@ export default function ProductSection() {
   const pricing1 = getItemPricing(currentVariantInfo.id, 1);
   const pricing3 = getItemPricing(currentVariantInfo.id, 3);
   const pricing6 = getItemPricing(currentVariantInfo.id, 6);
-  const discountPct1 = Math.round((currentVariantInfo.comparePrice - pricing1.totalPrice) / currentVariantInfo.comparePrice * 100);
 
   // Set the images for the gallery based on variant
   const currentImages = currentVariantInfo.images;
@@ -315,11 +314,9 @@ export default function ProductSection() {
                 <input type="radio" checked={quantity === 1} onChange={() => setQuantity(1)} className="w-5 h-5 accent-[#4ca735]" />
                 <div className="flex flex-col">
                   <div className="font-bold text-sm md:text-base">1 Bottle</div>
-                  <div className="text-xs font-bold text-[#4ca735]">SAVE {discountPct1}% (${(currentVariantInfo.comparePrice - pricing1.totalPrice).toFixed(2)})</div>
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <div className="text-xs text-gray-400 line-through">${currentVariantInfo.comparePrice.toFixed(2)}</div>
                 <div className="font-bold text-lg md:text-xl">${pricing1.totalPrice.toFixed(2)}</div>
                 <div className="text-[10px] text-gray-500">${pricing1.totalPrice.toFixed(2)} /ea</div>
               </div>
@@ -393,7 +390,7 @@ export default function ProductSection() {
           >
             <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></span>
             <span className="uppercase tracking-wide relative z-10">
-              ⚡ Claim My {quantity === 6 ? '45%' : quantity === 3 ? '40%' : '30%'} Discount Now
+              ⚡ {quantity === 6 ? 'Claim My 15% Discount Now' : quantity === 3 ? 'Claim My 10% Discount Now' : 'Add to Cart Now'}
             </span>
           </button>
 

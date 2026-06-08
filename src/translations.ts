@@ -48,7 +48,7 @@ export const translations = {
       oneTimePurchase: "One-Time Purchase",
       subscribeSave: "Subscribe & Save 15%",
       everyMonth: "Delivered every month. Cancel anytime.",
-      addBundle: "Add Complete Bundle - Save 25%",
+      addBundle: "Add Complete Bundle - Save 15%",
       guarantee: "100% Science-Backed Guarantee. Made in an FDA Registered Facility.",
       secureCheckout: "Guaranteed Safe & Secure Checkout"
     },
@@ -234,7 +234,7 @@ export const translations = {
       oneTimePurchase: "Achat Unique",
       subscribeSave: "S'abonner & Économiser 15%",
       everyMonth: "Livré chaque mois. Annulez à tout moment.",
-      addBundle: "Ajouter le Pack Complet - Économisez 25%",
+      addBundle: "Ajouter le Pack Complet - Économisez 15%",
       guarantee: "Garantie 100% Approuvée par la Science. Fabriqué dans un établissement enregistré par la FDA.",
       secureCheckout: "Paiement 100% Sécurisé Garanti"
     },

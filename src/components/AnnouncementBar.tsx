@@ -74,7 +74,7 @@ export default function AnnouncementBar() {
             </div>
           </div>
           <span className="hidden sm:inline">
-            {language === 'en' ? '— 30% OFF ENDS WHEN TIMER HITS ZERO' : '— 30% DE RÉDUCTION SE TERMINE À ZÉRO'}
+            {language === 'en' ? '— UP TO 15% OFF BUNDLES — ENDS WHEN TIMER HITS ZERO' : '— JUSQU\'À 15% DE RÉDUCTION SUR LES LOTS — SE TERMINE À ZÉRO'}
           </span>
         </div>
       </div>
