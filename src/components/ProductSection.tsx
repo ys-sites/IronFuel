@@ -242,7 +242,7 @@ export default function ProductSection() {
             <span>4.9/5 | (12,108 Reviews)</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4 font-display uppercase tracking-tight">
-            <ShinyText text={currentVariantInfo.title} disabled={false} speed={2} color="#000000" shineColor="#4ca735" />
+            <ShinyText text="Unlock Your Peak Performance" disabled={false} speed={2} color="#000000" shineColor="#4ca735" />
           </h1>
           
           {/* Live viewers + sold count */}
@@ -250,6 +250,46 @@ export default function ProductSection() {
             <span className="bg-red-50 text-red-600 border border-red-200 text-[11px] font-bold px-2 py-0.5 rounded-full uppercase">● LIVE</span>
             <span className="text-xs text-gray-500"><LiveViewers /> people viewing right now</span>
             <span className="text-xs font-bold text-[#4ca735] bg-[#4ca735]/8 px-2 py-0.5 rounded-full">✓ 2,847 sold this week</span>
+          </div>
+
+          {/* Subheadline / Intro Paragraph */}
+          <p className="text-gray-600 text-base md:text-lg mb-6 leading-relaxed">
+            Stop feeling drained, stressed, and unfocused. Iron Fuel Labs Ashwagandha is designed to help you stay calm under pressure, maintain mental clarity, and support your body's natural response to everyday stress — so you can perform at your best, whether in the gym, at work, or in daily life.
+          </p>
+
+          {/* Benefit Bullets */}
+          <div className="flex flex-col gap-2.5 mb-6">
+            {[
+              "Supports a healthy stress response",
+              "Helps maintain focus and mental clarity",
+              "Promotes overall well-being and balance",
+              "Supports recovery from physical and mental fatigue",
+              "Easy-to-take daily capsules"
+            ].map((bullet, idx) => (
+              <div key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                <CheckCircle className="text-[#4ca735] shrink-0 mt-0.5" size={16} />
+                <span className="font-medium">{bullet}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Body Sections & Tagline */}
+          <div className="space-y-4 mb-6 border-t border-gray-100 pt-5">
+            <div>
+              <h4 className="font-bold text-sm text-gray-900 uppercase tracking-wider mb-1">Built for High Performers</h4>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Whether you're pushing harder in the gym, building your business, studying for exams, or simply trying to become the best version of yourself, Ashwagandha helps you stay consistent when life gets demanding.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-gray-900 uppercase tracking-wider mb-1">Premium Quality. No Compromises.</h4>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Made with carefully selected ingredients and manufactured to high quality standards, our formula is designed for those who refuse to settle for average.
+              </p>
+            </div>
+            <p className="font-bold text-lg text-gray-900 mt-4 pt-2 border-t border-gray-100">
+              Become stronger. Think clearer. Stay focused.
+            </p>
           </div>
 
           {/* Icons list */}
@@ -288,22 +328,25 @@ export default function ProductSection() {
           {/* Formula Selection */}
           <h3 className="font-bold mb-3 mt-2 text-[15px] uppercase tracking-wide text-slate-500">Select Formula</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {VARIANTS.map((v, i) => (
-              <button 
-                key={v.id}
-                onClick={() => setActiveVariant(i)}
-                className={`relative flex flex-col items-center justify-center p-3 border rounded-md transition-all pt-10 outline-none focus:outline-none ${activeVariant === i ? "bg-white border-[#4ca735] border-2 shadow-[0_2px_10px_rgba(76,167,53,0.15)]" : "bg-white border-gray-200 border-x border-b hover:border-gray-300"}`}
-              >
-                <div className={`absolute top-0 left-0 w-full text-center py-1.5 text-[11px] font-bold uppercase rounded-t-sm ${activeVariant === i ? "bg-[#4ca735] text-white" : "bg-[#e2e8f0] text-slate-600 border-none"}`}>{v.badge}</div>
-                <img src={v.img} alt={v.title} className="w-14 h-14 rounded-md mb-3 object-cover border border-gray-100 shadow-sm" />
-                <div className="font-bold text-[13px] leading-tight text-center px-1 mb-2 text-black">{v.title.replace("ZenFuel ", "").replace("NeuroFuel ", "").replace("GutFuel ", "").replace("FURY ", "")}</div>
-                
-                <div className="flex flex-col items-center mt-auto w-full border-t border-gray-100 pt-2.5">
-                  <div className="text-[15px] font-bold text-black leading-none mb-1">${v.price.toFixed(2)}</div>
-                  <div className="text-[11px] text-gray-400 line-through leading-none">${v.comparePrice}</div>
-                </div>
-              </button>
-            ))}
+            {VARIANTS.map((v, i) => {
+              if (v.id !== "zenfuel-ashwagandha") return null;
+              return (
+                <button 
+                  key={v.id}
+                  onClick={() => setActiveVariant(i)}
+                  className={`relative flex flex-col items-center justify-center p-3 border rounded-md transition-all pt-10 outline-none focus:outline-none ${activeVariant === i ? "bg-white border-[#4ca735] border-2 shadow-[0_2px_10px_rgba(76,167,53,0.15)]" : "bg-white border-gray-200 border-x border-b hover:border-gray-300"}`}
+                >
+                  <div className={`absolute top-0 left-0 w-full text-center py-1.5 text-[11px] font-bold uppercase rounded-t-sm ${activeVariant === i ? "bg-[#4ca735] text-white" : "bg-[#e2e8f0] text-slate-600 border-none"}`}>{v.badge}</div>
+                  <img src={v.img} alt={v.title} className="w-14 h-14 rounded-md mb-3 object-cover border border-gray-100 shadow-sm" />
+                  <div className="font-bold text-[13px] leading-tight text-center px-1 mb-2 text-black">{v.title.replace("ZenFuel ", "").replace("NeuroFuel ", "").replace("GutFuel ", "").replace("FURY ", "")}</div>
+                  
+                  <div className="flex flex-col items-center mt-auto w-full border-t border-gray-100 pt-2.5">
+                    <div className="text-[15px] font-bold text-black leading-none mb-1">${v.price.toFixed(2)}</div>
+                    <div className="text-[11px] text-gray-400 line-through leading-none">${v.comparePrice}</div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
           {/* Quantity Widget */}
@@ -393,6 +436,11 @@ export default function ProductSection() {
               ⚡ {quantity === 6 ? 'Claim My 15% Discount Now' : quantity === 3 ? 'Claim My 10% Discount Now' : 'Add to Cart Now'}
             </span>
           </button>
+
+          {/* CTA Sub-Copy */}
+          <p className="text-xs text-center font-bold text-gray-600 mt-3">
+            Fuel your potential with Iron Fuel Labs Ashwagandha.
+          </p>
 
           {/* Social proof below button */}
           <div className="mt-3 flex flex-col items-center gap-2">

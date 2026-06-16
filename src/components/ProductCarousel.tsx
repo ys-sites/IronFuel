@@ -112,13 +112,17 @@ export default function ProductCarousel() {
   const nextSlide = useCallback(() => setCurrentIndex(([idx]) => [idx + 1, 1]), []);
   const prevSlide = useCallback(() => setCurrentIndex(([idx]) => [idx - 1, -1]), []);
 
+  const filteredProducts = useMemo(() => {
+    return PRODUCTS.filter(p => p.id === "zenfuel-ashwagandha");
+  }, []);
+
   const visibleProducts = useMemo(() => {
-    const count = isMobile ? 1 : (typeof window !== "undefined" && window.innerWidth < 1024 ? 2 : 3);
+    const count = isMobile ? 1 : (typeof window !== "undefined" && window.innerWidth < 1024 ? Math.min(2, filteredProducts.length) : Math.min(3, filteredProducts.length));
     return Array.from({ length: count }, (_, i) => {
-      const index = ((currentIndex + i) % PRODUCTS.length + PRODUCTS.length) % PRODUCTS.length;
-      return PRODUCTS[index];
+      const index = ((currentIndex + i) % filteredProducts.length + filteredProducts.length) % filteredProducts.length;
+      return filteredProducts[index];
     });
-  }, [currentIndex, isMobile]);
+  }, [currentIndex, isMobile, filteredProducts]);
 
   const slidingVariants = {
     enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0, scale: 0.96 }),
@@ -165,13 +169,15 @@ export default function ProductCarousel() {
         </div>
 
         <div className="relative w-full py-4">
-          <button
-            onClick={prevSlide}
-            aria-label="Previous products"
-            className="absolute left-2 sm:left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 flex"
-          >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
-          </button>
+          {filteredProducts.length > 1 && (
+            <button
+              onClick={prevSlide}
+              aria-label="Previous products"
+              className="absolute left-2 sm:left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 flex"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
+            </button>
+          )}
 
           <div className="w-full overflow-hidden px-12 md:px-0 py-8 -my-8">
             <div className="flex flex-row gap-6 mx-auto justify-center sm:justify-start">
@@ -186,11 +192,11 @@ export default function ProductCarousel() {
                     exit="exit"
                     key={prod.id}
                     className="relative z-10 flex flex-col bg-white rounded-3xl p-3 shadow-sm border border-gray-100 flex-shrink-0 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] touch-pan-y select-none"
-                    drag={isMobile ? "x" : false}
+                    drag={isMobile && filteredProducts.length > 1 ? "x" : false}
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.2}
                     onDragEnd={(event, info) => {
-                      if (isMobile) {
+                      if (isMobile && filteredProducts.length > 1) {
                         const swipeThreshold = 50;
                         if (info.offset.x < -swipeThreshold) {
                           nextSlide();
@@ -281,13 +287,15 @@ export default function ProductCarousel() {
             </div>
           </div>
 
-          <button
-            onClick={nextSlide}
-            aria-label="Next products"
-            className="absolute right-2 sm:right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 flex"
-          >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
-          </button>
+          {filteredProducts.length > 1 && (
+            <button
+              onClick={nextSlide}
+              aria-label="Next products"
+              className="absolute right-2 sm:right-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3 md:p-4 bg-white/80 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-[#dca853] text-[#1a2f1c] hover:text-white rounded-full transition-all duration-200 cursor-pointer border border-[#2b4224]/10 flex"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
+            </button>
+          )}
         </div>
       </div>
       
